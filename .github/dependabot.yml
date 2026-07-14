@@ -1,0 +1,14 @@
+version: 2
+updates:
+  # npm 의존성(Astro, Sveltia 등)을 매주 확인해 업데이트 PR 생성
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  # GitHub Actions 워크플로우가 쓰는 액션들도 함께 최신 유지
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
