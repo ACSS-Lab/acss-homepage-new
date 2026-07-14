@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  "[astro]": { "editor.defaultFormatter": "astro-build.astro-vscode" },
+  "yaml.schemas": {
+    "https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json": "public/admin/config.yml"
+  }
+}
