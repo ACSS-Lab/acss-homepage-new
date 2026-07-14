@@ -1,0 +1,94 @@
+name: Add Paper
+description: Request to add a new paper to the Publications section.
+title: "[Paper Add] "
+labels: ["paper", "addition"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out the form below as accurately as possible.
+        Attaching an arXiv or conference page link will help us process your request faster.
+
+  - type: input
+    id: title
+    attributes:
+      label: Paper Title
+      placeholder: "e.g. BitTP: Efficient Trajectory Prediction..."
+    validations:
+      required: true
+
+  - type: input
+    id: authors
+    attributes:
+      label: Author List
+      description: >
+        List authors in the order they appear on the paper.
+        Use the following conventions for symbols appended after the name:
+        **Bold** (wrap in **) = lab member,
+        * = first author or equal contribution,
+        † = corresponding author.
+      placeholder: "e.g. **Mincheol Kang**, ..., Soojean Han†"
+    validations:
+      required: true
+
+  - type: input
+    id: venue
+    attributes:
+      label: Venue
+      placeholder: "e.g. CVPR 2026 / ECCV 2026 / IEEE T-ITS"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: pub_type
+    attributes:
+      label: Publication Status
+      options:
+        - Accepted
+        - To appear
+        - arXiv preprint
+        - Under review
+    validations:
+      required: true
+
+  - type: input
+    id: year
+    attributes:
+      label: Year
+      placeholder: "e.g. 2026"
+    validations:
+      required: true
+
+  - type: input
+    id: paper_link
+    attributes:
+      label: Paper Link
+      description: Public link (arXiv, CVF, IEEE Xplore, ACM DL, etc.)
+      placeholder: "https://arxiv.org/abs/..."
+
+  - type: input
+    id: project_page
+    attributes:
+      label: Project Page (optional)
+      placeholder: "https://..."
+
+  - type: input
+    id: code_link
+    attributes:
+      label: Code Link (optional)
+      placeholder: "https://github.com/..."
+
+  - type: textarea
+    id: thumbnail
+    attributes:
+      label: Thumbnail Image (optional)
+      description: Attach a thumbnail image or specify a figure number from the paper.
+      placeholder: "Drag and drop an image here, or specify a figure number"
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      placeholder: "Any special instructions or highlights you'd like to mention"

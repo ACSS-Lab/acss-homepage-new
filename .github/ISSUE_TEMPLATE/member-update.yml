@@ -1,0 +1,97 @@
+name: Add / Update Member Info
+description: Request to add a new member or update an existing member's profile.
+title: "[Member] "
+labels: ["member"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for new member registration or profile updates, including alumni status changes.
+
+  - type: input
+    id: name
+    attributes:
+      label: Full Name
+      placeholder: "e.g. Soojean Han"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: Request Type
+      options:
+        - Add new member
+        - Update existing profile
+        - Status change (e.g. move to Alumni)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: role
+    attributes:
+      label: Role
+      options:
+        - Professor
+        - Ph.D. Student
+        - M.S. Student
+        - Undergraduate Researcher
+        - Postdoc
+        - Alumni
+        - Visiting Researcher
+    validations:
+      required: true
+
+  - type: input
+    id: email
+    attributes:
+      label: Email (optional)
+      placeholder: "e.g. example@kaist.ac.kr"
+
+  - type: input
+    id: research_interests
+    attributes:
+      label: Research Interests (optional)
+      placeholder: "e.g. Autonomous Driving, VLM, Physical AI"
+
+  - type: input
+    id: google_scholar
+    attributes:
+      label: Google Scholar (optional)
+      placeholder: "https://scholar.google.com/..."
+
+  - type: input
+    id: github
+    attributes:
+      label: GitHub (optional)
+      placeholder: "https://github.com/..."
+
+  - type: input
+    id: personal_page
+    attributes:
+      label: Personal Homepage (optional)
+      placeholder: "https://..."
+
+  - type: textarea
+    id: photo
+    attributes:
+      label: Profile Photo (optional)
+      description: Attach a photo or indicate whether to keep the current one.
+      placeholder: "Drag and drop an image here, or write 'keep existing photo'"
+
+  - type: textarea
+    id: changes
+    attributes:
+      label: Change Details (for updates)
+      description: Clearly describe what is changing.
+      placeholder: |
+        Before: M.S. Student
+        After: Ph.D. Student (starting September 2026)
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      placeholder: "Any other requests"

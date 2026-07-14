@@ -1,0 +1,69 @@
+name: General Request
+description: Report a bug, broken link, or request any other homepage update.
+title: "[Misc] "
+labels: ["misc"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for anything that doesn't fit the Paper or Member categories —
+        bug reports, broken links, news posts, design improvements, etc.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Request Type
+      options:
+        - Bug / Error fix
+        - Broken link
+        - News / Announcement post
+        - Project / Research highlight
+        - Design or layout improvement
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Page / Section
+      placeholder: "e.g. Top of Publications page, About section, Navigation bar"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the current state and what you'd like changed.
+      placeholder: |
+        Current: ...
+        Requested change: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshots / References (optional)
+      description: Attach screenshots or paste reference URLs.
+      placeholder: "Drag and drop an image here, or paste a URL"
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - High (urgent)
+        - Medium
+        - Low (whenever you have time)
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      placeholder: "Anything else to add"

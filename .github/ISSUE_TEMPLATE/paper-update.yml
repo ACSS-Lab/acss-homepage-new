@@ -1,0 +1,63 @@
+name: Update Paper Info
+description: Request a correction or update to an existing paper entry.
+title: "[Paper Update] "
+labels: ["paper", "update"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to update information for a paper already listed on the homepage.
+
+  - type: input
+    id: paper_title
+    attributes:
+      label: Current Paper Title
+      description: Enter the title exactly as it appears on the homepage.
+      placeholder: "e.g. BitTP: Efficient Trajectory Prediction..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: change_type
+    attributes:
+      label: Fields to Update (check all that apply)
+      options:
+        - label: Paper title
+        - label: Author list
+        - label: Venue / journal name
+        - label: Publication status (e.g. Under review → Accepted)
+        - label: Paper link (arXiv, CVF, etc.)
+        - label: Project page link
+        - label: Code link
+        - label: Thumbnail image
+        - label: Other
+
+  - type: textarea
+    id: before
+    attributes:
+      label: Current Content (before)
+      placeholder: |
+        e.g.
+        - Venue: CVPR 2025
+        - Link: https://arxiv.org/abs/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: after
+    attributes:
+      label: Updated Content (after)
+      placeholder: |
+        e.g.
+        - Venue: CVPR 2026
+        - Link: https://arxiv.org/abs/...  (updated to camera-ready version)
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      placeholder: "Reason for the update, reference URLs, etc."
