@@ -5,7 +5,7 @@
 > ② **Carry ACSS's character** — as an academic research lab, prioritize trust, clarity, and depth. Not a consumer-marketing tone.
 >
 > Audience: prospective grad/intern applicants, researchers seeking collaboration, academic peers.
-> Every screen uses the **design tokens** below only (what must be a token vs. what may be a literal is defined in §9). Tokens live in `src/styles/tokens.css` as CSS variables — the only file allowed to contain colour literals.
+> Every screen uses the **design tokens** below only (what must be a token vs. what may be a literal is defined in §9). Tokens live in `src/styles/tokens.css` as CSS variables — the only file allowed to contain color literals.
 
 ---
 
@@ -242,9 +242,9 @@ Breakpoints: `640 / 768 / 1024 / 1280`. Vertical section gaps: `--space-24` desk
 
 ## 9. Change rules
 
-- **What must be a token**: colour (including translucent whites/navies and gradients), font family, font size, radius, shadow, easing/duration, and z-index. Spacing tokens govern the rhythm *between* blocks.
+- **What must be a token**: color (including translucent whites/navies and gradients), font family, font size, radius, shadow, easing/duration, and z-index. Spacing tokens govern the rhythm *between* blocks.
 - **What may be a literal**: a component's intrinsic geometry — grid track widths, fixed sizes, aspect ratios, one-off paddings, line-height, letter-spacing, font-weight — and only inside that component's scoped `<style>`.
-- Inline `style=` may only pass `--custom-properties` (e.g. `--i` for stagger, `--ratio`), never colour or font values.
+- Inline `style=` may only pass `--custom-properties` (e.g. `--i` for stagger, `--ratio`), never color or font values.
 - If a new color/font/spacing is needed, **add the token here first** → reflect in `tokens.css` → then use it. No one-off hardcoding.
 - When adding a color, check it doesn't break the 6:3:1 ratio or let navy bleed past its accent (1/10) role.
 - When a component's visuals change, update the matching section here too.

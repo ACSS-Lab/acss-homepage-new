@@ -1,7 +1,7 @@
 /*
- * Design tokens — the single source of truth for colour, type, spacing, radius,
+ * Design tokens — the single source of truth for color, type, spacing, radius,
  * shadow, motion and layering. Documented in DESIGN.md; keep both in sync.
- * This is the only file in src/ allowed to contain colour literals.
+ * This is the only file in src/ allowed to contain color literals.
  */
 :root {
   /* Accent — navy (the 1/10). --navy-600 is the primary accent (links, active

@@ -2,13 +2,17 @@
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
+import { getSite } from '../lib/content';
 
 interface Props {
-  title: string;
+  /** Page name; omit on the home page. */
+  title?: string;
   description?: string;
 }
 
-const { title, description } = Astro.props;
+const site = await getSite();
+const { title, description = site.description } = Astro.props;
+const fullTitle = title ? `${title} | ${site.shortName}` : `${site.shortName} | ${site.affiliationShort}`;
 ---
 
 <!doctype html>
@@ -19,8 +23,8 @@ const { title, description } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    {description && <meta name="description" content={description} />}
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
   </head>
   <body>
     <slot />

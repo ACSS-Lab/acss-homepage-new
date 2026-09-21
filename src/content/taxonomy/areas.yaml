@@ -1,0 +1,48 @@
+# Research-area taxonomy.
+# Publications and members are tagged with the short `code`; the site shows the
+# full `label` in filters and search. Families and codes appear in this order.
+#
+# To add an area: add a { code, label } line under the right family.
+# Codes are letters/digits only and must be unique across all families.
+# Adding a whole new family also needs a color — ask a developer.
+
+families:
+  - id: control
+    label: Control
+    codes:
+      - { code: StochCtrl, label: Stochastic Control }
+      - { code: DMC, label: Distributed / Multiagent Control }
+      - { code: SafeCtrl, label: Control with Safety }
+      - { code: AdaptCtrl, label: Adaptive Control }
+
+  - id: uncertainty
+    label: Uncertainty
+    codes:
+      - { code: UQ, label: Uncertainty Quantification }
+      - { code: UDM, label: Uncertain Decision-Making }
+
+  - id: learning
+    label: Learning
+    codes:
+      - { code: RL, label: Reinforcement Learning }
+      - { code: OnLearn, label: Online Learning }
+      - { code: SLT, label: Statistical Learning Theory }
+
+  - id: modeling
+    label: Modeling
+    codes:
+      - { code: Dynamics, label: Dynamics Modeling }
+      - { code: GenModels, label: Modeling with Generative AI }
+      - { code: WM, label: World Model }
+
+  - id: estimation
+    label: Estimation & perception
+    codes:
+      - { code: FilterEstim, label: Filtering & State-Estimation }
+      - { code: CV, label: Computer Vision & Perception }
+
+  - id: applications
+    label: Applications
+    codes:
+      - { code: Robot, label: "Application: Robotics" }
+      - { code: Planning, label: "Application: Motion-Planning" }

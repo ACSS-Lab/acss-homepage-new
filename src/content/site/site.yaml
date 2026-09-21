@@ -1,0 +1,30 @@
+# Site-wide settings: lab identity and contact details.
+# Shown in the header, the footer, and the Contact page.
+
+name: Autonomous Control and Stochastic Systems Research Lab.
+shortName: ACSS
+affiliation: School of Electrical Engineering, KAIST
+affiliationShort: KAIST EE
+
+# One-line summary used by search engines and link previews.
+description: Autonomous Control and Stochastic Systems Research Lab at the KAIST School of Electrical Engineering.
+
+labEmail: acss@kaist.ac.kr
+adminEmail: acss-admins@kaist.ac.kr
+
+# Keep the line breaks — the address is displayed exactly as written.
+address:
+  en: |-
+    School of Electrical Engineering(E3-2), KAIST #2228
+    291 Daehak-ro, Yuseong-gu, Daejeon 34141,
+    Republic of Korea
+  ko: |-
+    대전광역시 유성구 대학로 291 (34141)
+    한국과학기술원(KAIST) 전기및전자공학부
+    E3-2 2228호
+
+# Footer. The year is filled in automatically: "© 2026 KAIST ACSS."
+copyright: KAIST ACSS.
+credit:
+  label: Designed by Mincheol Kang
+  url: https://mintcat98.github.io/

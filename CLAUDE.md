@@ -11,11 +11,14 @@
 ## 1. How this site is built (30-second summary)
 
 - The pages are a **static website** built with **Astro** (no program runs on the server, so it's fast and secure).
-- **Content** — publications, members, news — is stored as **data files**. Think: one file = one item.
+- **Content** — publications, members, news — is stored as **data files** (YAML, plain text) under `src/content/`. Think: one file = one item. Page code and content are kept strictly apart: adding or changing content never requires touching code.
+- Every data file is **checked against a schema** when the site builds. A missing required field or a mistyped option stops the build with a message naming the file and field, instead of quietly breaking a page.
 - There are **two ways** to edit content:
   1. Log into the **web admin (`/admin`)** and edit with forms — **use this for day-to-day work.**
   2. Edit files directly — for larger changes or when working with Claude.
 - When you save, the site **updates automatically** (takes a few minutes).
+
+> **Note: the web admin (`/admin`) is planned but not set up yet.** Until it is, use way 2: edit the files under `src/content/` (on GitHub's website or on your laptop — see section 4), or ask Claude to do it. The recipes in section 3 name the form fields; the same field names are the keys in the data files.
 
 ---
 
@@ -72,7 +75,17 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - Collection: **Projects** → New. Set status to `ongoing`/`past`.
 
 ### 3-7. Change contact info, address, etc.
-- **Site config (site.yaml)**: edit admin/PI email, address, and map coordinates in one place.
+- **Site config** — `src/content/site/site.yaml`: lab name, lab/admin email, address (English + Korean), footer credit. Edit once; the header, footer, and Contact page all follow.
+- **Ask Claude**:
+  > Change the lab email to ... in the site config.
+
+### 3-8. Change the header menu
+- **Menu** — `src/content/site/navigation.yaml`: the menu items in display order. An item with `children` becomes a dropdown.
+- Links to pages on this site start and end with `/` (e.g. `/gallery/`).
+
+### 3-9. Add a research-area tag
+- **Research areas** — `src/content/taxonomy/areas.yaml`: the tags used to label publications and members, grouped into families. Add a `{ code, label }` line under the right family; codes are letters/digits only and must be unique.
+- Adding a whole new *family* also needs a color, which is a design change — ask Claude.
 
 > After saving, the live site **updates in a few minutes**. If you don't see it, hard-refresh (clear cache).
 
@@ -123,9 +136,11 @@ Claude writing/editing code in this repo follows these:
 
 - **Simple & safe first**: don't add a backend/DB on your own if it breaks the static-site principle. If needed, explain the risk and alternative first.
 - **Tokens only**: use variables from `DESIGN.md`/`tokens.css` for color/spacing/font. No hardcoded values.
-- **Keep the content safety net**: enforce required fields via the Zod schema in `src/content/config.ts`. A new field means updating the schema, the CMS config (`public/admin/config.yml`), and this doc's recipes **at the same time**.
+- **Keep the content safety net**: enforce required fields via the Zod schema in `src/content.config.ts`. A new field means updating the schema, this doc's recipes, and — once it exists — the CMS config (`public/admin/config.yml`) **at the same time**.
+- **Content stays out of code**: no visible text, list of items, or setting is hardcoded in `.astro`/`.ts` files — it lives in `src/content/`. Pages read content only through the getters in `src/lib/content.ts`, which also run the cross-file checks the schema can't express (duplicate codes, references to items that don't exist) and fail the build with a message that names the file.
 - **Security invariants**: no committed secrets, force HTTPS, least privilege, pin & update dependencies, form spam protection, keep security headers.
 - **Care for non-technical readers**: explain "what & why" in Korean for each change (in conversation). **Commit messages and code comments are always written in English**, in clear plain language.
+- **No emojis**: never add emojis to docs, code comments, or commit messages. Emojis the user typed themselves stay as they are — don't add new ones and don't remove theirs.
 - **Doc sync**: when structure/design/content-model changes, update `CLAUDE.md`, `DESIGN.md`, and `.claude/skills/` together.
 - **Definition of done**: local build succeeds → schema passes → accessibility/responsive checked → docs updated → clear commit. Follow this order.
 
@@ -137,8 +152,10 @@ npm run preview  # preview the build output
 ```
 
 ### Repo map
-- `src/content/` — the actual content (data files). Where the maintainer works most.
-- `src/content/config.ts` — content rules (schema). Don't loosen it carelessly.
+- `src/content/` — the actual content (YAML data files). Where the maintainer works most.
+  - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `taxonomy/areas.yaml` (research-area tags).
+- `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
+- `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.
 - `src/styles/tokens.css` — design tokens.
 - `public/admin/` — web admin (Sveltia CMS) config.
