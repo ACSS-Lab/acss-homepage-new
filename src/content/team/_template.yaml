@@ -1,0 +1,52 @@
+# TEMPLATE — copy this file to add a person. Files starting with "_" are ignored by the site.
+#
+# 1. Copy it as firstname-lastname.yaml (lowercase, hyphens). The file name is
+#    the person's id; their photo goes to public/images/team/<id>.jpg (3:4).
+# 2. Set `group` and keep only the fields listed for that group.
+#
+# group: member    — role, joined, topics, representative
+# group: intern    — year, term, topics
+# group: alumni    — degree, joined, graduated, note, now
+# group: pi        — title
+# group: visiting  — title, home, period
+# group: staff     — (no extra fields)
+#
+# Graduation: change `group: member` to `group: alumni`, replace `role` with
+# `degree`, and add `graduated` (and `now` once known).
+
+group: member
+name: Gildong Hong
+nameKo: 홍길동 # optional
+
+# --- group: member ---
+role: phd # postdoc | phd | ms
+joined: 2026-03 # year-month. A future date is shown as "Incoming Mar 2026".
+topics: [StochCtrl, RL] # area codes from src/content/taxonomy/areas.yaml; [] if none yet
+representative: false # optional; true shows the "Lab Representative" badge
+
+# --- optional for every group; a link that is left out is simply not shown ---
+email: gildong@kaist.ac.kr
+photo: /images/team/gildong-hong.jpg # leave out until the photo file exists
+links:
+  homepage: https://example.com/
+  linkedin: https://www.linkedin.com/in/example/
+  scholar: https://scholar.google.com/citations?user=example
+order: 1 # rarely needed: lower numbers are listed first within the same group
+
+# --- group: intern (instead of the member fields) ---
+# year: 2026
+# term: spring            # spring | summer | fall | winter
+# topics:
+#   - One line on what they worked on
+
+# --- group: alumni (instead of the member fields) ---
+# degree: MS              # PhD | MS
+# joined: 2024-02
+# graduated: 2026-02
+# note: Research Assistant (Feb 2026 – Jun 2026)   # optional
+# now: Current affiliation                          # optional
+
+# --- group: pi / visiting ---
+# title: Assistant Professor, School of EE, KAIST
+# home: Home institution      # visiting only
+# period: 2026 Spring         # visiting only, optional

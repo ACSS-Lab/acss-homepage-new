@@ -46,11 +46,13 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
   > `paste BibTeX/DOI here`
 
 ### 3-2. Add/edit a member (Team)
-- Collection: **Team** → New
-- Required: name, role (PI/Visiting/PostDoc/PhD/MS/Intern), status (current/alumni)
-- Optional: photo, email, homepage, Google Scholar, research topics
-- **Graduation**: open their entry, change status to `alumni`, and fill in **currentAffiliation**.
-- Interns render in summary form, so photo/details can be omitted.
+- Files: `src/content/team/` — one file per person. **Copy `_template.yaml`**, name it `firstname-lastname.yaml`, and fill it in. The template lists every field with an example.
+- `group` decides where the person appears: `member` (current postdoc/PhD/MS), `intern`, `alumni`, `pi`, `visiting`, `staff`.
+- Required for a member: name, role (`postdoc`/`phd`/`ms`), joined (`2026-03`), topics (area codes from 3-9; `[]` if none yet).
+- Optional for everyone: Korean name, email, photo, links (homepage / LinkedIn / Google Scholar). **A link or email that is left out is simply not shown.**
+- Photo: put a 3:4 image at `public/images/team/<file name>.jpg`, then add `photo: /images/team/<file name>.jpg`. Until then the card shows a placeholder.
+- **Graduation**: open their file, change `group: member` to `group: alumni`, replace `role` with `degree` (`PhD`/`MS`), add `graduated` (`2026-02`), and `now` (current affiliation) once known.
+- Order is automatic (members by role then join date; interns and alumni newest first). To pin someone, add `order: 1`.
 - **Ask Claude**:
   > Add a new PhD student "Hong Gildong" to Team. Email is ..., research topics are ...
 
@@ -157,6 +159,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
   - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
+  - `team/` (one file per person). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.

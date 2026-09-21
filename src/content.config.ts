@@ -27,9 +27,18 @@ const href = z
   .string()
   .regex(/^(https?:\/\/|\/|#|mailto:)/, 'Link must start with "/", "#", "http(s)://" or "mailto:"');
 
+/** Year and month, written `2026-03`. */
+const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Write the date as year-month, e.g. 2026-03');
+
+/** Path of a file under public/, e.g. `/images/team/gildong-hong.jpg`. */
+const imagePath = z.string().regex(/^\/images\/.+\.(jpe?g|png|webp|avif|gif)$/i, 'Image path must look like /images/<folder>/<file>.jpg');
+
 /** A collection backed by one settings file instead of a folder of items. */
 const singleton = (folder: string, file: string) =>
   glob({ pattern: `${file}.yaml`, base: `./src/content/${folder}` });
+
+/** A folder where one file is one item. Files starting with "_" (templates) are skipped. */
+const folder = (name: string) => glob({ pattern: '[^_]*.yaml', base: `./src/content/${name}` });
 
 // ----------------------------------------------------------------------------
 // site — lab identity and contact details shared by every page
@@ -108,7 +117,66 @@ const areas = defineCollection({
   }),
 });
 
+// ----------------------------------------------------------------------------
+// team — everyone in the lab, past and present. `group` decides which page
+// section a person appears in and which extra fields they need.
+// ----------------------------------------------------------------------------
+const person = z.object({
+  name: z.string(),
+  nameKo: z.string().optional(),
+  photo: imagePath.optional(),
+  email: z.email().optional(),
+  links: z
+    .object({
+      homepage: z.url().optional(),
+      linkedin: z.url().optional(),
+      scholar: z.url().optional(),
+    })
+    .optional(),
+  order: z.number().optional(), // lower first; only to override the default sorting
+});
+
+const team = defineCollection({
+  loader: folder('team'),
+  schema: z.discriminatedUnion('group', [
+    person.extend({
+      group: z.literal('pi'),
+      title: z.string(),
+    }),
+    person.extend({
+      group: z.literal('visiting'),
+      title: z.string(),
+      home: z.string(), // home institution
+      period: z.string().optional(),
+    }),
+    person.extend({
+      group: z.literal('staff'),
+    }),
+    person.extend({
+      group: z.literal('member'),
+      role: z.enum(['postdoc', 'phd', 'ms']),
+      joined: yearMonth,
+      topics: z.array(z.string()), // area codes from taxonomy/areas.yaml
+      representative: z.boolean().default(false),
+    }),
+    person.extend({
+      group: z.literal('intern'),
+      year: z.number().int(),
+      term: z.enum(['spring', 'summer', 'fall', 'winter']),
+      topics: z.array(z.string()).min(1), // free text
+    }),
+    person.extend({
+      group: z.literal('alumni'),
+      degree: z.enum(['PhD', 'MS']),
+      joined: yearMonth,
+      graduated: yearMonth,
+      note: z.string().optional(),
+      now: z.string().optional(), // current affiliation
+    }),
+  ]),
+});
+
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, ui, areas };
+export const collections = { site, navigation, ui, areas, team };
