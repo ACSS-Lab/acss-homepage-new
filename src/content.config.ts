@@ -67,7 +67,10 @@ const navLink = z.object({ label: z.string(), href });
 const navigation = defineCollection({
   loader: singleton('site', 'navigation'),
   schema: z.object({
-    items: z.array(navLink.extend({ children: z.array(navLink).optional() })).min(1),
+    // `group`: neighboring children with the same group share one tab in the page banner.
+    items: z
+      .array(navLink.extend({ children: z.array(navLink.extend({ group: z.string().optional() })).optional() }))
+      .min(1),
   }),
 });
 
@@ -78,6 +81,11 @@ const ui = defineCollection({
   loader: singleton('site', 'ui'),
   schema: z.object({
     nav: z.object({ label: z.string() }),
+    person: z.object({
+      email: z.string(),
+      links: z.object({ homepage: z.string(), linkedin: z.string(), scholar: z.string() }),
+      photoNote: z.string().includes('{path}'),
+    }),
   }),
 });
 
@@ -176,7 +184,32 @@ const team = defineCollection({
   ]),
 });
 
+// ----------------------------------------------------------------------------
+// pages — the wording of each page (titles, section names, button labels).
+// One file per page; `page` must equal the file name.
+// ----------------------------------------------------------------------------
+
+/** Dark banner at the top of a page. `note` describes the intended background image until one exists. */
+const hero = z.object({ title: z.string(), note: z.string().optional() });
+
+const pages = defineCollection({
+  loader: folder('pages'),
+  schema: z.discriminatedUnion('page', [
+    z.object({
+      page: z.literal('professor'),
+      title: z.string(), // browser tab title
+      hero,
+      labels: z.object({
+        pi: z.string(),
+        visiting: z.string(),
+        staff: z.string(),
+        homeInstitution: z.string(),
+      }),
+    }),
+  ]),
+});
+
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, ui, areas, team };
+export const collections = { site, navigation, ui, areas, team, pages };

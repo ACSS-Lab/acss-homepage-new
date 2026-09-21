@@ -1,0 +1,156 @@
+---
+// Segmented pill inside a PageHero that switches between the pages of a section.
+// A tab with a `menu` opens a dropdown on hover/focus (CSS only).
+import Icon from '../ui/Icon.astro';
+import type { SectionTab } from '../../lib/navigation';
+
+interface Props {
+  tabs: SectionTab[];
+}
+
+const { tabs } = Astro.props;
+---
+
+<div class="pill">
+  {
+    tabs.map((tab) =>
+      tab.menu ? (
+        <div class="dropdown">
+          <a class:list={['tab', { 'is-current': tab.current }]} href={tab.href}>
+            {tab.label}
+            <Icon name="chevron-down" size={12} class="caret" />
+          </a>
+          <div class="menu">
+            {tab.menu.map((entry) => (
+              <a class="entry" href={entry.href}>
+                {entry.label}
+                {entry.count !== undefined && <span class="count">{entry.count}</span>}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : tab.current ? (
+        <span class="tab is-current" aria-current="page">
+          {tab.label}
+        </span>
+      ) : (
+        <a class="tab" href={tab.href}>
+          {tab.label}
+        </a>
+      ),
+    )
+  }
+</div>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 5px;
+    border: 1px solid var(--on-dark-border);
+    border-radius: var(--radius-full);
+    background: var(--on-dark-fill);
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 20px;
+    border-radius: var(--radius-full);
+    font: 500 var(--fs-sm) / 1.4 var(--font-sans);
+    color: var(--on-dark);
+  }
+
+  a.tab:hover,
+  a.tab:focus-visible {
+    background: var(--on-dark-fill-hover);
+    color: var(--white);
+  }
+
+  .tab.is-current {
+    background: var(--white);
+    color: var(--navy-900);
+    font-weight: 600;
+  }
+
+  span.tab {
+    cursor: default;
+  }
+
+  /* The chevron only fills the middle of its 12px box; pull the empty sides in. */
+  .caret {
+    margin: 0 -2px;
+    opacity: 0.7;
+  }
+
+  .dropdown {
+    position: relative;
+    display: flex;
+  }
+
+  /* Invisible bridge over the gap so the pointer can travel from the tab to the menu. */
+  .dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: -10px;
+    left: -10px;
+    height: 14px;
+  }
+
+  .menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    z-index: var(--z-dropdown);
+    min-width: 232px;
+    padding: 7px;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-lg);
+    text-align: left;
+    opacity: 0;
+    transform: translate(-50%, -8px);
+    pointer-events: none;
+    transition:
+      opacity var(--dur-slow) var(--ease),
+      transform var(--dur-slow) var(--ease);
+  }
+
+  .dropdown:hover > .menu,
+  .dropdown:focus-within > .menu {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
+  }
+
+  .entry {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 11px 17px;
+    border-radius: var(--radius-full);
+    font: 400 var(--fs-sm) / 1.3 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .entry:hover,
+  .entry:focus-visible {
+    background: var(--gray-100);
+    color: var(--navy-600);
+  }
+
+  .count {
+    font: 400 var(--fs-caption) / 1.3 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu {
+      transition: none;
+    }
+  }
+</style>

@@ -7,6 +7,7 @@
     "./.astro/collections/navigation.schema.json": "src/content/site/navigation.yaml",
     "./.astro/collections/ui.schema.json": "src/content/site/ui.yaml",
     "./.astro/collections/areas.schema.json": "src/content/taxonomy/areas.yaml",
-    "./.astro/collections/team.schema.json": "src/content/team/*.yaml"
+    "./.astro/collections/team.schema.json": "src/content/team/*.yaml",
+    "./.astro/collections/pages.schema.json": "src/content/pages/*.yaml"
   }
 }

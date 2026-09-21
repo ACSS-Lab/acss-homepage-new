@@ -1,0 +1,98 @@
+---
+import HeroTabs from '../../components/layout/HeroTabs.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import PersonCard from '../../components/people/PersonCard.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getNavigation, getPage, getTeam } from '../../lib/content';
+import { sectionTabs } from '../../lib/navigation';
+
+const [page, team, nav] = await Promise.all([getPage('professor'), getTeam(), getNavigation()]);
+const { pi, visiting, staff } = team;
+
+const tabs = sectionTabs(nav, Astro.url.pathname, {
+  '/team/#current': team.members.length,
+  '/team/#interns': team.interns.length,
+  '/team/#alumni': team.alumni.length,
+});
+const piSubtitle = [pi.nameKo, pi.title].filter(Boolean).join(' · ');
+---
+
+<BaseLayout title={page.title}>
+  <PageHero title={page.hero.title} note={page.hero.note}>
+    <HeroTabs slot="tabs" tabs={tabs} />
+  </PageHero>
+
+  <div class="page">
+    <section class="container section pi">
+      <PersonCard class="rise" person={pi} size="lg" eyebrow={page.labels.pi} subtitle={piSubtitle} />
+    </section>
+
+    {
+      visiting.length > 0 && (
+        <section class="container section">
+          <SectionHeading title={page.labels.visiting} />
+          <div class="grid">
+            {visiting.map((person, i) => (
+              <PersonCard class="rise" style={`--i: ${i}`} person={person} subtitle={person.title} aside={person.period}>
+                <div class="field-label">{page.labels.homeInstitution}</div>
+                <div class="field-value">{person.home}</div>
+              </PersonCard>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      staff.length > 0 && (
+        <section class="container section">
+          <SectionHeading title={page.labels.staff} />
+          <div class="grid">
+            {staff.map((person, i) => (
+              <PersonCard class="rise" style={`--i: ${i}`} person={person} subtitle={person.nameKo} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-bottom: var(--space-24);
+  }
+
+  .section {
+    padding-top: var(--space-14);
+  }
+
+  .section.pi {
+    padding-top: var(--space-10);
+  }
+
+  .pi > :global(*) {
+    max-width: 808px;
+    margin: 0 auto;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 18px;
+  }
+
+  .field-label {
+    margin-top: 10px;
+    font: 600 var(--fs-meta) / 1.5 var(--font-sans);
+    color: var(--ink);
+  }
+
+  .field-value {
+    margin-top: 2px;
+    font: 400 var(--fs-sm) / 1.6 var(--font-sans);
+    color: var(--gray-700);
+  }
+</style>

@@ -1,6 +1,10 @@
 # Header menu, in display order.
 # An item with `children` opens a dropdown; its own `href` is where a click on it goes.
 # Links to pages on this site start and end with "/".
+#
+# The same entries build the tab switcher in each page's dark banner. There,
+# neighboring children that share a `group` collapse into one tab with that
+# name (Team shows "PI & Staffs" and a "Members" tab holding the other three).
 
 items:
   - label: About
@@ -26,10 +30,13 @@ items:
         href: /team/professor/
       - label: Current members
         href: /team/#current
+        group: Members
       - label: Undergraduate interns
         href: /team/#interns
+        group: Members
       - label: Alumni
         href: /team/#alumni
+        group: Members
 
   - label: Gallery
     href: /gallery/

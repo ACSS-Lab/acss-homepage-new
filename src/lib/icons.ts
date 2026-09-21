@@ -4,9 +4,13 @@
 // the map under its lucide name.
 
 import ChevronDown from '@lucide/astro/icons/chevron-down';
+import GraduationCap from '@lucide/astro/icons/graduation-cap';
+import House from '@lucide/astro/icons/house';
 
 export const icons = {
   'chevron-down': ChevronDown,
+  'graduation-cap': GraduationCap,
+  house: House,
 } as const;
 
 export type IconName = keyof typeof icons;

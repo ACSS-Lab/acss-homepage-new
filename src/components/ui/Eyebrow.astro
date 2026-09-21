@@ -1,0 +1,15 @@
+---
+// Small uppercase label above or between blocks of content.
+---
+
+<span class="eyebrow"><slot /></span>
+
+<style>
+  .eyebrow {
+    display: block;
+    font: 500 var(--fs-caption) / 1.4 var(--font-sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+</style>

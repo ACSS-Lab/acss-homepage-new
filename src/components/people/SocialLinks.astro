@@ -1,0 +1,92 @@
+---
+// Row of icon pills linking to a person's homepage / LinkedIn / Google Scholar.
+// Each pill expands on hover or focus to reveal its label. Only links that exist
+// in the person's data file are rendered.
+import BrandIcon from '../ui/BrandIcon.astro';
+import Icon from '../ui/Icon.astro';
+import { getUi } from '../../lib/content';
+
+interface Props {
+  links?: { homepage?: string; linkedin?: string; scholar?: string };
+}
+
+const { links = {} } = Astro.props;
+const labels = (await getUi()).person.links;
+const hasAny = links.homepage || links.linkedin || links.scholar;
+---
+
+{
+  hasAny && (
+    <div class="links">
+      {links.homepage && (
+        <a class="pill" href={links.homepage} target="_blank" rel="noopener" aria-label={labels.homepage}>
+          <Icon name="house" size={15} />
+          <span>{labels.homepage}</span>
+        </a>
+      )}
+      {links.linkedin && (
+        <a class="pill" href={links.linkedin} target="_blank" rel="noopener" aria-label={labels.linkedin}>
+          <BrandIcon name="linkedin" size={15} />
+          <span>{labels.linkedin}</span>
+        </a>
+      )}
+      {links.scholar && (
+        <a class="pill" href={links.scholar} target="_blank" rel="noopener" aria-label={labels.scholar}>
+          <Icon name="graduation-cap" size={15} />
+          <span>{labels.scholar}</span>
+        </a>
+      )}
+    </div>
+  )
+}
+
+<style>
+  .links {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 14px;
+    background: var(--navy-100);
+    color: var(--navy-700);
+    transition:
+      background var(--dur-enter) var(--ease),
+      color var(--dur-enter) var(--ease);
+  }
+
+  .pill > span {
+    max-width: 0;
+    overflow: hidden;
+    font: 500 var(--fs-caption) / 1 var(--font-sans);
+    white-space: nowrap;
+    opacity: 0;
+    transition:
+      max-width var(--dur-enter) var(--ease),
+      opacity var(--dur-enter) var(--ease),
+      margin-left var(--dur-enter) var(--ease);
+  }
+
+  .pill:hover,
+  .pill:focus-visible {
+    background: var(--navy-600);
+    color: var(--white);
+  }
+
+  .pill:hover > span,
+  .pill:focus-visible > span {
+    max-width: 150px;
+    margin-left: 7px;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pill,
+    .pill > span {
+      transition: none;
+    }
+  }
+</style>

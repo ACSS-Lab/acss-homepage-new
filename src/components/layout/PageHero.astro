@@ -1,0 +1,69 @@
+---
+// Dark banner at the top of a page: striped navy background, centered title,
+// and an optional tab switcher (slot "tabs").
+interface Props {
+  title: string;
+  /** Describes the planned background image; shown top-right until a real image exists. */
+  note?: string;
+}
+
+const { title, note } = Astro.props;
+---
+
+<section class="hero">
+  <div class="stripes"></div>
+  {note && <div class="note">{note}</div>}
+  <div class="container inner">
+    <h1 class="title">{title}</h1>
+    {
+      Astro.slots.has('tabs') && (
+        <div class="tabs">
+          <slot name="tabs" />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--navy-900);
+  }
+
+  .stripes {
+    position: absolute;
+    inset: 0;
+    background: var(--stripe-dark);
+  }
+
+  .note {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-6);
+    font: 400 var(--fs-caption) / 1.5 var(--font-mono);
+    color: var(--on-dark-muted);
+    text-align: right;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+  }
+
+  .inner {
+    position: relative;
+    padding-block: 76px 60px;
+    text-align: center;
+  }
+
+  .title {
+    margin: 0;
+    font: 700 var(--fs-display) / 1.15 var(--font-sans);
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-top: 26px;
+  }
+</style>

@@ -1,0 +1,18 @@
+# Wording of the "PI & Staffs" page (/team/professor/).
+# The people themselves come from src/content/team/ (group: pi, visiting, staff).
+
+page: professor
+title: PI & Staffs # browser tab title
+
+hero:
+  title: Team
+  # Describes the background image planned for the banner; delete once it is no longer useful.
+  note: |-
+    page header image — 1920×360
+    연구실 사진 또는 시뮬레이션 스틸
+
+labels:
+  pi: Principal Investigator
+  visiting: Visiting faculty
+  staff: Administrative staff
+  homeInstitution: Home institution

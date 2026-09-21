@@ -89,6 +89,10 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - **Research areas** — `src/content/taxonomy/areas.yaml`: the tags used to label publications and members, grouped into families. Add a `{ code, label }` line under the right family; codes are letters/digits only and must be unique.
 - Adding a whole new *family* also needs a color, which is a design change — ask Claude.
 
+### 3-10. Change the wording on a page
+- **Page text** — `src/content/pages/<page>.yaml` (e.g. `professor.yaml`): the page's titles, section names and labels. Lists of items (people, publications, ...) are not here; they come from their own folders.
+- Short labels shared by many pages ("E-mail", "Homepage", screen-reader labels) are in `src/content/site/ui.yaml`.
+
 > After saving, the live site **updates in a few minutes**. If you don't see it, hard-refresh (clear cache).
 
 ---
@@ -159,11 +163,12 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
   - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
-  - `team/` (one file per person). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
+  - `pages/` (the wording of each page, one file per page), `team/` (one file per person). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.
-- `src/lib/icons.ts` — icon registry; the only file that imports from `@lucide/astro`.
+- `src/lib/icons.ts` — icon registry; the only file that imports from `@lucide/astro`. Brand logos lucide lacks (LinkedIn) come from `simple-icons` via `src/components/ui/BrandIcon.astro`, the only file allowed to contain an `<svg>`.
+- `src/lib/navigation.ts` — builds each page banner's tab switcher from `navigation.yaml`.
 - `src/scripts/` — small vanilla-TypeScript behaviors (menus, filters, carousels). No UI framework.
 - `src/styles/tokens.css` — design tokens.
 - `scripts/guard.mjs` — the rule checks behind `npm run guard`.

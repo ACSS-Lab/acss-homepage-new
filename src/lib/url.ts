@@ -7,6 +7,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 /** Resolve an href from content for use in markup. External, mailto and "#" links pass through. */
 export const link = (href: string): string => (href.startsWith('/') ? base + href : href);
 
+/** The page an href leads to, ignoring any "#section" part. */
+export const pathOf = (href: string): string => link(href.split('#')[0]);
+
 /** Whether `href` points at the page being rendered. Links to a section of a page ("/team/#alumni") never match. */
 export const isCurrentPage = (href: string, pathname: string): boolean =>
   href.startsWith('/') && !href.includes('#') && link(href) === pathname;

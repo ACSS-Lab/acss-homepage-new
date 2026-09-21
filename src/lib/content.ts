@@ -44,6 +44,20 @@ export const getNavigation = async () =>
 export const getUi = () => loadSingleton('ui', 'src/content/site/ui.yaml');
 
 // ----------------------------------------------------------------------------
+// pages — per-page wording
+// ----------------------------------------------------------------------------
+
+type PageData = CollectionEntry<'pages'>['data'];
+
+export async function getPage<P extends PageData['page']>(page: P): Promise<Extract<PageData, { page: P }>> {
+  const file = `src/content/pages/${page}.yaml`;
+  const entry = await getEntry('pages', page);
+  if (!entry) fail(file, 'file is missing or empty.');
+  if (entry.data.page !== page) fail(file, `"page: ${entry.data.page}" must match the file name ("page: ${page}").`);
+  return entry.data as Extract<PageData, { page: P }>;
+}
+
+// ----------------------------------------------------------------------------
 // research-area taxonomy
 // ----------------------------------------------------------------------------
 

@@ -1,0 +1,64 @@
+---
+// An image slot. Shows the image when `src` is set; until then, the striped
+// placeholder with a note saying which image belongs here. The caller sizes the
+// box (width/height or aspect-ratio, border-radius) through `class`.
+import { link } from '../../lib/url';
+
+interface Props {
+  src?: string;
+  alt: string;
+  /** Placeholder text, e.g. where to put the file. */
+  note?: string;
+  /** `dark` for placeholders on navy surfaces. */
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+
+const { src, alt, note, tone = 'light', class: className, ...rest } = Astro.props;
+---
+
+{
+  src ? (
+    <div class:list={['figure', className]} {...rest}>
+      <img src={link(src)} alt={alt} loading="lazy" decoding="async" />
+    </div>
+  ) : (
+    <div class:list={['figure', 'placeholder', tone, className]} role="img" aria-label={alt} {...rest}>
+      {note && <span class="note">{note}</span>}
+    </div>
+  )
+}
+
+<style>
+  .figure {
+    overflow: hidden;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .placeholder {
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-2);
+    background: var(--ph);
+  }
+
+  .placeholder.dark {
+    background: var(--ph-dark);
+  }
+
+  .note {
+    font: 400 var(--fs-caption) / 1.4 var(--font-mono);
+    color: var(--gray-500);
+    overflow-wrap: anywhere;
+  }
+
+  .dark > .note {
+    color: var(--on-dark-muted);
+  }
+</style>

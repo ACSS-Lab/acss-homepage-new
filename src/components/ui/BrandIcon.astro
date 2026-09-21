@@ -1,0 +1,23 @@
+---
+// Brand logos that lucide does not ship. The path data comes from the pinned
+// simple-icons package — never drawn by hand. This is the only component
+// allowed to contain an <svg> element; everything else uses <Icon />.
+import { siLinkedin } from 'simple-icons';
+
+const brands = {
+  linkedin: siLinkedin,
+} as const;
+
+interface Props {
+  name: keyof typeof brands;
+  /** Rendered width/height in px. */
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 16, ...rest } = Astro.props;
+---
+
+<svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...rest}>
+  <path d={brands[name].path}></path>
+</svg>

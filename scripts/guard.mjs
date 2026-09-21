@@ -21,6 +21,7 @@ const rules = [
     name: 'Hand-drawn SVG. Use <Icon name="…" /> (lucide) instead.',
     files: CODE,
     pattern: /<svg[\s>]/,
+    except: ['src/components/ui/BrandIcon.astro'], // brand logos from the simple-icons package
   },
   {
     name: 'Glyph used as an icon. Use <Icon name="…" /> (chevron-down, arrow-right, …) instead.',

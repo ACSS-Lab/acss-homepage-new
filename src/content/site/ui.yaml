@@ -3,3 +3,13 @@
 
 nav:
   label: Main
+
+# Person cards (PI & Staffs, Team)
+person:
+  email: E-mail
+  links:
+    homepage: Homepage
+    linkedin: LinkedIn
+    scholar: Google Scholar
+  # Shown in the striped placeholder until a photo is added. {path} is where the photo file should go.
+  photoNote: "photo — {path} · 3:4"

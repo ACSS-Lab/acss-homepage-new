@@ -152,6 +152,14 @@
 - Current section: `--navy-100` pill, `--navy-600` text, weight 600. Hover: `--gray-100` pill.
 - **Dropdown on mouseover and on keyboard focus.** Full keyboard operation: Tab/Enter, arrows to move through a menu, Esc to close it.
 
+### Page banner + section tabs
+- Every page except Home and Contact opens with a dark banner (`PageHero`): `--navy-900` + `--stripe-dark`, centered `--fs-display` title. Until a background image exists, a mono note top-right describes the intended image.
+- Under the title sits a segmented pill (`HeroTabs`) listing the sibling pages of the current menu section — it is generated from `navigation.yaml`, not authored per page. Current tab: white pill, `--navy-900` text. A grouped tab opens a rounded dropdown (`--radius-lg`, `--shadow-lg`) on hover/focus, with optional counts.
+
+### Person card
+- Photo (3:4, `--radius-xs`) left; name, gray subtitle, e-mail, group-specific details right; link pills pinned to the card bottom. White surface + `--shadow-sm`, square corners. The PI uses the larger featured layout (`--fs-title` name, eyebrow label).
+- **Link pills**: icon-only `--navy-100` squares (44px tall) that slide open to show their label on hover/focus and fill `--navy-600`. Only links present in the person's data are shown.
+
 ### Filters (Team / Publications)
 - **Chips / segmented control.** Only the selected chip is `--navy-600` + white text; unselected is `--gray-100` + `--gray-700` (minimize blue). Instant client-side updates + shareable via URL query.
 
@@ -246,6 +254,7 @@ Breakpoints: `640 / 768 / 1024 / 1280`. Vertical section gaps: `--space-24` desk
 ## 9. Change rules
 
 - **What must be a token**: color (including translucent whites/navies and gradients), font family, font size, radius, shadow, easing/duration, and z-index. Spacing tokens govern the rhythm *between* blocks.
+- **Page column**: use the global `.container` class (content width `--container` plus a `--space-6` gutter each side) instead of re-declaring max-width/padding per section.
 - **What may be a literal**: a component's intrinsic geometry — grid track widths, fixed sizes, aspect ratios, one-off paddings, line-height, letter-spacing, font-weight — and only inside that component's scoped `<style>`.
 - Inline `style=` may only pass `--custom-properties` (e.g. `--i` for stagger, `--ratio`), never color or font values.
 - If a new color/font/spacing is needed, **add the token here first** → reflect in `tokens.css` → then use it. No one-off hardcoding.
