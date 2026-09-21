@@ -1,0 +1,16 @@
+title: Method and Apparatus for Safe Trajectory Generation under Stochastic Disturbance
+authors:
+  - S. Han
+  - M. Jeong
+venue: KR Patent 10-2026-0012345
+type: patent
+year: 2026
+month: 2
+areas: [SafeCtrl, Planning]
+summary: >-
+  Filed with KAIST TLO. Covers the risk-bounded trajectory generation procedure used in the lab's flight-control experiments.
+links:
+  - { type: venue, url: "#top", label: KIPRIS }
+  - { type: paper, url: "#top" }
+figure:
+  ratio: 4/3

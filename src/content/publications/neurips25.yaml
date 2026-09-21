@@ -1,0 +1,21 @@
+title: Sample-Efficient Safe Reinforcement Learning with Stability Certificates
+authors:
+  - J. Park
+  - S. Han†
+venue: NeurIPS 2025
+venueShort: NeurIPS
+type: conference
+year: 2025
+month: 9
+selected: true
+areas: [RL, SafeCtrl, SLT]
+summary: >-
+  Learns a control policy and a Lyapunov-style certificate together, so the sample budget goes to states where the certificate is still loose.
+links:
+  - { type: project, url: "#top" }
+  - { type: venue, url: "#top" }
+  - { type: paper, url: "#top" }
+  - { type: slides, url: "#top" }
+  - { type: code, url: "#top" }
+figure:
+  ratio: 3/2

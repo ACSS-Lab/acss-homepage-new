@@ -38,9 +38,11 @@ Each task: log into `/admin` → pick the collection → **New/Edit** → fill t
 If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 
 ### 3-1. Add a publication (Publications)
-- Collection: **Publications** → New
-- Required: title, authors (comma-separated), year, type (Journal/Conference), venue, topics
-- Optional: DOI/URL, PDF file, abstract, "Selected" (check to feature it in Home Highlights)
+- Files: `src/content/publications/` — one file per paper. **Copy `_template.yaml`** and name it with a short id (`tro26.yaml`). The id is the paper's permanent link (`#pub-tro26`) and how projects and research areas refer to it, so don't rename it later.
+- Required: title, authors (a list, in published order; mark equal first authors with `*` and the corresponding author with `†`), venue, type (`journal`/`conference`/`preprint`/`patent`), year, month, areas (area codes from 3-9), summary.
+- Optional: `venueShort`, `selected: true` (features it in the Selected publications carousel), `links` (project / venue / paper / slides / video / code — only the ones you list are shown), `figure` (image, alt text, width/height ratio).
+- Figure: put the image at `public/images/publications/<id>.png`, then set `figure.image` and `figure.alt`. Until then the row shows a placeholder.
+- Order is automatic: newest first, by year then month.
 - **Ask Claude**:
   > Add this BibTeX (or DOI) as a Publications entry. Leave Selected off.
   > `paste BibTeX/DOI here`
@@ -165,7 +167,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
   - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
-  - `pages/` (the wording of each page, one file per page), `prose/` (long bilingual text in Markdown), `team/` (one file per person). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
+  - `pages/` (the wording of each page, one file per page), `prose/` (long bilingual text in Markdown), `team/` (one file per person), `publications/` (one file per paper). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.

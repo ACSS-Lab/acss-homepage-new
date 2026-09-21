@@ -1,0 +1,17 @@
+title: Adaptive Filtering for State Estimation under Intermittent Observations
+authors:
+  - J. Jung
+  - S. Han†
+venue: IEEE Control Systems Letters
+venueShort: IEEE L-CSS
+type: journal
+year: 2024
+month: 10
+areas: [FilterEstim, AdaptCtrl]
+summary: >-
+  An estimator that adapts its gain to the observation-dropout rate, with convergence conditions that do not assume a known dropout process.
+links:
+  - { type: venue, url: "#top" }
+  - { type: paper, url: "#top" }
+figure:
+  ratio: 3/2

@@ -1,0 +1,17 @@
+title: Risk-Sensitive Stochastic Optimal Control with Distributional Value Functions
+authors:
+  - M. Jeong
+  - S. Han†
+venue: Automatica
+venueShort: Automatica
+type: journal
+year: 2025
+month: 3
+areas: [StochCtrl, UDM]
+summary: >-
+  Extends risk-sensitive control to distributional value functions and shows when the resulting policy stays within classical robustness margins.
+links:
+  - { type: venue, url: "#top" }
+  - { type: paper, url: "#top" }
+figure:
+  ratio: 16/10

@@ -1,0 +1,20 @@
+title: Learning Multi-Agent Policies with Statistical Safety Guarantees
+authors:
+  - Y. Lee*
+  - J. Noh*
+  - S. Han†
+venue: CDC 2024
+venueShort: CDC
+type: conference
+year: 2024
+month: 12
+areas: [RL, DMC, SLT]
+summary: >-
+  Turns per-agent safety violations into a joint statistical guarantee, so the team-level constraint survives policy updates.
+links:
+  - { type: venue, url: "#top" }
+  - { type: paper, url: "#top" }
+  - { type: slides, url: "#top" }
+  - { type: video, url: "#top" }
+figure:
+  ratio: 16/9

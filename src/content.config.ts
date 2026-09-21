@@ -186,6 +186,38 @@ const team = defineCollection({
 });
 
 // ----------------------------------------------------------------------------
+// publications — one file per paper; the file name is the paper's permanent id
+// ----------------------------------------------------------------------------
+export const publicationTypes = ['journal', 'conference', 'preprint', 'patent'] as const;
+/** Also the order in which a paper's links are shown. */
+export const publicationLinkTypes = ['project', 'venue', 'paper', 'slides', 'video', 'code'] as const;
+
+const publications = defineCollection({
+  loader: folder('publications'),
+  schema: z.object({
+    title: z.string(),
+    authors: z.array(z.string()).min(1), // published order; * equal first author, † corresponding author
+    venue: z.string(),
+    venueShort: z.string().optional(),
+    type: z.enum(publicationTypes),
+    year: z.number().int().min(1900).max(2100),
+    month: z.number().int().min(1).max(12),
+    selected: z.boolean().default(false),
+    areas: z.array(z.string()).min(1), // area codes from taxonomy/areas.yaml
+    summary: z.string(),
+    links: z.array(z.object({ type: z.enum(publicationLinkTypes), url: href, label: z.string().optional() })).default([]),
+    figure: z
+      .object({
+        ratio: z.string().regex(/^\d+\/\d+$/, 'Write the ratio as width/height, e.g. 4/3').default('4/3'),
+        image: imagePath.optional(),
+        alt: z.string().optional(),
+      })
+      .refine((f) => !f.image || f.alt, { message: 'A figure with an `image` needs `alt` text describing it.' })
+      .default({ ratio: '4/3' }),
+  }),
+});
+
+// ----------------------------------------------------------------------------
 // pages — the wording of each page (titles, section names, button labels).
 // One file per page; `page` must equal the file name.
 // ----------------------------------------------------------------------------
@@ -248,4 +280,4 @@ const prose = defineCollection({
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, ui, areas, team, pages, prose };
+export const collections = { site, navigation, ui, areas, team, publications, pages, prose };

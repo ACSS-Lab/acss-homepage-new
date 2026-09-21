@@ -1,0 +1,20 @@
+title: Out-of-Distribution Detection for Fault-Tolerant Flight Control
+authors:
+  - H. Lee
+  - M. Choi
+  - S. Han†
+venue: L4DC 2025
+venueShort: L4DC
+type: conference
+year: 2025
+month: 6
+areas: [FilterEstim, UQ, AdaptCtrl]
+summary: >-
+  A detector that flags sensor regimes the controller was never trained on, handing over to a conservative backup law before the fault propagates.
+links:
+  - { type: venue, url: "#top" }
+  - { type: paper, url: "#top" }
+  - { type: video, url: "#top" }
+  - { type: code, url: "#top" }
+figure:
+  ratio: 4/3

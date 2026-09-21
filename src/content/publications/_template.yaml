@@ -1,0 +1,36 @@
+# TEMPLATE — copy this file to add a publication. Files starting with "_" are ignored by the site.
+#
+# Name the copy with a short id: lowercase letters and digits, e.g. tro26.yaml or
+# neurips25.yaml. The id becomes the paper's link (/research/publications/#pub-tro26)
+# and is how projects and research areas refer to it, so don't rename it later.
+
+title: Full Title of the Paper
+authors: # in published order. Mark equal first authors with * and the corresponding author with †
+  - G. Hong*
+  - S. Kim*
+  - S. Han†
+venue: IEEE Transactions on Robotics # full name; for a patent the number, for a preprint the arXiv id
+venueShort: IEEE T-RO # optional short name, used on compact lists and on the venue link
+type: journal # journal | conference | preprint | patent
+year: 2026
+month: 6 # 1-12; orders papers within a year
+selected: false # true features the paper in the "Selected publications" carousel
+areas: [StochCtrl, RL] # area codes from src/content/taxonomy/areas.yaml (at least one)
+
+# One or two sentences shown when the row is expanded.
+summary: >-
+  What the paper does and why it matters, in plain words.
+
+# Optional. Only the links listed here are shown, always in this order:
+# project, venue, paper, slides, video, code. `label` replaces the default chip text.
+links:
+  - { type: project, url: "https://example.com/" }
+  - { type: venue, url: "https://example.com/" }
+  - { type: paper, url: "https://example.com/paper.pdf" }
+  - { type: code, url: "https://example.com/", label: GitHub }
+
+# Optional. Until `image` is set, the row shows a striped placeholder.
+figure:
+  ratio: 4/3 # shape of the figure, width/height
+  # image: /images/publications/tro26.png   # put the file at public/images/publications/
+  # alt: One sentence describing what the figure shows   (required once `image` is set)

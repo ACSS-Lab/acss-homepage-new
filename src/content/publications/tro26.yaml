@@ -1,0 +1,21 @@
+title: Distributionally Robust Motion Planning under Stochastic Obstacle Dynamics
+authors:
+  - S. Kim
+  - J. Park
+  - S. Han†
+venue: IEEE Transactions on Robotics
+venueShort: IEEE T-RO
+type: journal
+year: 2026
+month: 6
+selected: true
+areas: [Planning, UQ, Robot]
+summary: >-
+  A planning formulation whose safety margin holds even when the obstacle motion model is misspecified, with an ambiguity set calibrated from logged trajectories.
+links:
+  - { type: project, url: "#top" }
+  - { type: venue, url: "#top" }
+  - { type: paper, url: "#top" }
+  - { type: code, url: "#top" }
+figure:
+  ratio: 4/3

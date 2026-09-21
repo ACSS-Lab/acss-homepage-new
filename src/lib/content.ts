@@ -181,3 +181,25 @@ export async function getTeam(): Promise<Team> {
     alumni: sortPeople(inGroup('alumni'), (a) => newestFirst(a.graduated)),
   };
 }
+
+// ----------------------------------------------------------------------------
+// publications
+// ----------------------------------------------------------------------------
+
+export type Publication = CollectionEntry<'publications'>['data'] & { id: string };
+
+/** All publications, newest first. */
+export async function getPublications(): Promise<Publication[]> {
+  const areas = await getAreaIndex();
+  const publications = (await getCollection('publications')).map(({ id, data }) => ({ ...data, id }));
+
+  for (const publication of publications) {
+    const file = `src/content/publications/${publication.id}.yaml`;
+    assertImageExists(file, publication.figure.image);
+    for (const code of publication.areas) {
+      if (!areas.has(code)) fail(file, `area "${code}" is not an area code in ${AREAS_FILE}.`);
+    }
+  }
+
+  return publications.sort((a, b) => b.year - a.year || b.month - a.month || a.title.localeCompare(b.title));
+}

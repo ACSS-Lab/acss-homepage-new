@@ -1,0 +1,22 @@
+title: Safety-Constrained Diffusion Planning for Contact-Rich Manipulation
+authors:
+  - H. Choi*
+  - M. Kang*
+  - S. Han†
+venue: ICRA 2026
+venueShort: ICRA
+type: conference
+year: 2026
+month: 5
+selected: true
+areas: [GenModels, SafeCtrl, Robot]
+summary: >-
+  Keeps the multimodality of diffusion planners while encoding stability constraints in the sampling step, evaluated on contact-rich manipulation tasks.
+links:
+  - { type: project, url: "#top" }
+  - { type: venue, url: "#top" }
+  - { type: paper, url: "#top" }
+  - { type: video, url: "#top" }
+  - { type: code, url: "#top" }
+figure:
+  ratio: 16/9
