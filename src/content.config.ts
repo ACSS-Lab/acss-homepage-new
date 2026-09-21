@@ -63,6 +63,16 @@ const navigation = defineCollection({
 });
 
 // ----------------------------------------------------------------------------
+// ui — short interface labels shared by every page (page copy lives elsewhere)
+// ----------------------------------------------------------------------------
+const ui = defineCollection({
+  loader: singleton('site', 'ui'),
+  schema: z.object({
+    nav: z.object({ label: z.string() }),
+  }),
+});
+
+// ----------------------------------------------------------------------------
 // areas — research-area taxonomy used to tag publications and members
 // ----------------------------------------------------------------------------
 // Adding a code to a family is a content change. Adding a family is a design
@@ -101,4 +111,4 @@ const areas = defineCollection({
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, areas };
+export const collections = { site, navigation, ui, areas };

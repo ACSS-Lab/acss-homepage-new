@@ -1,0 +1,5 @@
+# Short interface labels shared by every page.
+# Most of these are not visible; they are what screen readers announce.
+
+nav:
+  label: Main

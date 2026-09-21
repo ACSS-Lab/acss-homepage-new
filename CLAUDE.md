@@ -135,28 +135,34 @@ git push
 Claude writing/editing code in this repo follows these:
 
 - **Simple & safe first**: don't add a backend/DB on your own if it breaks the static-site principle. If needed, explain the risk and alternative first.
-- **Tokens only**: use variables from `DESIGN.md`/`tokens.css` for color/spacing/font. No hardcoded values.
+- **Tokens only**: use variables from `DESIGN.md`/`tokens.css` for color/spacing/font. No hardcoded values (DESIGN.md §9 defines exactly what must be a token).
+- **Icons from lucide only**: never hand-draw an `<svg>` or use a glyph character (▾, →) as an icon. Register the lucide icon in `src/lib/icons.ts` and render it with `<Icon name="..." />`.
 - **Keep the content safety net**: enforce required fields via the Zod schema in `src/content.config.ts`. A new field means updating the schema, this doc's recipes, and — once it exists — the CMS config (`public/admin/config.yml`) **at the same time**.
 - **Content stays out of code**: no visible text, list of items, or setting is hardcoded in `.astro`/`.ts` files — it lives in `src/content/`. Pages read content only through the getters in `src/lib/content.ts`, which also run the cross-file checks the schema can't express (duplicate codes, references to items that don't exist) and fail the build with a message that names the file.
 - **Security invariants**: no committed secrets, force HTTPS, least privilege, pin & update dependencies, form spam protection, keep security headers.
 - **Care for non-technical readers**: explain "what & why" in Korean for each change (in conversation). **Commit messages and code comments are always written in English**, in clear plain language.
 - **No emojis**: never add emojis to docs, code comments, or commit messages. Emojis the user typed themselves stay as they are — don't add new ones and don't remove theirs.
 - **Doc sync**: when structure/design/content-model changes, update `CLAUDE.md`, `DESIGN.md`, and `.claude/skills/` together.
-- **Definition of done**: local build succeeds → schema passes → accessibility/responsive checked → docs updated → clear commit. Follow this order.
+- **Definition of done**: `npm run build` succeeds (this includes the schema check) → `npm run check` and `npm run guard` pass → accessibility/responsive checked → docs updated → clear commit. Follow this order.
 
 ### Common commands
 ```bash
 npm run dev      # local preview
 npm run build    # static build (verify before deploy)
 npm run preview  # preview the build output
+npm run check    # type check
+npm run guard    # project rules: lucide-only icons, colors only in tokens.css, content read via src/lib/content.ts, no CDNs
 ```
 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
-  - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `taxonomy/areas.yaml` (research-area tags).
+  - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.
+- `src/lib/icons.ts` — icon registry; the only file that imports from `@lucide/astro`.
+- `src/scripts/` — small vanilla-TypeScript behaviors (menus, filters, carousels). No UI framework.
 - `src/styles/tokens.css` — design tokens.
+- `scripts/guard.mjs` — the rule checks behind `npm run guard`.
 - `public/admin/` — web admin (Sveltia CMS) config.
 - `.github/workflows/deploy.yml` — automatic deployment.

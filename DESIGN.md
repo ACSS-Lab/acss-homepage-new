@@ -143,11 +143,14 @@
 
 ### Graphic highlights (icons / figures)
 - Icons/illustrations/research figures **only where they carry real symbolic meaning.** No decoration.
+- **Icons come from [lucide](https://lucide.dev/icons) only** — one consistent 2px-stroke set, colored with `currentColor`. Never hand-draw an SVG or use a text glyph (▾, →) as an icon. Brand logos lucide doesn't ship (LinkedIn) are the single exception and come from the pinned `simple-icons` package.
 - **Never use emojis unless explicitly requested.**
 - Research figures (About) are information, not decoration — always attach caption + alt text.
 
 ### Navigation
-- Fixed top, white bg (`--shadow-sm` on scroll). **Dropdown on mouseover.** Full keyboard operation (Tab/Enter/Esc/arrows).
+- Sticky top, `--header-h` tall, white bg + `--shadow-sm`. Brand lockup (navy mark, wordmark, affiliation) left; menu right. Menu entries come from `navigation.yaml`.
+- Current section: `--navy-100` pill, `--navy-600` text, weight 600. Hover: `--gray-100` pill.
+- **Dropdown on mouseover and on keyboard focus.** Full keyboard operation: Tab/Enter, arrows to move through a menu, Esc to close it.
 
 ### Filters (Team / Publications)
 - **Chips / segmented control.** Only the selected chip is `--navy-600` + white text; unselected is `--gray-100` + `--gray-700` (minimize blue). Instant client-side updates + shareable via URL query.

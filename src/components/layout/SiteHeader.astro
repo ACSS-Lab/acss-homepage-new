@@ -1,0 +1,78 @@
+---
+// Sticky site header: brand lockup on the left, the menu from navigation.yaml on the right.
+import NavItem from './NavItem.astro';
+import { getNavigation, getSite, getUi } from '../../lib/content';
+import { link } from '../../lib/url';
+
+const [site, items, ui] = await Promise.all([getSite(), getNavigation(), getUi()]);
+---
+
+<header class="header">
+  <div class="bar">
+    <a class="brand" href={link('/')}>
+      <span class="mark"></span>
+      <span class="wordmark">{site.shortName}</span>
+      <span class="affiliation">{site.affiliationShort}</span>
+    </a>
+    <nav class="nav" aria-label={ui.nav.label}>
+      {items.map((item) => <NavItem item={item} />)}
+    </nav>
+  </div>
+</header>
+
+<script>
+  import { initNav } from '../../scripts/nav';
+  initNav();
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: var(--header-h);
+    padding: 0 var(--space-12);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+  }
+
+  .mark {
+    display: block;
+    width: 22px;
+    height: 22px;
+    border-radius: var(--radius-xs);
+    background: var(--navy-900);
+  }
+
+  .wordmark {
+    font: 700 var(--fs-wordmark) / 1 var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+
+  .affiliation {
+    padding-left: 10px;
+    border-left: 1px solid var(--gray-300);
+    font: 400 var(--fs-caption) / 1 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+</style>

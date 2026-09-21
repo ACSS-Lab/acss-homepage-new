@@ -2,6 +2,8 @@
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+import SiteHeader from '../components/layout/SiteHeader.astro';
 import { getSite } from '../lib/content';
 
 interface Props {
@@ -27,6 +29,10 @@ const fullTitle = title ? `${title} | ${site.shortName}` : `${site.shortName} | 
     <meta name="description" content={description} />
   </head>
   <body>
-    <slot />
+    <SiteHeader />
+    <main id="top">
+      <slot />
+    </main>
+    <SiteFooter />
   </body>
 </html>

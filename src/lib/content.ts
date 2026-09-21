@@ -11,7 +11,7 @@ function fail(file: string, message: string): never {
 }
 
 /** Settings-file collections hold a single entry whose id equals the collection name. */
-async function loadSingleton<C extends 'site' | 'navigation' | 'areas'>(
+async function loadSingleton<C extends 'site' | 'navigation' | 'ui' | 'areas'>(
   collection: C,
   file: string,
 ): Promise<CollectionEntry<C>['data']> {
@@ -21,7 +21,7 @@ async function loadSingleton<C extends 'site' | 'navigation' | 'areas'>(
 }
 
 // ----------------------------------------------------------------------------
-// site / navigation
+// site / navigation / ui
 // ----------------------------------------------------------------------------
 
 export type Site = CollectionEntry<'site'>['data'];
@@ -31,6 +31,8 @@ export const getSite = () => loadSingleton('site', 'src/content/site/site.yaml')
 
 export const getNavigation = async () =>
   (await loadSingleton('navigation', 'src/content/site/navigation.yaml')).items;
+
+export const getUi = () => loadSingleton('ui', 'src/content/site/ui.yaml');
 
 // ----------------------------------------------------------------------------
 // research-area taxonomy

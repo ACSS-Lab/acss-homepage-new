@@ -1,0 +1,16 @@
+---
+import { icons, type IconName } from '../../lib/icons';
+
+interface Props {
+  name: IconName;
+  /** Rendered width/height in px. */
+  size?: number;
+  class?: string;
+}
+
+// `rest` carries the caller's scoped-style attribute, so the caller can style the icon by class.
+const { name, size = 16, ...rest } = Astro.props;
+const Glyph = icons[name];
+---
+
+<Glyph size={size} aria-hidden="true" {...rest} />
