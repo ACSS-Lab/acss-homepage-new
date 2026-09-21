@@ -1,0 +1,148 @@
+---
+// Row of image cards, one per research area. The pressed card's detail panel is
+// shown below (see AreaDetail and scripts/area-picker.ts). The first area starts selected.
+import type { ResearchArea } from '../../lib/content';
+import { link } from '../../lib/url';
+
+interface Props {
+  areas: ResearchArea[];
+  /** Placeholder text containing {path}; shown on a card until its image exists. */
+  imageNote: string;
+}
+
+const { areas, imageNote } = Astro.props;
+---
+
+<div class="cards">
+  {
+    areas.map((area, i) => (
+      <button class="card" type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-area-tab={area.id}>
+        {area.image ? (
+          <img class="image" src={link(area.image)} alt="" loading="lazy" decoding="async" />
+        ) : (
+          <span class="image placeholder" />
+        )}
+        <span class="scrim" />
+        {!area.image && <span class="note">{imageNote.replace('{path}', `/images/research/${area.id}.jpg`)}</span>}
+        <span class="title">{area.title}</span>
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  import { initAreaPicker } from '../../scripts/area-picker';
+  initAreaPicker();
+</script>
+
+<style>
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+
+  .card {
+    position: relative;
+    display: block;
+    height: 260px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: var(--navy-900);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      box-shadow var(--dur) var(--ease),
+      transform var(--dur) var(--ease);
+  }
+
+  .card:hover,
+  .card[aria-pressed='true'] {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .card:focus-visible {
+    outline-offset: 3px;
+  }
+
+  .image,
+  .scrim {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.72;
+  }
+
+  .placeholder {
+    background: var(--ph);
+  }
+
+  .scrim {
+    background: var(--scrim-card-idle);
+  }
+
+  [aria-pressed='true'] > .image {
+    opacity: 1;
+  }
+
+  [aria-pressed='true'] > .scrim {
+    background: var(--scrim-card);
+  }
+
+  .card:hover > .image,
+  .card:focus-visible > .image {
+    animation: zoomLoop var(--dur-loop) var(--ease) infinite;
+  }
+
+  @keyframes zoomLoop {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.12);
+    }
+  }
+
+  .note {
+    position: absolute;
+    top: var(--space-4);
+    right: 18px;
+    left: 18px;
+    font: 400 var(--fs-caption) / 1.5 var(--font-mono);
+    color: var(--ink-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .title {
+    position: absolute;
+    right: 22px;
+    bottom: var(--space-5);
+    left: 22px;
+    font: 600 var(--fs-h3) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--on-dark-strong);
+    text-wrap: pretty;
+  }
+
+  [aria-pressed='true'] > .title {
+    color: var(--white);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card:hover > .image,
+    .card:focus-visible > .image {
+      animation: none;
+    }
+  }
+</style>

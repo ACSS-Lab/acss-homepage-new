@@ -1,0 +1,25 @@
+# TEMPLATE — copy this file to add a research area. Files starting with "_" are ignored by the site.
+#
+# Areas are shown in file-name order, so keep the number prefix: 04-my-area.yaml.
+# The file name (without .yaml) is also the image name: public/images/research/04-my-area.jpg.
+# Note: the page lays the area cards out three to a row.
+
+title: Title of the Research Area
+# image: /images/research/04-my-area.jpg   (add once the file exists; shown behind the card title)
+
+subs:
+  - title: First Sub-Topic
+    problem:
+      en: >-
+        The broad problem, in English.
+      ko: >-
+        같은 내용의 한국어 설명.
+    goal:
+      en: >-
+        The research goal, in English.
+      ko: >-
+        같은 내용의 한국어 설명.
+    applications:
+      - Application area one
+      - Application area two
+    papers: [tro26] # publication ids (file names in src/content/publications/); [] hides the "Related Papers" row

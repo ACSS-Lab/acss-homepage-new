@@ -1,0 +1,42 @@
+title: Data-Efficient Online Learning for Adaptive Autonomous Systems
+# image: /images/research/03-online-learning.jpg   (add once the file exists; shown behind the card title)
+
+subs:
+  - title: "Control-Relevant Latent Representations for Embodied AI"
+    problem:
+      en: >-
+        AGI architectures (e.g., VLAMs) offer a powerful foundation for complex autonomous decision-making and embodied AI. However, their internal representations are often difficult to analyze, especially when 1) conditions like visual inputs, language inputs, or contexts change, and when 2) when tasks must be performed sequentially over time without catastrophic forgetting.
+      ko: >-
+        AGI 구조(예: VLAM)는 복잡한 자율 의사결정과 embodied AI를 위한 강력한 토대를 제공합니다. 그러나 내부 표현은 분석이 어려운 경우가 많습니다. 특히 1) 시각 입력, 언어 입력, context 같은 조건이 바뀔 때, 그리고 2) catastrophic forgetting 없이 여러 task를 시간에 걸쳐 순차적으로 수행해야 할 때 그렇습니다.
+    goal:
+      en: >-
+        Develop control-relevant latent representations and geometric models of the latent space for VLAM-based decision makers. Develop, in particular, a “similarity metric” on the latent space so that semantically-equivalent observations remain close. Current methods of investigation include manifold steering, dimensionality reduction, and group equivariance.
+      ko: >-
+        VLAM 기반 의사결정기를 위한 control-relevant latent representation과 latent space의 기하학적 모델을 개발합니다. 특히 의미적으로 동등한 관측이 서로 가깝게 유지되도록 latent space 상의 “similarity metric”을 개발합니다. 현재 검토 중인 방법으로는 manifold steering, 차원 축소, group equivariance가 있습니다.
+    applications:
+      - Vision-language-action models
+      - World models
+      - Embodied AI
+      - Human-robot interaction
+      - Continuous Control
+      - Representation learning
+    papers: [arxiv25] # publication ids (file names in src/content/publications/)
+
+  - title: "Data-Efficient Adaptation and Active Learning"
+    problem:
+      en: >-
+        Real-world data collection for robotic control is often expensive, sparse, and safety-critical. This means naive methods of fine-tuning and training are often unsuitable for robotic systems, especially if they must learn to adapt to new tasks and environments.
+      ko: >-
+        로봇 제어를 위한 실제 데이터 수집은 비용이 크고, 희소하며, safety-critical한 경우가 많습니다. 따라서 단순한 fine-tuning이나 학습 방식은 로봇 시스템에 적합하지 않은 경우가 많으며, 새로운 task와 환경에 적응해야 할 때 특히 그렇습니다.
+    goal:
+      en: >-
+        Develop methods for improving robot performance by identifying the most valuable data samples and allowing agents to make decisions quickly (with accelerated convergence towards the optimal hyperparameters). Current methods of investigation include adaptive gradient descent, active learning, and stochastic optimization.
+      ko: >-
+        가장 가치 있는 데이터 샘플을 식별하고 에이전트가 빠르게 결정을 내리도록(최적 hyperparameter로의 수렴을 가속하며) 하여 로봇 성능을 개선하는 방법을 개발합니다. 현재 검토 중인 방법으로는 adaptive gradient descent, active learning, stochastic optimization이 있습니다.
+    applications:
+      - Optimization methods in ML
+      - Active learning
+      - Online learning
+      - Stochastic Approximation
+      - Data-efficient control
+    papers: [neurips25] # publication ids (file names in src/content/publications/)

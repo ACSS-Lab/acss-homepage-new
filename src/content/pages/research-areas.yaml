@@ -1,0 +1,28 @@
+# Wording of the "Research Areas" page (/about/research-areas/).
+# The areas themselves are in src/content/research-areas/.
+
+page: research-areas
+title: Research Areas # browser tab title
+
+hero:
+  title: Research Areas
+  # Describes the background image planned for the banner; delete once it is no longer useful.
+  note: |-
+    page header image — 1920×360
+    research or simulation still
+
+heading:
+  en: Our Research Directions
+  ko: 세 가지 연구 방향
+hint:
+  en: Select an area to read it in full below
+  ko: 주제를 선택하면 아래에 전문이 표시돼요
+
+labels:
+  problem: Broad Problem
+  goal: Research Goal
+  applications: Application Areas
+  papers: Related Papers
+  readPaper: Read paper
+  # Shown on a card until its image is added. {path} is where the image file should go.
+  imageNote: "research image — {path}"

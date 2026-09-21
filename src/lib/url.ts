@@ -10,6 +10,9 @@ export const link = (href: string): string => (href.startsWith('/') ? base + hre
 /** The page an href leads to, ignoring any "#section" part. */
 export const pathOf = (href: string): string => link(href.split('#')[0]);
 
+/** Link that opens the publications page scrolled to one paper. */
+export const publicationHref = (id: string): string => link(`/research/publications/#pub-${id}`);
+
 /** Whether `href` points at the page being rendered. Links to a section of a page ("/team/#alumni") never match. */
 export const isCurrentPage = (href: string, pathname: string): boolean =>
   href.startsWith('/') && !href.includes('#') && link(href) === pathname;

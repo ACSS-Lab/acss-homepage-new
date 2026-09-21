@@ -1,0 +1,41 @@
+title: Large-Scale Control and Estimation for Networks / Multiagent Systems
+# image: /images/research/02-networks-multiagent.jpg   (add once the file exists; shown behind the card title)
+
+subs:
+  - title: "Robust & Adaptive Large-Scale Network Control"
+    problem:
+      en: >-
+        Scalable implementations of stochastic control and state-estimation algorithms introduce additional uncertainties (e.g., dynamic graph topology, delayed information transmission among agents) and constraints (e.g., limited communication bandwidth, lack of coordination among agents).
+      ko: >-
+        stochastic control과 state-estimation 알고리즘을 확장 가능하게 구현하면 추가적인 불확실성(예: 동적으로 변하는 graph topology, 에이전트 간 정보 전달 지연)과 제약(예: 제한된 통신 대역폭, 에이전트 간 coordination 부재)이 생깁니다.
+    goal:
+      en: >-
+        Develop distributed/decentralized stochastic control and state-estimation algorithms for large-scale systems that are robust, adaptive, and scalable (i.e., localizable) to high-dimensional network uncertainties. Current methods of investigation include system level synthesis, consensus methods, and others.
+      ko: >-
+        고차원 network 불확실성에 대해 robust하고 adaptive하며 scalable(즉, localizable)한 distributed/decentralized stochastic control 및 state-estimation 알고리즘을 large-scale 시스템에 대해 개발합니다. 현재 검토 중인 방법으로는 system level synthesis, consensus 기법 등이 있습니다.
+    applications:
+      - Multi-agent systems
+      - Large-scale networks
+      - Fault-tolerant control
+      - Consensus
+      - System level synthesis
+    papers: [l4dc26, cdc24] # publication ids (file names in src/content/publications/)
+
+  - title: "Situational Awareness with Wireless Sensor Networks"
+    problem:
+      en: >-
+        Real-time situational awareness for large-scale environments requires a delicate balance between efficiency and accuracy. However, many conventional data-gathering architectures have the external sensors transmit all their measurements to the decision-making central agent, increasing traffic congestion and unnecessarily redundant communications. In the case of visual data, high computation and power demands for processing can cause large reconstruction errors from asynchronous sensor updates.
+      ko: >-
+        대규모 환경에 대한 실시간 situational awareness는 효율성과 정확도 사이의 섬세한 균형을 요구합니다. 그러나 기존의 많은 data-gathering 구조는 외부 sensor가 모든 측정값을 의사결정 중심 에이전트로 전송하게 해, 트래픽 혼잡과 불필요하게 중복된 통신을 늘립니다. 시각 데이터의 경우 처리에 필요한 높은 연산량과 전력 요구가 asynchronous한 sensor 갱신으로 인한 큰 reconstruction 오차를 유발할 수 있습니다.
+    goal:
+      en: >-
+        Develop architectures for large-scale, distributed estimation and scene reconstruction, with special focus on improving data preprocessing and transmission to optimally balance network efficiency and good reconstruction performance. Current methods of investigation include sensor scheduling, and 3D Gaussian splats.
+      ko: >-
+        large-scale distributed estimation과 scene reconstruction을 위한 구조를 개발합니다. 특히 network 효율성과 좋은 reconstruction 성능이 최적으로 균형을 이루도록 데이터 전처리와 전송을 개선하는 데 집중합니다. 현재 검토 중인 방법으로는 sensor scheduling과 3D Gaussian splat이 있습니다.
+    applications:
+      - Distributed data-gathering
+      - Multi-target Tracking
+      - Distributed 3D reconstruction
+      - Sensor networks
+      - Robotic sensor networks
+    papers: [lcss24] # publication ids (file names in src/content/publications/)

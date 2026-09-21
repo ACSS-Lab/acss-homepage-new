@@ -1,0 +1,39 @@
+title: "Autonomous Decision-Making under Environment & System Uncertainties"
+# image: /images/research/01-decision-making.jpg   (add once the file exists; shown behind the card title)
+
+subs:
+  - title: "Safety vs. Multimodality in Generative AI Planning"
+    problem:
+      en: >-
+        In robot planning problems, generative AI methods (diffusion models, flow-matching, etc.) can represent multimodal behaviors (e.g., a robot arm picking up a cup in multiple different positions). However, this flexibility conflicts inherently with safety, stability, and related guarantees crucial to closed-loop control.
+      ko: >-
+        로봇 planning 문제에서 generative AI 기법(diffusion model, flow-matching 등)은 multimodal한 행동을 표현할 수 있습니다(예: 로봇 팔이 컵을 여러 다른 위치에서 집는 경우). 그러나 이러한 유연성은 closed-loop control에서 핵심적인 safety, stability 및 관련 보장과 본질적으로 충돌합니다.
+    goal:
+      en: >-
+        Develop generative AI-based planning algorithms for autonomous (robotic) agents that fundamentally encode safety/stability constraints without losing multimodal flexibility. Current methods of investigation include designing hierarchical safety filters and distributional control formulations.
+      ko: >-
+        multimodal한 유연성을 잃지 않으면서 safety/stability 제약을 근본적으로 내재화하는, generative AI 기반 planning 알고리즘을 자율(로봇) 에이전트를 위해 개발합니다. 현재 검토 중인 방법으로는 hierarchical safety filter 설계와 distributional control 정식화가 있습니다.
+    applications:
+      - Generative AI for robotics
+      - Diffusion/Flow-matching
+      - Safe/Robust autonomy
+      - Trajectory and motion planning
+    papers: [icra26, tro26] # publication ids (file names in src/content/publications/)
+
+  - title: "Robust & Adaptive Control with Uncertainty Quantification"
+    problem:
+      en: >-
+        Real-world autonomous systems often experience external environment uncertainties and unmodeled dynamics. In particular, when stochastic effects are nonstationary (e.g., highly-dynamic environments, interaction-awareness), many stochastic control algorithms can experience poor adaptability and robustness.
+      ko: >-
+        실제 환경의 자율 시스템은 외부 환경의 불확실성과 모델링되지 않은 dynamics를 자주 겪습니다. 특히 stochastic한 영향이 nonstationary할 때(예: 변화가 큰 환경, interaction-awareness가 필요한 상황) 많은 stochastic control 알고리즘은 적응성과 robustness가 크게 떨어집니다.
+    goal:
+      en: >-
+        Develop path-planners that are robust and adaptive especially against nonstationary uncertainties, by combining both model-based and data-driven methods. Current methods of investigation include classical set prediction & propagation methods, learning-based OOD detectors (e.g., random network distillation), and online reinforcement learning.
+      ko: >-
+        model-based 방법과 data-driven 방법을 결합해, 특히 nonstationary한 불확실성에 대해 robust하고 adaptive한 path-planner를 개발합니다. 현재 검토 중인 방법으로는 고전적인 set prediction & propagation, learning-based OOD detector(예: random network distillation), online reinforcement learning이 있습니다.
+    applications:
+      - Fault-tolerant systems
+      - OOD detection for control
+      - Autonomous trajectory and motion planning
+      - Online reinforcement learning
+    papers: [l4dc25, auto25] # publication ids (file names in src/content/publications/)

@@ -203,3 +203,29 @@ export async function getPublications(): Promise<Publication[]> {
 
   return publications.sort((a, b) => b.year - a.year || b.month - a.month || a.title.localeCompare(b.title));
 }
+
+// ----------------------------------------------------------------------------
+// research areas
+// ----------------------------------------------------------------------------
+
+type ResearchAreaData = CollectionEntry<'researchAreas'>['data'];
+type ResearchSub = Omit<ResearchAreaData['subs'][number], 'papers'> & { papers: Publication[] };
+export type ResearchArea = Omit<ResearchAreaData, 'subs'> & { id: string; subs: ResearchSub[] };
+
+/** Research areas in file-name order, with each sub-topic's paper ids resolved to publications. */
+export async function getResearchAreas(): Promise<ResearchArea[]> {
+  const publications = new Map((await getPublications()).map((p) => [p.id, p]));
+  const entries = (await getCollection('researchAreas')).sort((a, b) => a.id.localeCompare(b.id));
+
+  return entries.map(({ id, data }) => {
+    const file = `src/content/research-areas/${id}.yaml`;
+    assertImageExists(file, data.image);
+    const subs = data.subs.map((sub) => ({
+      ...sub,
+      papers: sub.papers.map(
+        (paperId) => publications.get(paperId) ?? fail(file, `paper "${paperId}" has no file in src/content/publications/.`),
+      ),
+    }));
+    return { ...data, id, subs };
+  });
+}

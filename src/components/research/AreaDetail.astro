@@ -1,0 +1,172 @@
+---
+// Full text of one research area: each sub-topic as a label/value grid with its
+// problem, goal, application areas and related papers.
+import Chip from '../ui/Chip.astro';
+import Icon from '../ui/Icon.astro';
+import type { ResearchArea } from '../../lib/content';
+import { publicationHref } from '../../lib/url';
+
+interface Props {
+  area: ResearchArea;
+  labels: { problem: string; goal: string; applications: string; papers: string; readPaper: string };
+  hidden?: boolean;
+}
+
+const { area, labels, hidden = false } = Astro.props;
+const letter = (index: number) => `${String.fromCharCode(65 + index)}.`;
+---
+
+<div data-area-panel={area.id} hidden={hidden}>
+  <div class="area-head">
+    <h2 class="area-title">{area.title}</h2>
+  </div>
+
+  <div class="subs">
+    {
+      area.subs.map((sub, i) => (
+        <div class="sub rise" style={`--i: ${i}`}>
+          <div class="letter">{letter(i)}</div>
+          <h3 class="sub-title">{sub.title}</h3>
+
+          <div class="label">{labels.problem}</div>
+          <div class="text problem">
+            <p data-lang="en">{sub.problem.en}</p>
+            <p data-lang="ko" lang="ko">{sub.problem.ko}</p>
+          </div>
+
+          <div class="label">{labels.goal}</div>
+          <div class="text">
+            <p data-lang="en">{sub.goal.en}</p>
+            <p data-lang="ko" lang="ko">{sub.goal.ko}</p>
+          </div>
+
+          <div class="label">{labels.applications}</div>
+          <div class="chips">
+            {sub.applications.map((application) => <Chip>{application}</Chip>)}
+          </div>
+
+          {sub.papers.length > 0 && (
+            <>
+              <div class="label">{labels.papers}</div>
+              <div class="papers">
+                {sub.papers.map((paper) => (
+                  <a class="paper" href={publicationHref(paper.id)}>
+                    <div class="paper-title">{paper.title}</div>
+                    <div class="paper-meta">{[paper.authors.join(', '), paper.venueShort ?? paper.venue, paper.year].join(', ')}</div>
+                    <div class="paper-cta">
+                      {labels.readPaper}
+                      <Icon name="arrow-right" size={13} />
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .area-head {
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--gray-300);
+  }
+
+  .area-title {
+    max-width: 860px;
+    margin: 0;
+    font: 600 var(--fs-h2) / 1.3 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .subs {
+    margin-top: var(--space-2);
+  }
+
+  .sub {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: var(--space-4) var(--space-8);
+    align-items: baseline;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .letter,
+  .sub-title {
+    margin: 0;
+    font: 600 var(--fs-h3) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .label {
+    font: 500 var(--fs-sm) / 1.5 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .text p {
+    margin: 0;
+    font: 400 var(--fs-body) / 1.65 var(--font-sans);
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .text p[lang='ko'] {
+    line-height: 1.75;
+  }
+
+  .problem p {
+    color: var(--gray-700);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .papers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+  }
+
+  .paper {
+    display: block;
+    padding: 18px;
+    border-radius: var(--radius-md);
+    background: var(--gray-100);
+    color: var(--ink);
+  }
+
+  .paper:hover,
+  .paper:focus-visible {
+    background: var(--navy-100);
+  }
+
+  .paper-title {
+    font: 600 var(--fs-ui) / 1.5 var(--font-sans);
+    text-wrap: pretty;
+  }
+
+  .paper-meta {
+    margin-top: 6px;
+    font: 400 var(--fs-caption) / 1.6 var(--font-mono);
+    color: var(--gray-500);
+  }
+
+  .paper-cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-3);
+    font: 600 var(--fs-meta) / 1 var(--font-sans);
+    color: var(--navy-600);
+  }
+</style>

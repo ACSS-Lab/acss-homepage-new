@@ -97,6 +97,12 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - Bilingual fields in YAML are written as `en:` / `ko:` pairs. In a headline, `*word*` sets the word in italics.
 - Short labels shared by many pages ("E-mail", "Homepage", screen-reader labels) are in `src/content/site/ui.yaml`.
 
+### 3-11. Edit the Research Areas page
+- Files: `src/content/research-areas/` — one file per area, shown in **file-name order** (keep the number prefix: `01-...`, `02-...`). Copy `_template.yaml` to add one. The page lays the cards out three to a row.
+- Each area has a title and a list of sub-topics (`subs`): title, `problem` and `goal` (each with `en:` and `ko:`), `applications` (a list), and `papers`.
+- `papers` lists publication ids (file names from 3-1). Title, authors and venue are pulled from the publication automatically; `[]` hides the "Related Papers" row. A wrong id stops the build.
+- Card image: put it at `public/images/research/<file name>.jpg` and add `image: /images/research/<file name>.jpg`.
+
 > After saving, the live site **updates in a few minutes**. If you don't see it, hard-refresh (clear cache).
 
 ---
@@ -167,7 +173,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
   - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
-  - `pages/` (the wording of each page, one file per page), `prose/` (long bilingual text in Markdown), `team/` (one file per person), `publications/` (one file per paper). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
+  - `pages/` (the wording of each page, one file per page), `prose/` (long bilingual text in Markdown), `team/` (one file per person), `publications/` (one file per paper), `research-areas/` (one file per area, in file-name order). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.

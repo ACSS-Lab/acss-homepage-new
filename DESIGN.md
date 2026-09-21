@@ -52,6 +52,8 @@
 --success: #12B886;  --warning: #F59F00;  --danger: #E03131;
 --link:    var(--navy-600);
 
+--ink-muted: rgba(23,24,28,.66);  /* small notes over imagery */
+
 /* On-dark — translucent whites for text/lines/fills on --navy-900 sections */
 --on-dark-strong: rgba(255,255,255,.85);  /* hover text */
 --on-dark:        rgba(255,255,255,.72);  /* body text */
@@ -67,6 +69,8 @@
 --ph-dark:     repeating-linear-gradient(135deg,rgba(255,255,255,.09) 0 10px,rgba(255,255,255,.035) 10px 20px);
 --stripe-dark: repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 14px,rgba(255,255,255,.015) 14px 28px);  /* dark hero overlay */
 --scrim-hero:  linear-gradient(180deg,rgba(10,27,61,.72) 0%,rgba(10,27,61,.88) 55%,rgba(10,27,61,.97) 100%);  /* tall hero: keeps text readable over a background image */
+--scrim-card:      linear-gradient(to top,rgba(10,27,61,.88) 0%,rgba(10,27,61,.42) 46%,rgba(10,27,61,.06) 100%);  /* image card, selected */
+--scrim-card-idle: linear-gradient(to top,rgba(10,27,61,.9) 0%,rgba(10,27,61,.58) 52%,rgba(10,27,61,.3) 100%);    /* image card, idle */
 ```
 
 > **Image placeholders**: until a real photo/figure exists, its slot shows the `--ph` stripes (`--ph-dark` on dark surfaces) with a short mono note describing the intended image. The slot keeps its final aspect ratio so the layout doesn't shift when the asset arrives.
@@ -158,6 +162,10 @@
 - Under the title sits a segmented pill (`HeroTabs`) listing the sibling pages of the current menu section — it is generated from `navigation.yaml`, not authored per page. Current tab: white pill, `--navy-900` text. A grouped tab opens a rounded dropdown (`--radius-lg`, `--shadow-lg`) on hover/focus, with optional counts.
 
 - **Tall variant** (Our Vision): more padding plus `--scrim-hero`, carrying a lede and two text columns with CTAs. Its headline types itself in a loop (intro word, then the headline, italics preserved); under `prefers-reduced-motion` the static headline is shown.
+
+### Image card picker + detail panel (Research Areas)
+- Three 260px image cards (`--radius-lg`, navy base, title bottom-left in white) act as toggle buttons. Selected: lifted 2px with `--shadow-md`, full-opacity image, `--scrim-card`. Idle: 72% image, heavier `--scrim-card-idle`; hover lifts it and slowly zooms the image (`--dur-loop`, off under reduced motion).
+- The selected area's text appears below: each sub-topic is a two-column grid (132px gray label, content) with lettered headings, neutral chips for application areas, and related-paper tiles (`--gray-100`, hover `--navy-100`) that deep-link to the paper. Sub-topics rise in each time a card is picked.
 
 ### Editorial row (long-form text)
 - Three columns: a 180px label rail, prose capped at `--container-narrow`, and a 268px figure (3:4, `--radius-lg`) with a caption. A `--gray-300` rule on top separates rows. The template for any future long-form page.

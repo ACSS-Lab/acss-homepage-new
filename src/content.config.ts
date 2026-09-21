@@ -218,6 +218,28 @@ const publications = defineCollection({
 });
 
 // ----------------------------------------------------------------------------
+// researchAreas — the areas on the Research Areas page, shown in file-name order
+// ----------------------------------------------------------------------------
+const researchAreas = defineCollection({
+  loader: folder('research-areas'),
+  schema: z.object({
+    title: z.string(),
+    image: imagePath.optional(),
+    subs: z
+      .array(
+        z.object({
+          title: z.string(),
+          problem: bilingual,
+          goal: bilingual,
+          applications: z.array(z.string()).min(1),
+          papers: z.array(z.string()).default([]), // publication ids
+        }),
+      )
+      .min(1),
+  }),
+});
+
+// ----------------------------------------------------------------------------
 // pages — the wording of each page (titles, section names, button labels).
 // One file per page; `page` must equal the file name.
 // ----------------------------------------------------------------------------
@@ -266,6 +288,21 @@ const pages = defineCollection({
       // Long text of each section: src/content/prose/vision/<id>/en.md and ko.md
       sections: z.array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), heading: bilingual, figure })),
     }),
+    z.object({
+      page: z.literal('research-areas'),
+      title: z.string(),
+      hero,
+      heading: bilingual,
+      hint: bilingual,
+      labels: z.object({
+        problem: z.string(),
+        goal: z.string(),
+        applications: z.string(),
+        papers: z.string(),
+        readPaper: z.string(),
+        imageNote: z.string().includes('{path}'),
+      }),
+    }),
   ]),
 });
 
@@ -280,4 +317,4 @@ const prose = defineCollection({
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, ui, areas, team, publications, pages, prose };
+export const collections = { site, navigation, ui, areas, team, publications, researchAreas, pages, prose };
