@@ -1,0 +1,108 @@
+/*
+ * Design tokens — the single source of truth for colour, type, spacing, radius,
+ * shadow, motion and layering. Documented in DESIGN.md; keep both in sync.
+ * This is the only file in src/ allowed to contain colour literals.
+ */
+:root {
+  /* Accent — navy (the 1/10). --navy-600 is the primary accent (links, active
+     states) and is deliberately frozen to the same value as --navy-900. */
+  --navy-900: #0A1B3D;
+  --navy-700: #143B84;
+  --navy-600: #0A1B3D;
+  --navy-500: #2E64C7;
+  --navy-100: #E7EEFA;
+
+  /* Base — neutrals own the screen */
+  --ink: #17181C;
+  --gray-700: #4E5968;
+  --gray-500: #66707E;
+  --gray-300: #D1D6DB;
+  --gray-100: #F2F4F6;
+  --white: #FFFFFF;
+  --bg: #FCFCFD;
+
+  /* Semantic */
+  --success: #12B886;
+  --warning: #F59F00;
+  --danger: #E03131;
+  --link: var(--navy-600);
+
+  /* On-dark — translucent whites used on --navy-900 sections */
+  --on-dark-strong: rgba(255, 255, 255, .85);
+  --on-dark: rgba(255, 255, 255, .72);
+  --on-dark-muted: rgba(255, 255, 255, .62);
+  --on-dark-faint: rgba(255, 255, 255, .55);
+  --on-dark-rule: rgba(255, 255, 255, .12);
+  --on-dark-border: rgba(255, 255, 255, .16);
+  --on-dark-fill: rgba(255, 255, 255, .09);
+  --on-dark-fill-hover: rgba(255, 255, 255, .1);
+
+  /* Textures — striped image placeholder (light/dark) and the dark-section overlay */
+  --ph: repeating-linear-gradient(135deg, #EDEFF2 0 9px, #E4E8EC 9px 18px);
+  --ph-dark: repeating-linear-gradient(135deg, rgba(255, 255, 255, .09) 0 10px, rgba(255, 255, 255, .035) 10px 20px);
+  --stripe-dark: repeating-linear-gradient(135deg, rgba(255, 255, 255, .05) 0 14px, rgba(255, 255, 255, .015) 14px 28px);
+
+  /* Typography (desktop values; the responsive pass will add the mobile steps) */
+  --font-sans: "Pretendard Variable", "Pretendard", "Spoqa Han Sans Neo", "Noto Sans KR", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fs-display: 48px;
+  --fs-h1: 32px;
+  --fs-title: 27px;
+  --fs-h2: 24px;
+  --fs-h3: 20px;
+  --fs-wordmark: 19px;
+  --fs-body: 16px;
+  --fs-ui: 15px;
+  --fs-sm: 14px;
+  --fs-meta: 13px;
+  --fs-caption: 12px;
+  /* Korean prose is set looser than English on purpose */
+  --lh-prose-en: 1.75;
+  --lh-prose-ko: 1.85;
+
+  /* Spacing (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+
+  /* Shadow — navy-tinted */
+  --shadow-sm: 0 1px 2px rgba(10, 27, 61, .06);
+  --shadow-md: 0 6px 20px rgba(10, 27, 61, .08);
+  --shadow-lg: 0 14px 36px rgba(10, 27, 61, .12);
+
+  /* Motion */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --dur-fast: 150ms;
+  --dur: 200ms;
+  --dur-slow: 300ms;
+  --dur-enter: 420ms; /* entrance animations, expanding pills */
+  --dur-emph: 620ms;  /* image zoom, carousel slide */
+  --dur-loop: 5s;     /* looping hover animation */
+
+  /* Layout */
+  --container: 1120px;
+  --container-narrow: 720px;
+  --header-h: 68px;
+  --scroll-offset: 96px; /* anchor targets clear the sticky header */
+
+  /* Layering */
+  --z-header: 20;
+  --z-dropdown: 30;
+  --z-fab: 40;
+}

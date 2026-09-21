@@ -125,7 +125,7 @@ Claude writing/editing code in this repo follows these:
 - **Tokens only**: use variables from `DESIGN.md`/`tokens.css` for color/spacing/font. No hardcoded values.
 - **Keep the content safety net**: enforce required fields via the Zod schema in `src/content/config.ts`. A new field means updating the schema, the CMS config (`public/admin/config.yml`), and this doc's recipes **at the same time**.
 - **Security invariants**: no committed secrets, force HTTPS, least privilege, pin & update dependencies, form spam protection, keep security headers.
-- **Care for non-technical readers**: explain "what & why" in Korean for each change, and write clear Korean commit messages.
+- **Care for non-technical readers**: explain "what & why" in Korean for each change (in conversation). **Commit messages and code comments are always written in English**, in clear plain language.
 - **Doc sync**: when structure/design/content-model changes, update `CLAUDE.md`, `DESIGN.md`, and `.claude/skills/` together.
 - **Definition of done**: local build succeeds → schema passes → accessibility/responsive checked → docs updated → clear commit. Follow this order.
 
