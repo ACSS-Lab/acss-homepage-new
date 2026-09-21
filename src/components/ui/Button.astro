@@ -1,0 +1,46 @@
+---
+// Link styled as a button. `arrow` appends the arrow-right icon (never type an arrow character).
+import Icon from './Icon.astro';
+import { link } from '../../lib/url';
+
+interface Props {
+  href: string;
+  /** `on-dark`: solid white, for navy sections. */
+  variant: 'on-dark';
+  arrow?: boolean;
+}
+
+const { href, variant, arrow = false } = Astro.props;
+---
+
+<a class:list={['button', variant]} href={link(href)}>
+  <slot />
+  {arrow && <Icon name="arrow-right" size={15} />}
+</a>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 13px 22px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font: 600 var(--fs-ui) / 1 var(--font-sans);
+    white-space: nowrap;
+  }
+
+  .on-dark {
+    border-color: var(--white);
+    background: var(--white);
+    color: var(--navy-900);
+  }
+
+  .on-dark:hover,
+  .on-dark:focus-visible {
+    border-color: var(--navy-100);
+    background: var(--navy-100);
+    color: var(--navy-900);
+  }
+</style>

@@ -33,6 +33,13 @@ a:hover {
   display: none !important;
 }
 
+/* Bilingual pages render both languages; the nearest [data-lang-scope] says
+   which one is shown (switched by scripts/lang-toggle.ts). */
+[data-lang-scope='en'] [data-lang='ko'],
+[data-lang-scope='ko'] [data-lang='en'] {
+  display: none;
+}
+
 /* Centered page column: --container of content plus a gutter on each side. */
 .container {
   max-width: calc(var(--container) + 2 * var(--space-6));

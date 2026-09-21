@@ -1,0 +1,140 @@
+---
+import LangToggle from '../../components/layout/LangToggle.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import Button from '../../components/ui/Button.astro';
+import Figure from '../../components/ui/Figure.astro';
+import EditorialRow from '../../components/vision/EditorialRow.astro';
+import TypedHeadline from '../../components/vision/TypedHeadline.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPage, getProse } from '../../lib/content';
+
+const page = await getPage('vision');
+const { hero } = page;
+const sections = await Promise.all(
+  page.sections.map(async (section) => ({ ...section, prose: await getProse(`vision/${section.id}`) })),
+);
+---
+
+<BaseLayout title={page.title} description={hero.lede.en}>
+  <div data-lang-scope="en">
+    <PageHero variant="tall" note={hero.note}>
+      <TypedHeadline slot="title" text={hero.headline} typing={hero.typing} />
+
+      <p class="lede" data-lang="en">{hero.lede.en}</p>
+      <p class="lede" data-lang="ko" lang="ko">{hero.lede.ko}</p>
+
+      <div class="columns">
+        {
+          hero.columns.map((column) => (
+            <div>
+              <h2 class="column-heading" data-lang="en">{column.heading.en}</h2>
+              <h2 class="column-heading" data-lang="ko" lang="ko">{column.heading.ko}</h2>
+              <p class="column-body" data-lang="en">{column.body.en}</p>
+              <p class="column-body" data-lang="ko" lang="ko">{column.body.ko}</p>
+              <div class="column-cta">
+                <Button href={column.cta.href} variant="on-dark" arrow>{column.cta.label}</Button>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </PageHero>
+
+    <div class="sections">
+      {
+        sections.map((section) => (
+          <section class="container section">
+            <EditorialRow>
+              <Fragment slot="label">
+                <span data-lang="en">{section.heading.en}</span>
+                <span data-lang="ko" lang="ko">{section.heading.ko}</span>
+              </Fragment>
+
+              <div data-lang="en"><section.prose.en /></div>
+              <div data-lang="ko" lang="ko"><section.prose.ko /></div>
+
+              <Fragment slot="figure">
+                <Figure class="figure" src={section.figure.image} alt={section.figure.alt} note={section.figure.note} />
+                {section.figure.caption && <p class="caption">{section.figure.caption}</p>}
+              </Fragment>
+            </EditorialRow>
+          </section>
+        ))
+      }
+    </div>
+
+    <LangToggle />
+  </div>
+</BaseLayout>
+
+<style>
+  .lede {
+    max-width: 820px;
+    margin: 26px auto 0;
+    font: 400 var(--fs-h3) / 1.7 var(--font-sans);
+    color: var(--on-dark-strong);
+    text-align: center;
+    text-wrap: pretty;
+  }
+
+  .lede[lang='ko'] {
+    line-height: 1.75;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-14);
+    max-width: 1000px;
+    margin: var(--space-14) auto 0;
+  }
+
+  .column-heading {
+    margin: 0;
+    font: 600 var(--fs-h3) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+
+  .column-body {
+    margin: 14px 0 0;
+    font: 400 var(--fs-body) / var(--lh-prose-en) var(--font-sans);
+    color: var(--on-dark);
+    text-wrap: pretty;
+  }
+
+  .column-body[lang='ko'] {
+    line-height: 1.8;
+  }
+
+  .column-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-8);
+  }
+
+  .sections {
+    padding-bottom: var(--space-24);
+  }
+
+  .section {
+    padding-top: var(--space-14);
+  }
+
+  .section:first-child {
+    padding-top: var(--space-16);
+  }
+
+  .figure {
+    --figure-pad: 14px;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius-lg);
+  }
+
+  .caption {
+    margin: 10px 0 0;
+    font: 400 var(--fs-caption) / 1.6 var(--font-sans);
+    color: var(--gray-500);
+    text-wrap: pretty;
+  }
+</style>

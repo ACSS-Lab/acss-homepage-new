@@ -41,6 +41,8 @@
   --ph: repeating-linear-gradient(135deg, #EDEFF2 0 9px, #E4E8EC 9px 18px);
   --ph-dark: repeating-linear-gradient(135deg, rgba(255, 255, 255, .09) 0 10px, rgba(255, 255, 255, .035) 10px 20px);
   --stripe-dark: repeating-linear-gradient(135deg, rgba(255, 255, 255, .05) 0 14px, rgba(255, 255, 255, .015) 14px 28px);
+  /* Darkens a tall hero toward the bottom so text stays readable over a background image */
+  --scrim-hero: linear-gradient(180deg, rgba(10, 27, 61, .72) 0%, rgba(10, 27, 61, .88) 55%, rgba(10, 27, 61, .97) 100%);
 
   /* Typography (desktop values; the responsive pass will add the mobile steps) */
   --font-sans: "Pretendard Variable", "Pretendard", "Spoqa Han Sans Neo", "Noto Sans KR", sans-serif;

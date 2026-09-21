@@ -81,6 +81,7 @@ const ui = defineCollection({
   loader: singleton('site', 'ui'),
   schema: z.object({
     nav: z.object({ label: z.string() }),
+    language: z.object({ label: z.string(), en: z.string(), ko: z.string() }),
     person: z.object({
       email: z.string(),
       links: z.object({ homepage: z.string(), linkedin: z.string(), scholar: z.string() }),
@@ -192,6 +193,16 @@ const team = defineCollection({
 /** Dark banner at the top of a page. `note` describes the intended background image until one exists. */
 const hero = z.object({ title: z.string(), note: z.string().optional() });
 
+/** An image slot: `image` once the file exists; until then `note` is shown in a striped placeholder. */
+const figure = z.object({
+  image: imagePath.optional(),
+  alt: z.string(),
+  note: z.string().optional(),
+  caption: z.string().optional(),
+});
+
+const cta = z.object({ label: z.string(), href });
+
 const pages = defineCollection({
   loader: folder('pages'),
   schema: z.discriminatedUnion('page', [
@@ -206,10 +217,35 @@ const pages = defineCollection({
         homeInstitution: z.string(),
       }),
     }),
+    z.object({
+      page: z.literal('vision'),
+      title: z.string(),
+      hero: z.object({
+        headline: z.string(), // *word* = italic; line breaks are kept
+        typing: z.object({
+          enabled: z.boolean().default(true),
+          intro: z.string(),
+          speed: z.number().int().min(10).max(120).default(42), // ms per character
+        }),
+        note: z.string().optional(),
+        lede: bilingual,
+        columns: z.array(z.object({ heading: bilingual, body: bilingual, cta })).length(2),
+      }),
+      // Long text of each section: src/content/prose/vision/<id>/en.md and ko.md
+      sections: z.array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), heading: bilingual, figure })),
+    }),
   ]),
+});
+
+// ----------------------------------------------------------------------------
+// prose — long bilingual text, written in Markdown: prose/<page>/<section>/en.md + ko.md
+// ----------------------------------------------------------------------------
+const prose = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/prose' }),
+  schema: z.object({}),
 });
 
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, ui, areas, team, pages };
+export const collections = { site, navigation, ui, areas, team, pages, prose };

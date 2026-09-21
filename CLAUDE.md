@@ -91,6 +91,8 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 
 ### 3-10. Change the wording on a page
 - **Page text** — `src/content/pages/<page>.yaml` (e.g. `professor.yaml`): the page's titles, section names and labels. Lists of items (people, publications, ...) are not here; they come from their own folders.
+- **Long text** (the paragraphs on Our Vision) is Markdown, one file per language: `src/content/prose/<page>/<section>/en.md` and `ko.md`. Write paragraphs separated by a blank line; `**bold**` and `*italic*` work. Both languages are required — the build stops if one is missing.
+- Bilingual fields in YAML are written as `en:` / `ko:` pairs. In a headline, `*word*` sets the word in italics.
 - Short labels shared by many pages ("E-mail", "Homepage", screen-reader labels) are in `src/content/site/ui.yaml`.
 
 > After saving, the live site **updates in a few minutes**. If you don't see it, hard-refresh (clear cache).
@@ -163,7 +165,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
   - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
-  - `pages/` (the wording of each page, one file per page), `team/` (one file per person). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
+  - `pages/` (the wording of each page, one file per page), `prose/` (long bilingual text in Markdown), `team/` (one file per person). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.

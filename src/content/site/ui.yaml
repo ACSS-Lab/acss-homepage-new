@@ -4,6 +4,12 @@
 nav:
   label: Main
 
+# EN/KR switch on bilingual pages
+language:
+  label: Language
+  en: EN
+  ko: KR
+
 # Person cards (PI & Staffs, Team)
 person:
   email: E-mail

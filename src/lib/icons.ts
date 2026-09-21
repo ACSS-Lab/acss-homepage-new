@@ -3,11 +3,13 @@
 // new one, find it on https://lucide.dev/icons, import it here, and add it to
 // the map under its lucide name.
 
+import ArrowRight from '@lucide/astro/icons/arrow-right';
 import ChevronDown from '@lucide/astro/icons/chevron-down';
 import GraduationCap from '@lucide/astro/icons/graduation-cap';
 import House from '@lucide/astro/icons/house';
 
 export const icons = {
+  'arrow-right': ArrowRight,
   'chevron-down': ChevronDown,
   'graduation-cap': GraduationCap,
   house: House,

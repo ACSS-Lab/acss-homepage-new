@@ -66,6 +66,7 @@
 --ph:          repeating-linear-gradient(135deg,#EDEFF2 0 9px,#E4E8EC 9px 18px);  /* image placeholder */
 --ph-dark:     repeating-linear-gradient(135deg,rgba(255,255,255,.09) 0 10px,rgba(255,255,255,.035) 10px 20px);
 --stripe-dark: repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 14px,rgba(255,255,255,.015) 14px 28px);  /* dark hero overlay */
+--scrim-hero:  linear-gradient(180deg,rgba(10,27,61,.72) 0%,rgba(10,27,61,.88) 55%,rgba(10,27,61,.97) 100%);  /* tall hero: keeps text readable over a background image */
 ```
 
 > **Image placeholders**: until a real photo/figure exists, its slot shows the `--ph` stripes (`--ph-dark` on dark surfaces) with a short mono note describing the intended image. The slot keeps its final aspect ratio so the layout doesn't shift when the asset arrives.
@@ -156,6 +157,14 @@
 - Every page except Home and Contact opens with a dark banner (`PageHero`): `--navy-900` + `--stripe-dark`, centered `--fs-display` title. Until a background image exists, a mono note top-right describes the intended image.
 - Under the title sits a segmented pill (`HeroTabs`) listing the sibling pages of the current menu section — it is generated from `navigation.yaml`, not authored per page. Current tab: white pill, `--navy-900` text. A grouped tab opens a rounded dropdown (`--radius-lg`, `--shadow-lg`) on hover/focus, with optional counts.
 
+- **Tall variant** (Our Vision): more padding plus `--scrim-hero`, carrying a lede and two text columns with CTAs. Its headline types itself in a loop (intro word, then the headline, italics preserved); under `prefers-reduced-motion` the static headline is shown.
+
+### Editorial row (long-form text)
+- Three columns: a 180px label rail, prose capped at `--container-narrow`, and a 268px figure (3:4, `--radius-lg`) with a caption. A `--gray-300` rule on top separates rows. The template for any future long-form page.
+
+### Language switch
+- Bilingual pages render both languages and show one. A floating EN/KR pill (bottom-right, `--shadow-md`) switches them; the active side is `--navy-900` on white. English is the default; the choice is not remembered between pages.
+
 ### Person card
 - Photo (3:4, `--radius-xs`) left; name, gray subtitle, e-mail, group-specific details right; link pills pinned to the card bottom. White surface + `--shadow-sm`, square corners. The PI uses the larger featured layout (`--fs-title` name, eyebrow label).
 - **Link pills**: icon-only `--navy-100` squares (44px tall) that slide open to show their label on hover/focus and fill `--navy-600`. Only links present in the person's data are shown.
@@ -164,6 +173,7 @@
 - **Chips / segmented control.** Only the selected chip is `--navy-600` + white text; unselected is `--gray-100` + `--gray-700` (minimize blue). Instant client-side updates + shareable via URL query.
 
 ### Buttons
+- **On-dark** (navy sections): white bg / `--navy-900` text, hover `--navy-100`. `--radius-md`, `--fs-ui` 600. A trailing arrow is the lucide `arrow-right` icon, never a typed character.
 - **Primary**: `--navy-600` bg / white text, hover `--navy-500`. **Secondary**: `--gray-100` bg / `--ink`. **Ghost**: transparent / `--navy-600`.
 - 2px focus-visible ring (`--navy-500`).
 

@@ -1,0 +1,68 @@
+---
+// Hero headline with the typewriter animation (scripts/typewriter.ts).
+// The full headline is in the HTML, so it reads normally without JavaScript or
+// under reduced motion; screen readers get it from aria-label while it animates.
+import { parseEmphasis, stripEmphasis } from '../../lib/emphasis';
+
+interface Props {
+  /** *word* = italic; line breaks are kept. */
+  text: string;
+  typing: { enabled: boolean; intro: string; speed: number };
+}
+
+const { text, typing } = Astro.props;
+const lines = parseEmphasis(text);
+---
+
+<h1
+  class="headline"
+  aria-label={stripEmphasis(text)}
+  data-typewriter={typing.enabled ? '' : undefined}
+  data-typing-intro={typing.intro}
+  data-typing-speed={typing.speed}
+>{lines.map((line, i) => (<>{i > 0 && <br />}{line.map((part) => (part.em ? <span class="em">{part.text}</span> : part.text))}</>))}</h1>
+
+<script>
+  import { initTypewriter } from '../../scripts/typewriter';
+  initTypewriter();
+</script>
+
+<style>
+  .headline {
+    max-width: 980px;
+    min-height: 2.32em; /* two lines, reserved so the page doesn't jump while typing */
+    margin: 0 auto;
+    font: 700 var(--fs-display) / 1.16 var(--font-sans);
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* Caret element inserted by the script */
+  .headline :global([data-caret]) {
+    display: inline-block;
+    width: 3px;
+    height: 0.82em;
+    margin-left: 0.06em;
+    vertical-align: -0.06em;
+    background: currentColor;
+    animation: caretBlink 900ms steps(1, end) infinite;
+  }
+
+  @keyframes caretBlink {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+</style>

@@ -1,0 +1,63 @@
+# Wording of the "Our Vision" page (/about/vision/).
+# The long paragraphs of each section are Markdown files in
+# src/content/prose/vision/<section id>/en.md and ko.md.
+
+page: vision
+title: Our Vision # browser tab title
+
+hero:
+  # Wrap words in *asterisks* to set them in italics. Each line here is a line on the page.
+  headline: |-
+    Structured by *theory*,
+    robustly adaptive under *uncertainty*.
+  # Typing animation: types `intro`, erases it, then types the headline, in a loop.
+  typing:
+    enabled: true
+    intro: Our Vision
+    speed: 42 # milliseconds per character (10-120)
+  # Describes the background image planned for the banner; delete once it is no longer useful.
+  note: |-
+    background image — 1920×900
+    그라데이션 오버레이 위에 텍스트
+  lede:
+    en: We develop structured, data-efficient decision-making for stochastic autonomous systems — control theory, optimization, and modern AI, with theoretical guarantees for safety, stability, and robust adaptation under uncertainty.
+    ko: 확률적(stochastic) 자율 시스템을 위한 구조적이고 데이터 효율적인 의사결정 기법을 연구합니다. control theory, optimization, modern AI를 결합하면서도 safety, stability, robust adaptation에 대한 이론적 보장을 유지합니다.
+  columns:
+    - heading:
+        en: Real-world autonomy
+        ko: 실제 환경의 자율성
+      body:
+        en: Limited data, model mismatch, faults, and out-of-distribution (OOD) behavior demand methods that are practically effective and theoretically reliable.
+        ko: 제한된 데이터, 모델 불일치, 고장, out-of-distribution(OOD) 거동은 실제로 효과적이면서 이론적으로도 신뢰할 수 있는 방법을 요구합니다.
+      cta:
+        label: Join Us
+        href: /contact/
+    - heading:
+        en: Where it applies
+        ko: 적용 분야
+      body:
+        en: Motion planning, distribution shifts and OOD behavior, reinforcement learning, multi-agent and networked systems, and embodied AI.
+        ko: Motion planning, distribution shift와 OOD 거동, reinforcement learning, multi-agent 및 networked systems, embodied AI.
+      cta:
+        label: Research Areas
+        href: /about/research-areas/
+
+# Editorial sections, in order. `id` is the folder name under src/content/prose/vision/.
+sections:
+  - id: layperson
+    heading:
+      en: A Layperson's Introduction
+      ko: 비전문가를 위한 소개
+    figure:
+      # image: /images/vision/layperson.jpg   (3:4; add once the file exists)
+      alt: An intersection shared by pedestrians, cyclists and vehicles
+      note: photo — 보행자·자전거·차량이 섞인 교차로
+      caption: Fig 1. 일상의 이동에 섞여 있는 불확실성. alt 텍스트 필수.
+  - id: technical
+    heading:
+      en: Some Technical Background
+      ko: 기술적 배경
+    figure:
+      alt: The spectrum between model-based and model-free methods
+      note: research figure — model-based ↔ model-free 스펙트럼
+      caption: Fig 2. 구조와 데이터 주도성 사이의 스펙트럼. 캡션·alt 텍스트 필수.

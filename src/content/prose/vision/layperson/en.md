@@ -1,0 +1,3 @@
+**Uncertainty is everywhere in the real world**. A sudden power outage may occur at home; flights, packages, and emails may be delayed; and every commute involves pedestrians, cyclists, and vehicles whose behaviors are uncertain. Even our own choices can be uncertain, from what gift to buy for a friend, to what clothes to wear for the day.
+
+Despite this, people navigate daily life reasonably well because we can adapt, plan, and make reliable decisions even when our predictions are imperfect. It follows naturally that control and decision-making methods for cyberphysical/robotic autonomous systems should follow a similar principle.

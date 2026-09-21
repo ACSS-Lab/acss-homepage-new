@@ -1,20 +1,28 @@
 ---
-// Dark banner at the top of a page: striped navy background, centered title,
-// and an optional tab switcher (slot "tabs").
+// Dark banner at the top of a page: striped navy background and a centered title.
+//   slot "title"  replaces the default <h1> (e.g. an animated headline)
+//   slot "tabs"   tab switcher under the title
+//   default slot  further content below (used by the tall variant)
 interface Props {
-  title: string;
+  /** Required unless the "title" slot is used. */
+  title?: string;
+  /** `tall`: more padding and a bottom-heavy scrim, for a hero that carries body text. */
+  variant?: 'banner' | 'tall';
   /** Describes the planned background image; shown top-right until a real image exists. */
   note?: string;
 }
 
-const { title, note } = Astro.props;
+const { title, variant = 'banner', note } = Astro.props;
 ---
 
-<section class="hero">
+<section class:list={['hero', variant]}>
   <div class="stripes"></div>
+  {variant === 'tall' && <div class="scrim" />}
   {note && <div class="note">{note}</div>}
   <div class="container inner">
-    <h1 class="title">{title}</h1>
+    <slot name="title">
+      <h1 class="title">{title}</h1>
+    </slot>
     {
       Astro.slots.has('tabs') && (
         <div class="tabs">
@@ -22,19 +30,29 @@ const { title, note } = Astro.props;
         </div>
       )
     }
+    <slot />
   </div>
 </section>
 
 <style>
   .hero {
     position: relative;
+    overflow: hidden;
     background: var(--navy-900);
   }
 
-  .stripes {
+  .stripes,
+  .scrim {
     position: absolute;
     inset: 0;
+  }
+
+  .stripes {
     background: var(--stripe-dark);
+  }
+
+  .scrim {
+    background: var(--scrim-hero);
   }
 
   .note {
@@ -51,7 +69,10 @@ const { title, note } = Astro.props;
   .inner {
     position: relative;
     padding-block: 76px 60px;
-    text-align: center;
+  }
+
+  .tall > .inner {
+    padding-block: 88px 84px;
   }
 
   .title {
@@ -59,6 +80,7 @@ const { title, note } = Astro.props;
     font: 700 var(--fs-display) / 1.15 var(--font-sans);
     letter-spacing: -0.03em;
     color: var(--white);
+    text-align: center;
   }
 
   .tabs {

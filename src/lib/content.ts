@@ -5,7 +5,7 @@
 
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 
 /** Stop the build with a message a content editor can act on. */
 function fail(file: string, message: string): never {
@@ -55,6 +55,16 @@ export async function getPage<P extends PageData['page']>(page: P): Promise<Extr
   if (!entry) fail(file, 'file is missing or empty.');
   if (entry.data.page !== page) fail(file, `"page: ${entry.data.page}" must match the file name ("page: ${page}").`);
   return entry.data as Extract<PageData, { page: P }>;
+}
+
+/** Long bilingual text of one section, e.g. `getProse('vision/layperson')`. Both languages must exist. */
+export async function getProse(section: string) {
+  const load = async (lang: 'en' | 'ko') => {
+    const entry = await getEntry('prose', `${section}/${lang}`);
+    if (!entry) fail(`src/content/prose/${section}/${lang}.md`, 'file is missing. Every prose section needs both en.md and ko.md.');
+    return (await render(entry)).Content;
+  };
+  return { en: await load('en'), ko: await load('ko') };
 }
 
 // ----------------------------------------------------------------------------

@@ -1,7 +1,8 @@
 ---
 // An image slot. Shows the image when `src` is set; until then, the striped
 // placeholder with a note saying which image belongs here. The caller sizes the
-// box (width/height or aspect-ratio, border-radius) through `class`.
+// box (width/height or aspect-ratio, border-radius) through `class`, and may set
+// `--figure-pad` to change the placeholder's inner padding.
 import { link } from '../../lib/url';
 
 interface Props {
@@ -44,7 +45,7 @@ const { src, alt, note, tone = 'light', class: className, ...rest } = Astro.prop
   .placeholder {
     display: flex;
     align-items: flex-end;
-    padding: var(--space-2);
+    padding: var(--figure-pad, var(--space-2));
     background: var(--ph);
   }
 
