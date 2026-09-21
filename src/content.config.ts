@@ -54,6 +54,10 @@ const site = defineCollection({
     labEmail: z.email(),
     adminEmail: z.email(),
     address: bilingual,
+    map: z.object({
+      google: z.object({ embedUrl: z.url().startsWith('https://www.google.com/maps/embed') }),
+      kakao: z.object({ timestamp: z.string().regex(/^\d+$/), key: z.string() }),
+    }),
     copyright: z.string(), // rendered as "© <current year> <copyright>"
     credit: z.object({ label: z.string(), url: z.url() }).optional(),
   }),
@@ -82,6 +86,7 @@ const ui = defineCollection({
   schema: z.object({
     nav: z.object({ label: z.string() }),
     language: z.object({ label: z.string(), en: z.string(), ko: z.string() }),
+    carousel: z.object({ previous: z.string(), next: z.string() }),
     person: z.object({
       email: z.string(),
       links: z.object({ homepage: z.string(), linkedin: z.string(), scholar: z.string() }),
@@ -240,6 +245,25 @@ const researchAreas = defineCollection({
 });
 
 // ----------------------------------------------------------------------------
+// tracks — application tracks on the Contact page; flip `open` to start/stop recruiting
+// ----------------------------------------------------------------------------
+const tracks = defineCollection({
+  loader: singleton('contact', 'tracks'),
+  schema: z.object({
+    tracks: z
+      .array(
+        z.object({
+          label: z.string(),
+          open: z.boolean(),
+          subject: z.string(), // pre-filled e-mail subject
+          items: z.array(z.string()).min(1), // what the applicant must include
+        }),
+      )
+      .min(1),
+  }),
+});
+
+// ----------------------------------------------------------------------------
 // pages — the wording of each page (titles, section names, button labels).
 // One file per page; `page` must equal the file name.
 // ----------------------------------------------------------------------------
@@ -289,6 +313,39 @@ const pages = defineCollection({
       sections: z.array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), heading: bilingual, figure })),
     }),
     z.object({
+      page: z.literal('contact'),
+      title: z.string(),
+      join: z.object({
+        title: z.string(),
+        lead: z.string(),
+        body: z.string(),
+        tracks: z.object({
+          openBadge: z.string(),
+          closedBadge: z.string(),
+          checklist: z.string(),
+          cta: z.string(),
+          closedTitle: z.string(),
+          closedNote: z.string().includes('{label}'),
+        }),
+      }),
+      visit: z.object({
+        title: z.string(),
+        admin: z.object({ name: z.string(), badge: z.string(), bullets: z.array(z.string()) }),
+        office: z.object({ title: z.string(), toggleLabel: z.string(), copyLabel: z.string(), copiedMessage: z.string() }),
+        map: z.object({ frameTitle: z.string().includes('{provider}'), naverNote: z.string() }),
+      }),
+      collaboration: z.object({
+        enabled: z.boolean(),
+        title: z.string(),
+        lead: z.string(),
+        body: z.string(),
+        noticeLabel: z.string(),
+        notice: z.string(),
+        cta: z.string(),
+        subject: z.string(),
+      }),
+    }),
+    z.object({
       page: z.literal('research-areas'),
       title: z.string(),
       hero,
@@ -317,4 +374,4 @@ const prose = defineCollection({
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, ui, areas, team, publications, researchAreas, pages, prose };
+export const collections = { site, navigation, ui, areas, team, publications, researchAreas, tracks, pages, prose };

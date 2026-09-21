@@ -23,6 +23,14 @@ address:
     한국과학기술원(KAIST) 전기및전자공학부
     E3-2 2228호
 
+# Maps on the Contact page. Both values come from each service's "share / embed" dialog.
+map:
+  google:
+    embedUrl: https://www.google.com/maps/embed?pb=!1m5!3m3!1m2!1s0x35654bc8c3c3def1%3A0x27257b4704bed99e!2zS0FJU1Qg7KCV67O07KCE7J6Q6rO17ZWZ64-ZKEUzLTIp!5e0!3m2!1sko!2skr!4v1787202470419!5m2!1sko!2skr
+  kakao: # from the Kakao Map "퍼가기" code
+    timestamp: "1787202532857"
+    key: tannku8f58a
+
 # Footer. The year is filled in automatically: "© 2026 KAIST ACSS."
 copyright: KAIST ACSS.
 credit:

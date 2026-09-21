@@ -1,0 +1,36 @@
+---
+// Position indicator for a carousel: short bars, the current one wider and navy.
+// scripts/carousel.ts moves `data-current` between the dots.
+interface Props {
+  count: number;
+}
+
+const { count } = Astro.props;
+---
+
+<div class="dots" aria-hidden="true">
+  {Array.from({ length: count }, (_, i) => <span class="dot" data-carousel-dot data-current={i === 0 ? '' : undefined} />)}
+</div>
+
+<style>
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dot {
+    display: block;
+    width: 8px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: var(--gray-300);
+    transition:
+      width var(--dur-slow) var(--ease),
+      background var(--dur-slow) var(--ease);
+  }
+
+  .dot[data-current] {
+    width: 20px;
+    background: var(--navy-600);
+  }
+</style>

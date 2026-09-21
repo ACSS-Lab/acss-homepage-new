@@ -1,0 +1,94 @@
+---
+// Postal address with its own EN/KR switch and a copy-to-clipboard button.
+import LangToggle from '../layout/LangToggle.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  title: string;
+  address: { en: string; ko: string };
+  labels: { toggleLabel: string; copyLabel: string; copiedMessage: string };
+}
+
+const { title, address, labels } = Astro.props;
+---
+
+<article class="card rise" data-lang-scope="en">
+  <div class="head">
+    <h3 class="title">{title}</h3>
+    <div class="actions">
+      <LangToggle variant="inline" label={labels.toggleLabel} />
+      <button class="copy" type="button" aria-label={labels.copyLabel} title={labels.copyLabel} data-copy data-copy-from="[data-office-address]">
+        <span class="icon" data-copy-idle><Icon name="copy" size={18} /></span>
+        <span class="icon" data-copy-done hidden><Icon name="check" size={18} /></span>
+      </button>
+      <span class="sr-only" aria-live="polite" data-copy-status data-message={labels.copiedMessage}></span>
+    </div>
+  </div>
+  <address class="address" data-lang="en" data-office-address>{address.en}</address>
+  <address class="address" data-lang="ko" lang="ko" data-office-address>{address.ko}</address>
+</article>
+
+<script>
+  import { initCopy } from '../../scripts/copy';
+  initCopy();
+</script>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    padding: 26px 28px;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .title {
+    margin: 0;
+    font: 600 var(--fs-h3) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  /* No align-items: the language switch stretches to the copy button's height. */
+  .actions {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .copy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    color: var(--gray-700);
+    cursor: pointer;
+  }
+
+  .copy:hover {
+    color: var(--ink);
+  }
+
+  .icon {
+    display: flex;
+  }
+
+  .address {
+    margin: var(--space-3) 0 0;
+    font: 400 var(--fs-body) / 1.7 var(--font-sans);
+    font-style: normal;
+    color: var(--ink);
+    white-space: pre-line;
+  }
+</style>

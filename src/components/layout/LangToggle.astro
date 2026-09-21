@@ -1,17 +1,24 @@
 ---
-// Floating EN/KR switch for bilingual pages. Place it inside the element that
-// carries `data-lang-scope`; see scripts/lang-toggle.ts.
+// EN/KR switch for bilingual content. Place it inside the element that carries
+// `data-lang-scope`; see scripts/lang-toggle.ts.
+//   floating  fixed to the bottom-right corner, switches the whole page
+//   inline    compact segmented control, e.g. in a card header
 import { getUi } from '../../lib/content';
 
+interface Props {
+  variant?: 'floating' | 'inline';
+  /** Accessible name; defaults to the shared "Language" label. */
+  label?: string;
+}
+
 const labels = (await getUi()).language;
+const { variant = 'floating', label = labels.label } = Astro.props;
 ---
 
-<div class="fab">
-  <button class="toggle" type="button" aria-label={labels.label} data-lang-toggle>
-    <span class="option en">{labels.en}</span>
-    <span class="option ko">{labels.ko}</span>
-  </button>
-</div>
+<button class:list={['toggle', variant]} type="button" aria-label={label} data-lang-toggle>
+  <span class="option en">{labels.en}</span>
+  <span class="option ko">{labels.ko}</span>
+</button>
 
 <script>
   import { initLangToggle } from '../../scripts/lang-toggle';
@@ -19,33 +26,61 @@ const labels = (await getUi()).language;
 </script>
 
 <style>
-  .fab {
-    position: fixed;
-    right: var(--space-6);
-    bottom: var(--space-6);
-    z-index: var(--z-fab);
-  }
-
   .toggle {
     display: flex;
-    padding: var(--space-1);
-    border: 1px solid var(--gray-300);
     border-radius: var(--radius-full);
-    background: var(--white);
-    box-shadow: var(--shadow-md);
     cursor: pointer;
   }
 
   .option {
-    padding: 9px 14px;
     border-radius: var(--radius-full);
-    font: 600 var(--fs-caption) / 1 var(--font-sans);
+    font: 500 var(--fs-caption) / 1 var(--font-sans);
     color: var(--gray-500);
   }
 
   :global([data-lang-scope='en']) .en,
   :global([data-lang-scope='ko']) .ko {
+    font-weight: 600;
+  }
+
+  .floating {
+    position: fixed;
+    right: var(--space-6);
+    bottom: var(--space-6);
+    z-index: var(--z-fab);
+    padding: var(--space-1);
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    box-shadow: var(--shadow-md);
+  }
+
+  .floating > .option {
+    padding: 9px 14px;
+    font-weight: 600;
+  }
+
+  :global([data-lang-scope='en']) .floating > .en,
+  :global([data-lang-scope='ko']) .floating > .ko {
     background: var(--navy-900);
     color: var(--white);
+  }
+
+  .inline {
+    padding: 3px;
+    border: 0;
+    background: var(--gray-100);
+  }
+
+  .inline > .option {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+  }
+
+  :global([data-lang-scope='en']) .inline > .en,
+  :global([data-lang-scope='ko']) .inline > .ko {
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    color: var(--ink);
   }
 </style>

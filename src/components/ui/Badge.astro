@@ -1,0 +1,35 @@
+---
+// Small status pill. `accent` draws attention (navy tint); `neutral` and `muted` stay gray.
+interface Props {
+  tone?: 'accent' | 'neutral' | 'muted';
+}
+
+const { tone = 'neutral' } = Astro.props;
+---
+
+<span class:list={['badge', tone]}><slot /></span>
+
+<style>
+  .badge {
+    flex: none;
+    padding: 5px 9px;
+    border-radius: var(--radius-full);
+    font: 500 var(--fs-caption) / 1.4 var(--font-sans);
+    white-space: nowrap;
+  }
+
+  .accent {
+    background: var(--navy-100);
+    color: var(--navy-700);
+  }
+
+  .neutral {
+    background: var(--gray-100);
+    color: var(--gray-700);
+  }
+
+  .muted {
+    background: var(--gray-100);
+    color: var(--gray-500);
+  }
+</style>

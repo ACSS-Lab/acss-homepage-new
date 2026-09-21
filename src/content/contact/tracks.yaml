@@ -1,0 +1,39 @@
+# Application tracks shown as cards on the Contact page, in this order.
+#
+# To open or close recruiting for a track, change its `open` value — nothing else.
+#   open: true   shows the checklist and a "Draft this email" link with the subject pre-filled
+#   open: false  shows "Not accepting applications"
+# Application mails go to `adminEmail` in src/content/site/site.yaml.
+
+tracks:
+  - label: Postdoctoral scholar
+    open: false
+    subject: "[ACSS] Postdoctoral position — Your Name"
+    items:
+      - CV (PDF) with full publication list
+      - Research statement, one page
+      - Two references we may contact
+
+  - label: Ph.D.
+    open: true
+    subject: "[ACSS] PhD application — Your Name"
+    items:
+      - CV (PDF)
+      - Transcript
+      - A short note on the research topics you want to work on
+
+  - label: M.S.
+    open: true
+    subject: "[ACSS] MS application — Your Name"
+    items:
+      - CV (PDF)
+      - Transcript
+      - Your intended start semester
+
+  - label: Undergraduate intern
+    open: true
+    subject: "[ACSS] Undergraduate intern — Your Name"
+    items:
+      - CV (PDF)
+      - Transcript
+      - The period you are available, in weeks or months

@@ -1,0 +1,133 @@
+---
+import AddressCard from '../components/contact/AddressCard.astro';
+import AdminCard from '../components/contact/AdminCard.astro';
+import MapCard from '../components/contact/MapCard.astro';
+import SectionRow from '../components/contact/SectionRow.astro';
+import TrackCarousel from '../components/contact/TrackCarousel.astro';
+import Button from '../components/ui/Button.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPage, getSite, getTracks } from '../lib/content';
+
+const [page, site, tracks] = await Promise.all([getPage('contact'), getSite(), getTracks()]);
+const { join, visit, collaboration } = page;
+const mailto = (subject: string) => `mailto:${site.adminEmail}?subject=${encodeURIComponent(subject)}`;
+---
+
+<BaseLayout title={page.title}>
+  <header class="container page-head">
+    <h1 class="page-title">{page.title}</h1>
+  </header>
+
+  <div class="container body">
+    <SectionRow title={join.title}>
+      <p class="lead">{join.lead}</p>
+      <p class="text">{join.body.replace('{adminEmail}', site.adminEmail)}</p>
+      <TrackCarousel tracks={tracks} email={site.adminEmail} labels={join.tracks} />
+    </SectionRow>
+
+    <SectionRow title={visit.title} divided>
+      <div class="visit">
+        <AdminCard name={visit.admin.name} badge={visit.admin.badge} bullets={visit.admin.bullets} email={site.adminEmail} />
+        <MapCard class="map" style="--i: 1" google={site.map.google} kakao={site.map.kakao} frameTitle={visit.map.frameTitle} naverNote={visit.map.naverNote} />
+        <AddressCard title={visit.office.title} address={site.address} labels={visit.office} />
+      </div>
+    </SectionRow>
+
+    {
+      collaboration.enabled && (
+        <SectionRow title={collaboration.title} divided>
+          <div class="collaboration">
+            <p class="lead">{collaboration.lead}</p>
+            <p class="text">{collaboration.body}</p>
+            <div class="notice">
+              <span class="notice-label">{collaboration.noticeLabel}</span>
+              <span>{collaboration.notice}</span>
+            </div>
+            <div class="collaboration-cta">
+              <Button href={mailto(collaboration.subject)} variant="primary" arrow>{collaboration.cta}</Button>
+            </div>
+          </div>
+        </SectionRow>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-top: var(--space-16);
+  }
+
+  .page-title {
+    margin: 0;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--gray-300);
+    font: 700 var(--fs-h1) / 1.25 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .body {
+    padding-block: var(--space-12) var(--space-24);
+  }
+
+  .lead,
+  .text {
+    max-width: 600px;
+    margin: 0;
+    font: 400 var(--fs-body) / 1.7 var(--font-sans);
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .text {
+    max-width: 860px;
+    margin-top: var(--space-1);
+    color: var(--gray-700);
+    white-space: pre-line;
+  }
+
+  .visit {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: var(--space-6);
+  }
+
+  .map {
+    grid-row: 1 / 3;
+    grid-column: 2;
+  }
+
+  .collaboration {
+    max-width: var(--container-narrow);
+  }
+
+  .collaboration > .text {
+    max-width: 600px;
+  }
+
+  .notice {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--gray-100);
+    font: 400 var(--fs-sm) / 1.5 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .notice-label {
+    flex: none;
+    font: 600 var(--fs-caption) / 1.4 var(--font-mono);
+    letter-spacing: 0.06em;
+    color: var(--navy-700);
+  }
+
+  .collaboration-cta {
+    margin-top: 18px;
+  }
+</style>

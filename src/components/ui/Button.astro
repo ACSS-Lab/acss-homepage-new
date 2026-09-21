@@ -5,8 +5,8 @@ import { link } from '../../lib/url';
 
 interface Props {
   href: string;
-  /** `on-dark`: solid white, for navy sections. */
-  variant: 'on-dark';
+  /** `primary`: solid navy. `on-dark`: solid white, for navy sections. */
+  variant: 'primary' | 'on-dark';
   arrow?: boolean;
 }
 
@@ -29,6 +29,17 @@ const { href, variant, arrow = false } = Astro.props;
     border-radius: var(--radius-md);
     font: 600 var(--fs-ui) / 1 var(--font-sans);
     white-space: nowrap;
+  }
+
+  .primary {
+    background: var(--navy-600);
+    color: var(--white);
+  }
+
+  .primary:hover,
+  .primary:focus-visible {
+    background: var(--navy-500);
+    color: var(--white);
   }
 
   .on-dark {

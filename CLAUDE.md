@@ -79,9 +79,15 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - Collection: **Projects** → New. Set status to `ongoing`/`past`.
 
 ### 3-7. Change contact info, address, etc.
-- **Site config** — `src/content/site/site.yaml`: lab name, lab/admin email, address (English + Korean), footer credit. Edit once; the header, footer, and Contact page all follow.
+- **Site config** — `src/content/site/site.yaml`: lab name, lab/admin email, address (English + Korean), map embeds (Google / Kakao), footer credit. Edit once; the header, footer, and Contact page all follow.
 - **Ask Claude**:
   > Change the lab email to ... in the site config.
+
+### 3-12. Open or close recruiting (Contact page)
+- **Application tracks** — `src/content/contact/tracks.yaml`: the Postdoc / Ph.D. / M.S. / intern cards. To start or stop recruiting for a track, change only its `open: true` / `open: false`. `items` is the checklist applicants see; `subject` pre-fills the e-mail subject.
+- The rest of the page's wording is in `src/content/pages/contact.yaml`. Its `collaboration` block is a finished but hidden section: set `enabled: true` to show it.
+- **Ask Claude**:
+  > Close the Ph.D. track on the Contact page.
 
 ### 3-8. Change the header menu
 - **Menu** — `src/content/site/navigation.yaml`: the menu items in display order. An item with `children` becomes a dropdown.
@@ -173,7 +179,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
   - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
-  - `pages/` (the wording of each page, one file per page), `prose/` (long bilingual text in Markdown), `team/` (one file per person), `publications/` (one file per paper), `research-areas/` (one file per area, in file-name order). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
+  - `pages/` (the wording of each page, one file per page), `prose/` (long bilingual text in Markdown), `team/` (one file per person), `publications/` (one file per paper), `research-areas/` (one file per area, in file-name order), `contact/tracks.yaml` (application tracks). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.

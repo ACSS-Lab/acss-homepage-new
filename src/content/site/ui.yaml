@@ -10,6 +10,11 @@ language:
   en: EN
   ko: KR
 
+# Carousels
+carousel:
+  previous: Previous
+  next: Next
+
 # Person cards (PI & Staffs, Team)
 person:
   email: E-mail

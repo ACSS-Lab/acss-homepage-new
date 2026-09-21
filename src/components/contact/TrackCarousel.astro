@@ -1,0 +1,252 @@
+---
+// Application tracks as a two-up card carousel. Each card shows either the
+// checklist and a pre-filled "draft this email" link (open) or a closed notice.
+import Badge from '../ui/Badge.astro';
+import CarouselDots from '../ui/CarouselDots.astro';
+import Icon from '../ui/Icon.astro';
+import { getUi } from '../../lib/content';
+
+interface Props {
+  tracks: { label: string; open: boolean; subject: string; items: string[] }[];
+  /** Address the pre-filled application mail goes to. */
+  email: string;
+  labels: { openBadge: string; closedBadge: string; checklist: string; cta: string; closedTitle: string; closedNote: string };
+}
+
+const { tracks, email, labels } = Astro.props;
+const ui = (await getUi()).carousel;
+const PER_VIEW = 2;
+const positions = Math.max(0, tracks.length - PER_VIEW) + 1;
+---
+
+<div class="carousel" data-carousel>
+  <div class="controls">
+    <CarouselDots count={positions} />
+    <div class="arrows">
+      <button class="arrow" type="button" aria-label={ui.previous} data-carousel-prev>
+        <Icon name="chevron-left" size={20} />
+      </button>
+      <button class="arrow" type="button" aria-label={ui.next} data-carousel-next>
+        <Icon name="chevron-right" size={20} />
+      </button>
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="track">
+      {
+        tracks.map((track) => (
+          <article class:list={['card', { closed: !track.open }]}>
+            <div class="head">
+              <h3 class="label">{track.label}</h3>
+              <Badge tone={track.open ? 'accent' : 'muted'}>{track.open ? labels.openBadge : labels.closedBadge}</Badge>
+            </div>
+
+            {track.open ? (
+              <div class="open-body">
+                <span class="checklist-label">{labels.checklist}</span>
+                <ul class="checklist">
+                  {track.items.map((item) => (
+                    <li>
+                      <span class="bullet" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a class="cta" href={`mailto:${email}?subject=${encodeURIComponent(track.subject)}`}>
+                  {labels.cta}
+                  <Icon name="arrow-right" size={16} />
+                </a>
+              </div>
+            ) : (
+              <div class="closed-body">
+                <div class="closed-title">
+                  <Icon name="circle-slash" size={20} class="closed-icon" />
+                  <span>{labels.closedTitle}</span>
+                </div>
+                <p class="closed-note">{labels.closedNote.replace('{label}', track.label)}</p>
+              </div>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initCarousel } from '../../scripts/carousel';
+  initCarousel();
+</script>
+
+<style>
+  .carousel {
+    --gap: var(--space-5);
+    --per-view: 2;
+    margin-top: var(--space-5);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .arrows {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    color: var(--gray-700);
+    cursor: pointer;
+  }
+
+  .arrow:hover:not(:disabled) {
+    background: var(--gray-300);
+  }
+
+  .arrow:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .viewport {
+    margin-top: 14px;
+    overflow: hidden;
+  }
+
+  /* One step moves the track by one card plus one gap. */
+  .track {
+    display: flex;
+    gap: var(--gap);
+    transform: translateX(calc(var(--slide, 0) * (-100% - var(--gap)) / var(--per-view)));
+    transition: transform var(--dur-enter) var(--ease);
+  }
+
+  .card {
+    display: flex;
+    flex: 0 0 calc((100% - var(--gap) * (var(--per-view) - 1)) / var(--per-view));
+    flex-direction: column;
+    min-height: 296px;
+    padding: var(--space-6) 26px;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .label {
+    margin: 0;
+    font: 600 var(--fs-lg) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .closed .label {
+    color: var(--gray-500);
+  }
+
+  .open-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin-top: var(--space-4);
+  }
+
+  .checklist-label {
+    font: 500 var(--fs-caption) / 1.4 var(--font-sans);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+
+  .checklist {
+    margin: 6px 0 0;
+    padding: 0;
+    border-bottom: 1px solid var(--gray-300);
+    list-style: none;
+  }
+
+  .checklist > li {
+    display: grid;
+    grid-template-columns: 12px 1fr;
+    gap: 10px;
+    align-items: baseline;
+    padding: 10px 2px;
+    border-top: 1px solid var(--gray-300);
+    font: 400 var(--fs-body) / 1.55 var(--font-sans);
+    color: var(--gray-700);
+    text-wrap: pretty;
+  }
+
+  .bullet {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: var(--navy-600);
+    transform: translateY(-3px);
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: var(--space-5);
+    font: 600 var(--fs-body) / 1.4 var(--font-sans);
+    color: var(--navy-600);
+  }
+
+  .closed-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: var(--space-4);
+    padding: 22px 0;
+    border-top: 1px solid var(--gray-300);
+  }
+
+  .closed-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font: 600 var(--fs-body) / 1.4 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .closed-icon {
+    color: var(--gray-500);
+  }
+
+  .closed-note {
+    margin: var(--space-2) 0 0;
+    font: 400 var(--fs-sm) / 1.65 var(--font-sans);
+    color: var(--gray-500);
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .track {
+      transition: none;
+    }
+  }
+</style>

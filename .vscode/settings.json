@@ -10,6 +10,7 @@
     "./.astro/collections/team.schema.json": "src/content/team/*.yaml",
     "./.astro/collections/publications.schema.json": "src/content/publications/*.yaml",
     "./.astro/collections/researchAreas.schema.json": "src/content/research-areas/*.yaml",
+    "./.astro/collections/tracks.schema.json": "src/content/contact/tracks.yaml",
     "./.astro/collections/pages.schema.json": "src/content/pages/*.yaml"
   }
 }

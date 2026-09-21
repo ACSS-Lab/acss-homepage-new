@@ -1,0 +1,92 @@
+---
+// Who to write to: the admin team, what they handle, and their address.
+import Badge from '../ui/Badge.astro';
+
+interface Props {
+  name: string;
+  badge: string;
+  bullets: string[];
+  email: string;
+}
+
+const { name, badge, bullets, email } = Astro.props;
+---
+
+<article class="card rise">
+  <div class="head">
+    <h3 class="name">{name}</h3>
+    <Badge>{badge}</Badge>
+  </div>
+  <ul class="bullets">
+    {
+      bullets.map((bullet) => (
+        <li>
+          <span class="bullet" />
+          <span>{bullet}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <a class="email" href={`mailto:${email}`}>{email}</a>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    padding: 26px 28px;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .name {
+    margin: 0;
+    font: 600 var(--fs-h3) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bullets > li {
+    display: grid;
+    grid-template-columns: 12px 1fr;
+    gap: var(--space-2);
+    align-items: baseline;
+    font: 400 var(--fs-body) / 1.55 var(--font-sans);
+    color: var(--gray-700);
+    text-wrap: pretty;
+  }
+
+  .bullet {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: var(--gray-500);
+    transform: translateY(-3px);
+  }
+
+  .email {
+    margin-top: auto;
+    padding-top: var(--space-5);
+    font: 600 var(--fs-body) / 1.4 var(--font-mono);
+    color: var(--navy-600);
+    overflow-wrap: anywhere;
+  }
+</style>

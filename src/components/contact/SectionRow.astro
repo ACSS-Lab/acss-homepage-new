@@ -1,0 +1,41 @@
+---
+// A titled band of the Contact page: section name in a narrow left rail, content on the right.
+interface Props {
+  title: string;
+  /** Draw a rule above and add spacing; for every row after the first. */
+  divided?: boolean;
+}
+
+const { title, divided = false } = Astro.props;
+---
+
+<div class:list={['row', { divided }]}>
+  <h2 class="title">{title}</h2>
+  <div class="content"><slot /></div>
+</div>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 132px 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .divided {
+    margin-top: var(--space-6);
+    padding: var(--space-6) 0;
+    border-top: 1px solid var(--gray-300);
+  }
+
+  .title {
+    margin: 0;
+    font: 600 var(--fs-h3) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .content {
+    min-width: 0;
+  }
+</style>

@@ -97,6 +97,7 @@
 | `--fs-h2` | 22 / 24px | 600 | 1.3 | section title |
 | `--fs-h3` | 18 / 20px | 600 | 1.4 | card/block title |
 | `--fs-wordmark` | 19px | 700 | 1 | header wordmark |
+| `--fs-lg` | 18px | 600 | 1.4 | small card title |
 | `--fs-body` | 16px | 400 | 1.65 | body (abstracts, intros) |
 | `--fs-ui` | 15px | 500–600 | 1 | nav items, buttons |
 | `--fs-sm` | 14px | 400 | 1.5 | list rows, meta |
@@ -167,6 +168,15 @@
 - Three 260px image cards (`--radius-lg`, navy base, title bottom-left in white) act as toggle buttons. Selected: lifted 2px with `--shadow-md`, full-opacity image, `--scrim-card`. Idle: 72% image, heavier `--scrim-card-idle`; hover lifts it and slowly zooms the image (`--dur-loop`, off under reduced motion).
 - The selected area's text appears below: each sub-topic is a two-column grid (132px gray label, content) with lettered headings, neutral chips for application areas, and related-paper tiles (`--gray-100`, hover `--navy-100`) that deep-link to the paper. Sub-topics rise in each time a card is picked.
 
+### Contact page
+- The only page without a dark banner: a plain `--fs-h1` title with a rule. Below, titled bands (`132px` label rail + content) separated by `--gray-300` rules.
+- **Track cards**: white `--radius-lg` cards, two visible at a time, in a carousel (bar dots left, round 44px `--gray-100` arrow buttons right; arrows dim to 40% and disable at the ends). An open track shows an accent badge, a ruled checklist and a "draft this email" text link; a closed one is grayed with a `circle-slash` notice.
+- **Map card**: full-bleed map with floating provider pills (active `--navy-600`). Only the default provider loads with the page; others load on first use.
+- **Address card**: inline EN/KR segmented switch (white active pill on `--gray-100`) and a round copy button whose icon turns into a check for 1.6s.
+
+### Badges (status)
+- `Badge`: `--radius-full`, `--fs-caption` 500. Tones: `accent` (`--navy-100` / `--navy-700`), `neutral` (`--gray-100` / `--gray-700`), `muted` (`--gray-100` / `--gray-500`).
+
 ### Editorial row (long-form text)
 - Three columns: a 180px label rail, prose capped at `--container-narrow`, and a 268px figure (3:4, `--radius-lg`) with a caption. A `--gray-300` rule on top separates rows. The template for any future long-form page.
 
@@ -181,6 +191,7 @@
 - **Chips / segmented control.** Only the selected chip is `--navy-600` + white text; unselected is `--gray-100` + `--gray-700` (minimize blue). Instant client-side updates + shareable via URL query.
 
 ### Buttons
+- Buttons are links styled by `Button` (`variant`: `primary` | `on-dark`).
 - **On-dark** (navy sections): white bg / `--navy-900` text, hover `--navy-100`. `--radius-md`, `--fs-ui` 600. A trailing arrow is the lucide `arrow-right` icon, never a typed character.
 - **Primary**: `--navy-600` bg / white text, hover `--navy-500`. **Secondary**: `--gray-100` bg / `--ink`. **Ghost**: transparent / `--navy-600`.
 - 2px focus-visible ring (`--navy-500`).

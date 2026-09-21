@@ -1,0 +1,53 @@
+# Wording of the Contact page (/contact/).
+# Application tracks: src/content/contact/tracks.yaml
+# E-mail addresses, postal address and map settings: src/content/site/site.yaml
+
+page: contact
+title: Contact # browser tab title and page heading
+
+join:
+  title: Admission & internship
+  lead: Thank you for your interest in our lab.
+  # {adminEmail} is replaced with the admin address from site.yaml. Line breaks are kept.
+  body: |-
+    Openings differ by program (see below).
+    All application mails should be sent to our admin address: {adminEmail}
+  tracks:
+    openBadge: Now accepting
+    closedBadge: Closed
+    checklist: Required in your email
+    cta: Draft this email
+    closedTitle: Not accepting applications
+    # {label} is replaced with the track's name.
+    closedNote: There is no open {label} position at the moment. Please keep an eye out for future openings.
+
+visit:
+  title: Contact & visit
+  admin:
+    name: ACSS admins
+    badge: Lab administration
+    bullets:
+      - General inquiries
+      - Admission and internship questions
+      - Seminar and visit requests
+      - Collaboration first contact
+  office:
+    title: Office
+    toggleLabel: Toggle address language
+    copyLabel: Copy address
+    copiedMessage: Address copied
+  map:
+    # {provider} is replaced with Google / Kakao.
+    frameTitle: KAIST E3-2 — {provider} Map
+    naverNote: Naver Map — API 연동 예정
+
+# Hidden for now. Set `enabled: true` to show this section at the bottom of the page.
+collaboration:
+  enabled: false
+  title: Collaboration
+  lead: Joint research, industry projects, and shared datasets or testbeds.
+  body: Write to the admin address; the professor replies once the topic is scoped.
+  noticeLabel: TBD
+  notice: 요구 항목과 절차는 확정 후 이 자리에 들어갑니다.
+  cta: Email the admin
+  subject: "[ACSS] Collaboration inquiry"
