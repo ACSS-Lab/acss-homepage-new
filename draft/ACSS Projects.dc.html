@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+--navy-900:#0A1B3D;--navy-700:#143B84;--navy-600:#1B4DA8;--navy-500:#2E64C7;--navy-100:#E7EEFA;
+--ink:#17181C;--gray-700:#4E5968;--gray-500:#66707E;--gray-300:#D1D6DB;--gray-100:#F2F4F6;--white:#fff;--bg:#FCFCFD;
+--radius-sm:8px;--radius-md:12px;--radius-lg:14px;--radius-full:9999px;
+--shadow-sm:0 1px 2px rgba(10,27,61,.06);--shadow-md:0 6px 20px rgba(10,27,61,.08);--shadow-lg:0 14px 36px rgba(10,27,61,.12);
+--ease:cubic-bezier(.2,.8,.2,1);
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--space-12:48px;--space-16:64px;--space-24:96px;
+--dur-fast:150ms;--dur:200ms;--dur-slow:300ms;
+--container:1120px;--container-narrow:720px;
+--font-sans:"Pretendard Variable","Pretendard","Spoqa Han Sans Neo","Noto Sans KR",sans-serif;
+--font-mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+--ph:repeating-linear-gradient(135deg,#EDEFF2 0 9px,#E4E8EC 9px 18px);
+}
+body{margin:0;background:var(--bg);font-family:var(--font-sans)}
+a{color:var(--navy-600);text-decoration:none}a:hover{color:var(--navy-500)}
+.pcard{transition:transform 260ms var(--ease),box-shadow 260ms var(--ease)}
+.pcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.pcard:focus-visible{outline:2px solid var(--navy-500);outline-offset:3px}
+.pimg{transition:transform 620ms var(--ease)}
+.pcard:hover .pimg{transform:scale(1.05)}
+.plink{transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
+.plink:hover{background:var(--navy-100)}
+.plink:focus-visible{outline:2px solid var(--navy-500);outline-offset:2px}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.rise{animation:riseIn 420ms var(--ease) both}
+.rise:nth-child(2){animation-delay:60ms}.rise:nth-child(3){animation-delay:120ms}.rise:nth-child(4){animation-delay:180ms}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+.mbox{animation:fadeIn var(--dur) var(--ease) both}
+.mcard{animation:popIn 280ms var(--ease) both}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+@media (max-width:760px){.grid2{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.rise,.mbox,.mcard,.pcard,.pimg{animation:none;transition:none}}
+</style></helmet>
+
+<header style="position:sticky;top:0;z-index:20;background:var(--white);box-shadow:var(--shadow-sm)">
+<div style="width:100%;box-sizing:border-box;padding:0 var(--space-12);height:68px;display:flex;align-items:center;justify-content:space-between">
+<a href="./ACSS%20Home.dc.html" style="display:flex;align-items:center;gap:10px;color:var(--ink)">
+<span style="width:22px;height:22px;background:var(--navy-900);border-radius:5px;display:block"></span>
+<span style="font:700 19px/1 var(--font-sans);letter-spacing:-.02em">ACSS</span>
+<span style="font:400 12px/1 var(--font-sans);color:var(--gray-500);padding-left:10px;border-left:1px solid var(--gray-300)">KAIST EE</span>
+</a>
+<nav style="display:flex;align-items:center;gap:var(--space-1)">
+<div style="position:relative" onMouseEnter="{{ openAbout }}" onMouseLeave="{{ closeAbout }}">
+<a href="./ACSS%20Our%20Vision.dc.html" style="display:flex;align-items:center;gap:5px;padding:9px 14px;font:500 15px/1 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">{{ t.about }}<span style="font-size:12px;color:var(--gray-500)">▾</span></a>
+<sc-if value="{{ navAbout }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 4px);left:0;min-width:196px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:var(--space-2)">
+<a href="./ACSS%20Our%20Vision.dc.html" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">{{ t.ourGoal }}</a>
+<a href="./ACSS%20Research%20Areas.dc.html" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">{{ t.areas }}</a>
+</div>
+</sc-if>
+</div>
+<div style="position:relative" onMouseEnter="{{ openNav }}" onMouseLeave="{{ closeNav }}">
+<a href="#top" aria-current="page" style="display:flex;align-items:center;gap:5px;padding:9px 14px;font:600 15px/1 var(--font-sans);color:var(--navy-600);border-radius:var(--radius-md);background:var(--navy-100)">{{ t.research }}<span style="font-size:12px">▾</span></a>
+<sc-if value="{{ nav }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 4px);left:0;min-width:196px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:var(--space-2)">
+<a href="#top" style="display:block;padding:10px 12px;font:600 14px/1.2 var(--font-sans);color:var(--navy-600);border-radius:var(--radius-sm);background:var(--gray-100)">{{ t.projects }}</a>
+<a href="./ACSS%20Publications.dc.html" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">{{ t.publications }}</a>
+</div>
+</sc-if>
+</div>
+<div style="position:relative" onMouseEnter="{{ openTeam }}" onMouseLeave="{{ closeTeam }}">
+<a href="./ACSS%20Team.dc.html" style="display:flex;align-items:center;gap:5px;padding:9px 14px;font:500 15px/1 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">{{ t.team }}<span style="font-size:12px;color:var(--gray-500)">▾</span></a>
+<sc-if value="{{ navTeam }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 4px);left:0;min-width:206px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:var(--space-2)">
+<a href="./ACSS%20Professor.dc.html" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">{{ t.professor }}</a>
+<a href="./ACSS%20Team.dc.html#current" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">{{ t.members }}</a>
+</div>
+</sc-if>
+</div>
+<a href="./ACSS%20Gallery.dc.html" style="padding:9px 14px;font:500 15px/1 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">{{ t.gallery }}</a>
+<a href="./ACSS%20Contact.dc.html" style="padding:9px 14px;font:500 15px/1 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">{{ t.contact }}</a>
+</nav>
+</div>
+</header>
+
+<main id="top">
+
+<section style="position:relative;background:var(--navy-900)">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 14px,rgba(255,255,255,.015) 14px 28px)"></div>
+<div style="position:relative;max-width:var(--container);margin:0 auto;padding:76px 24px 60px;text-align:center">
+<h1 style="margin:0;font:700 48px/1.15 var(--font-sans);letter-spacing:-.03em;color:var(--white)">{{ t.pageTitle }}</h1>
+<div style="margin:26px 0 0;display:flex;justify-content:center">
+<div style="display:inline-flex;align-items:center;gap:var(--space-1);padding:5px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-full)">
+<span style="display:flex;align-items:center;padding:9px 20px;border-radius:var(--radius-full);font:600 14px/1.4 var(--font-sans);color:var(--navy-900);background:var(--white)">{{ t.projects }}</span>
+<a href="./ACSS%20Publications.dc.html" style="display:flex;align-items:center;padding:9px 20px;border-radius:var(--radius-full);font:500 14px/1.4 var(--font-sans);color:rgba(255,255,255,.72)" style-hover="background:rgba(255,255,255,.1);color:var(--white)">{{ t.publications }}</a>
+</div>
+</div>
+<div style="margin:22px 0 0;font:400 12px/1.5 var(--font-sans);color:rgba(255,255,255,.62)">{{ countLine }}</div>
+</div>
+</section>
+
+<section style="max-width:var(--container);margin:0 auto;padding:var(--space-12) 24px var(--space-24)">
+
+<div style="display:grid;grid-template-columns:76px 1fr;gap:10px 18px;align-items:baseline">
+<span style="font:500 12px/1.9 var(--font-sans);letter-spacing:.06em;color:var(--gray-500);text-transform:uppercase">{{ t.statusLabel }}</span>
+<div style="display:flex;flex-wrap:wrap;gap:20px">
+<sc-for list="{{ statusChips }}" as="c" hint-placeholder-count="3">
+<span style="display:flex">
+<sc-if value="{{ c.active }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ c.pick }}" style="display:flex;align-items:baseline;gap:5px;font:600 14px/1.4 var(--font-sans);padding:2px 0 5px;background:transparent;border:0;border-bottom:2px solid var(--navy-600);color:var(--ink);cursor:pointer">{{ c.label }}<span style="font:400 12px/1.4 var(--font-sans);color:var(--gray-500)">{{ c.count }}</span></button>
+</sc-if>
+<sc-if value="{{ c.idle }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ c.pick }}" style="display:flex;align-items:baseline;gap:5px;font:400 14px/1.4 var(--font-sans);padding:2px 0 5px;background:transparent;border:0;border-bottom:2px solid transparent;color:var(--gray-500);cursor:pointer" style-hover="color:var(--ink)">{{ c.label }}<span style="font:400 12px/1.4 var(--font-sans);color:var(--gray-500)">{{ c.count }}</span></button>
+</sc-if>
+</span>
+</sc-for>
+</div>
+</div>
+
+<div class="grid2" style="margin-top:28px">
+<sc-for list="{{ cards }}" as="p" hint-placeholder-count="4">
+<button type="button" class="pcard rise" onClick="{{ p.open }}" aria-label="{{ p.aria }}" style="display:flex;flex-direction:column;align-items:stretch;gap:0;padding:var(--space-4);border:0;border-radius:var(--radius-lg);background:var(--white);box-shadow:var(--shadow-sm);text-align:left;cursor:pointer">
+<span style="display:flex;align-items:center;gap:var(--space-2)">
+<span style="{{ p.statusStyle }}">{{ p.statusLabel }}</span>
+</span>
+<span style="display:block;margin-top:var(--space-3);font:600 19px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--ink);text-wrap:pretty">{{ p.title }}</span>
+<span style="position:relative;display:block;margin-top:var(--space-4);width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:var(--radius-md);background:var(--gray-100)">
+<span class="pimg" style="position:absolute;inset:0;background:var(--ph);display:flex;align-items:flex-end;padding:10px">
+<span style="font:400 11px/1.4 var(--font-mono);color:var(--gray-500);overflow-wrap:anywhere;word-break:break-word">{{ p.coverNote }}</span>
+</span>
+</span>
+<span style="display:grid;grid-template-columns:76px minmax(0,1fr);gap:6px var(--space-3);margin-top:var(--space-4)">
+<span style="font:500 12px/1.6 var(--font-sans);letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500)">{{ t.agency }}</span>
+<span style="font:500 14px/1.6 var(--font-sans);color:var(--ink)">{{ p.agency }}</span>
+<span style="font:500 12px/1.6 var(--font-sans);letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500)">{{ t.period }}</span>
+<span style="font:400 14px/1.6 var(--font-sans);color:var(--gray-700);font-variant-numeric:tabular-nums">{{ p.period }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:28px;padding:40px;background:var(--white);box-shadow:var(--shadow-sm);border-radius:var(--radius-lg);font:400 16px/1.6 var(--font-sans);color:var(--gray-700);text-align:center">{{ t.noMatch }}</div>
+</sc-if>
+
+<sc-if value="{{ hasPages }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:52px;padding-top:var(--space-6);border-top:1px solid var(--gray-300);display:flex;align-items:center;justify-content:center;gap:20px">
+<div style="display:flex;align-items:center;gap:6px">
+<sc-if value="{{ canPrev }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ goPrev }}" aria-label="Previous page" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--gray-300);background:var(--white);border-radius:var(--radius-sm);color:var(--ink);cursor:pointer" style-hover="background:var(--gray-100)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+</sc-if>
+<sc-if value="{{ noPrev }}" hint-placeholder-val="{{ true }}">
+<span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--gray-100);border-radius:var(--radius-sm);color:var(--gray-500)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></span>
+</sc-if>
+<sc-for list="{{ pageBtns }}" as="pg" hint-placeholder-count="3">
+<span style="display:flex">
+<sc-if value="{{ pg.active }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ pg.pick }}" style="min-width:44px;height:44px;padding:0 10px;display:flex;align-items:center;justify-content:center;border:0;background:var(--navy-600);color:var(--white);border-radius:var(--radius-sm);font:600 14px/1 var(--font-sans);cursor:pointer">{{ pg.label }}</button>
+</sc-if>
+<sc-if value="{{ pg.idle }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ pg.pick }}" style="min-width:44px;height:44px;padding:0 10px;display:flex;align-items:center;justify-content:center;border:1px solid var(--gray-300);background:var(--white);color:var(--gray-700);border-radius:var(--radius-sm);font:400 14px/1 var(--font-sans);cursor:pointer" style-hover="background:var(--gray-100);color:var(--ink)">{{ pg.label }}</button>
+</sc-if>
+</span>
+</sc-for>
+<sc-if value="{{ canNext }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ goNext }}" aria-label="Next page" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--gray-300);background:var(--white);border-radius:var(--radius-sm);color:var(--ink);cursor:pointer" style-hover="background:var(--gray-100)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></button>
+</sc-if>
+<sc-if value="{{ noNext }}" hint-placeholder-val="{{ false }}">
+<span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--gray-100);border-radius:var(--radius-sm);color:var(--gray-500)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></span>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- Cover spec — fixed 16:9 frame, object-fit: cover · object-position: center
+     (scale up at the original aspect ratio until the frame is filled; crop the overflow)
+     recommended upload: 1920x1080 or larger -->
+
+</section>
+</main>
+
+<footer style="background:var(--navy-900);color:rgba(255,255,255,.72);padding:var(--space-12) var(--space-6) var(--space-8)">
+<div style="max-width:var(--container);margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px">
+<div style="font:400 13px/1.7 var(--font-sans)">
+<div style="font:600 14px/1.5 var(--font-sans);color:var(--white)">Autonomous Control and Stochastic Systems Research Lab.</div>
+School of Electrical Engineering, KAIST
+</div>
+<a href="mailto:acss@kaist.ac.kr" style="font:400 13px/1.7 var(--font-sans);color:rgba(255,255,255,.72)" style-hover="color:var(--white)">acss@kaist.ac.kr</a>
+</div>
+<div style="max-width:var(--container);margin:28px auto 0;padding-top:var(--space-4);border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--space-2);font:400 12px/1.5 var(--font-sans);color:rgba(255,255,255,.62)">
+<span>© 2026 KAIST ACSS.</span>
+<a href="https://mintcat98.github.io/" target="_blank" rel="noopener" style="color:rgba(255,255,255,.62);text-decoration:none" style-hover="color:rgba(255,255,255,.85)">Designed by Mincheol Kang</a>
+</div>
+</footer>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+<div class="mbox" onClick="{{ close }}" role="dialog" aria-modal="true" aria-label="{{ open.title }}" style="position:fixed;inset:0;z-index:80;background:rgba(10,27,61,.72);display:flex;align-items:center;justify-content:center;padding:var(--space-8)">
+<div class="mcard" onClick="{{ stop }}" style="width:100%;max-width:840px;max-height:88vh;overflow-y:auto;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);box-sizing:border-box">
+
+<div style="padding:var(--space-6) var(--space-8) var(--space-8)">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-4)">
+<span style="{{ open.statusStyle }}">{{ open.statusLabel }}</span>
+<button type="button" onClick="{{ close }}" aria-label="Close" style="flex:none;width:40px;height:40px;margin:-6px -12px 0 0;display:flex;align-items:center;justify-content:center;border:0;border-radius:var(--radius-full);background:var(--gray-100);color:var(--gray-700);cursor:pointer" style-hover="background:var(--navy-100);color:var(--navy-700)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+</div>
+<h3 style="margin:var(--space-3) 0 0;font:600 24px/1.35 var(--font-sans);letter-spacing:-.015em;color:var(--ink);text-wrap:pretty">{{ open.title }}</h3>
+
+<div style="margin-top:var(--space-4);display:grid;grid-template-columns:96px minmax(0,1fr);gap:8px var(--space-4);padding:var(--space-4);background:var(--gray-100);border-radius:var(--radius-md)">
+<span style="font:500 12px/1.6 var(--font-sans);letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500)">{{ t.agency }}</span>
+<span style="font:500 14px/1.6 var(--font-sans);color:var(--ink)">{{ open.agency }}</span>
+<span style="font:500 12px/1.6 var(--font-sans);letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500)">{{ t.period }}</span>
+<span style="font:400 14px/1.6 var(--font-sans);color:var(--gray-700);font-variant-numeric:tabular-nums">{{ open.period }}</span>
+<span style="font:500 12px/1.6 var(--font-sans);letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500)">{{ t.role }}</span>
+<span style="font:400 14px/1.6 var(--font-sans);color:var(--gray-700)">{{ open.role }}</span>
+</div>
+
+<h4 style="margin:var(--space-6) 0 0;font:600 14px/1.4 var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--gray-500)">{{ t.overview }}</h4>
+<p style="margin:var(--space-3) 0 0;max-width:var(--container-narrow);font:400 15px/1.75 var(--font-sans);color:var(--gray-700);text-wrap:pretty">{{ open.overview }}</p>
+
+<sc-if value="{{ hasPapers }}" hint-placeholder-val="{{ true }}">
+<h4 style="margin:var(--space-8) 0 0;font:600 14px/1.4 var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--gray-500)">{{ t.related }}</h4>
+<div style="margin-top:var(--space-3);border-top:1px solid var(--gray-300)">
+<sc-for list="{{ open.papers }}" as="w" hint-placeholder-count="2">
+<a class="plink" href="{{ w.href }}" style="display:flex;align-items:center;gap:var(--space-4);padding:var(--space-3) var(--space-3);border-bottom:1px solid var(--gray-300)">
+<span style="min-width:0;flex:1">
+<span style="display:flex;align-items:center;gap:var(--space-2)">
+<span style="flex:none;padding:3px 9px;border-radius:var(--radius-full);background:var(--gray-100);color:var(--gray-700);font:500 12px/1.4 var(--font-sans)">{{ w.typeLabel }}</span>
+<span style="font:500 13px/1.5 var(--font-sans);color:var(--gray-700)">{{ w.venue }}</span>
+<span style="font:400 13px/1.5 var(--font-sans);color:var(--gray-500)">{{ w.year }}</span>
+</span>
+<span style="display:block;margin-top:5px;font:600 15px/1.5 var(--font-sans);color:var(--ink);text-wrap:pretty">{{ w.title }}</span>
+</span>
+<span style="flex:none;color:var(--navy-600)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></span>
+</a>
+</sc-for>
+</div>
+<p style="margin:var(--space-3) 0 0;font:400 12px/1.6 var(--font-sans);color:var(--gray-500)">{{ t.relatedHint }}</p>
+</sc-if>
+</div>
+
+</div>
+</div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0A1B3D&quot;,&quot;options&quot;:[&quot;#1B4DA8&quot;,&quot;#143B84&quot;,&quot;#0A1B3D&quot;,&quot;#2E64C7&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;perPage&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:2,&quot;max&quot;:12,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Grid&quot;}}">
+class Component extends DCLogic {
+  state = { nav: false, navAbout: false, navTeam: false, status: "all", page: 0, openId: null };
+
+  componentDidMount() {
+    this.applyAccent();
+    this._key = (e) => { if (e.key === "Escape" && this.state.openId) this.setState({ openId: null }); };
+    document.addEventListener("keydown", this._key);
+  }
+  componentDidUpdate() {
+    this.applyAccent();
+    document.body.style.overflow = this.state.openId ? "hidden" : "";
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this._key);
+    document.body.style.overflow = "";
+  }
+  applyAccent() { const a = this.props.accent; if (a) document.documentElement.style.setProperty("--navy-600", a); }
+
+  papers() {
+    return {
+      tro26: { type: "Journal", venue: "IEEE Transactions on Robotics", year: 2026, title: "Distributionally Robust Motion Planning under Stochastic Obstacle Dynamics" },
+      icra26: { type: "Conference", venue: "ICRA 2026", year: 2026, title: "Safety-Constrained Diffusion Planning for Contact-Rich Manipulation" },
+      l4dc26: { type: "Conference", venue: "L4DC 2026", year: 2026, title: "Online Learning for Distributed Multi-Agent Coordination with Delayed Feedback" },
+      kr26: { type: "Patent", venue: "KR Patent 10-2026-0012345", year: 2026, title: "Method and Apparatus for Safe Trajectory Generation under Stochastic Disturbance" },
+      arxiv25: { type: "Preprint", venue: "arXiv:2511.04812", year: 2025, title: "Uncertainty-Aware World Models for Long-Horizon Prediction" },
+      neurips25: { type: "Conference", venue: "NeurIPS 2025", year: 2025, title: "Sample-Efficient Safe Reinforcement Learning with Stability Certificates" },
+      l4dc25: { type: "Conference", venue: "L4DC 2025", year: 2025, title: "Out-of-Distribution Detection for Fault-Tolerant Flight Control" },
+      auto25: { type: "Journal", venue: "Automatica", year: 2025, title: "Risk-Sensitive Stochastic Optimal Control with Distributional Value Functions" },
+      lcss24: { type: "Journal", venue: "IEEE Control Systems Letters", year: 2024, title: "Adaptive Filtering for State Estimation under Intermittent Observations" },
+      cdc24: { type: "Conference", venue: "CDC 2024", year: 2024, title: "Learning Multi-Agent Policies with Statistical Safety Guarantees" }
+    };
+  }
+
+  projects() {
+    return [
+      { id: "uam-safety", status: "ongoing", code: "2026-1", title: "Safety-Critical Control for Urban Air Mobility",
+        agency: "Ministry of Land, Infrastructure and Transport", period: "2026.03 – 2029.02", start: "2026-03", role: "Lead institution (PI: S. Han)",
+        overview: "Develops a certification-oriented control stack for urban air mobility vehicles: a risk-bounded trajectory generator, a fault-tolerant flight controller, and an online monitor that detects sensor regimes outside the training distribution. Field trials run with the KAIST outdoor flight facility.",
+        papers: ["tro26", "l4dc25", "kr26"] },
+      { id: "genai-planning", status: "ongoing", code: "2025-4", title: "Generative Models for Contact-Rich Robot Manipulation",
+        agency: "National Research Foundation of Korea", period: "2025.09 – 2028.08", start: "2025-09", role: "Lead institution (PI: S. Han)",
+        overview: "Studies how diffusion-based planners can keep their multimodality while satisfying hard stability and contact constraints. The project builds a shared benchmark for manipulation tasks where the feasible set is non-convex and contact events are frequent.",
+        papers: ["icra26", "arxiv25"] },
+      { id: "multiagent-coord", status: "ongoing", code: "2025-2", title: "Distributed Coordination of Multi-Agent Systems under Delay",
+        agency: "Samsung Research Funding & Incubation Center", period: "2025.06 – 2027.05", start: "2025-06", role: "Lead institution (PI: S. Han)",
+        overview: "Coordination policies must act before the other agents' observations arrive. The project derives regret bounds for delay-aware online learning and validates them on a ten-robot indoor arena with deliberately throttled communication.",
+        papers: ["l4dc26", "cdc24"] },
+      { id: "safe-rl-core", status: "ongoing", code: "2024-3", title: "Certificate-Guided Safe Reinforcement Learning",
+        agency: "Institute for Information & Communications Technology Planning (IITP)", period: "2024.04 – 2027.03", start: "2024-04", role: "Participating institution",
+        overview: "Learns a control policy and a Lyapunov-style certificate jointly so that the sample budget is spent where the certificate is still loose. Outcomes feed the safety layer used by the lab's other application projects.",
+        papers: ["neurips25", "auto25"] },
+      { id: "world-model", status: "done", code: "2023-5", title: "Uncertainty-Aware World Models for Long-Horizon Prediction",
+        agency: "National Research Foundation of Korea", period: "2023.09 – 2025.08", start: "2023-09", role: "Lead institution (PI: S. Han)",
+        overview: "Separated epistemic and aleatoric uncertainty inside a learned world model so that long-horizon rollouts report calibrated confidence rather than drifting silently. The released codebase is now used as the prediction backbone in two follow-on projects.",
+        papers: ["arxiv25"] },
+      { id: "estimation-iot", status: "done", code: "2023-1", title: "State Estimation under Intermittent Observations",
+        agency: "Korea Electric Power Research Institute", period: "2023.03 – 2025.02", start: "2023-03", role: "Lead institution (PI: S. Han)",
+        overview: "Built estimators whose gain adapts to the observation-dropout rate without assuming a known dropout process, and deployed them on a substation monitoring testbed where packet loss is bursty.",
+        papers: ["lcss24"] },
+      { id: "risk-control", status: "done", code: "2022-2", title: "Risk-Sensitive Stochastic Optimal Control",
+        agency: "National Research Foundation of Korea", period: "2022.06 – 2024.05", start: "2022-06", role: "Lead institution (PI: S. Han)",
+        overview: "Extended risk-sensitive control to distributional value functions and characterised the conditions under which the resulting policy stays inside classical robustness margins.",
+        papers: ["auto25"] },
+      { id: "marl-safety", status: "done", code: "2021-4", title: "Statistical Safety Guarantees for Multi-Agent Learning",
+        agency: "Agency for Defense Development", period: "2021.10 – 2024.09", start: "2021-10", role: "Participating institution",
+        overview: "Turned per-agent safety violations into a joint statistical guarantee that survives policy updates, evaluated in simulated formation-keeping missions with partial observability.",
+        papers: ["cdc24"] },
+      { id: "adaptive-legacy", status: "done", code: "2020-1", title: "Adaptive Control for Legacy Industrial Plants",
+        agency: "Korea Institute of Industrial Technology", period: "2020.05 – 2022.04", start: "2020-05", role: "Participating institution",
+        overview: "Retrofitted adaptive control loops onto plants whose dynamics were never identified, using short excitation windows that the operators could schedule without stopping production.",
+        papers: [] }
+    ];
+  }
+
+  renderVals() {
+    const t = {
+      about: "About", ourGoal: "Our Vision", research: "Research", areas: "Research Areas", projects: "Projects",
+      publications: "Publications", team: "Team", professor: "PI & Staffs", members: "Members", gallery: "Gallery", contact: "Contact",
+      pageTitle: "Projects",
+      agency: "Agency", period: "Period", role: "Role", overview: "Overview", related: "Related publications",
+      relatedHint: "Selecting a publication opens the Publications page at that entry.",
+      noMatch: "No projects in this status yet.", statusLabel: "Status",
+      ongoing: "Ongoing", done: "Done", all: "All"
+    };
+
+    const PAPERS = this.papers();
+    const all = this.projects().slice().sort((a, b) => (a.start < b.start ? 1 : a.start > b.start ? -1 : 0));
+    const st = this.state.status;
+    const filtered = st === "all" ? all : all.filter((p) => p.status === st);
+
+    const per = this.props.perPage ?? 4;
+    const pages = Math.max(1, Math.ceil(filtered.length / per));
+    const page = Math.min(this.state.page, pages - 1);
+    const start = page * per;
+    const shown = filtered.slice(start, start + per);
+
+    const statusStyle = (s) => ({
+      flex: "none", padding: "4px 11px", borderRadius: "var(--radius-full)",
+      font: "600 12px/1.4 var(--font-sans)",
+      color: s === "ongoing" ? "#fff" : "var(--gray-700)",
+      background: s === "ongoing" ? "var(--navy-600)" : "var(--gray-100)"
+    });
+    const statusLabel = (s) => (s === "ongoing" ? t.ongoing : t.done);
+
+    const decorate = (p) => ({
+      id: p.id, title: p.title, agency: p.agency, period: p.period, code: p.code, role: p.role, overview: p.overview,
+      statusLabel: statusLabel(p.status), statusStyle: statusStyle(p.status),
+      coverNote: "cover — /images/projects/" + p.id + ".jpg · 16:9 cover crop",
+      aria: p.title + " — open project detail",
+      papers: (p.papers || []).map((k) => {
+        const w = PAPERS[k] || {};
+        return { typeLabel: w.type || "", venue: w.venue || "", year: String(w.year || ""), title: w.title || k, href: "./ACSS%20Publications.dc.html#pub-" + k };
+      }),
+      open: () => this.setState({ openId: p.id })
+    });
+
+    const openRaw = all.filter((p) => p.id === this.state.openId)[0] || null;
+    const open = openRaw ? decorate(openRaw) : null;
+
+    return {
+      t,
+      countLine: all.length + " projects · " + all.filter((p) => p.status === "ongoing").length + " ongoing",
+      listHeading: st === "all" ? "All projects" : statusLabel(st) + " projects",
+      statusChips: [{ id: "all", label: t.all }, { id: "ongoing", label: t.ongoing }, { id: "done", label: t.done }].map((c) => ({
+        label: c.label,
+        count: c.id === "all" ? all.length : all.filter((p) => p.status === c.id).length,
+        active: st === c.id, idle: st !== c.id,
+        pick: () => this.setState({ status: c.id, page: 0 })
+      })),
+      cards: shown.map(decorate),
+      isEmpty: filtered.length === 0,
+      hasPages: filtered.length > 0,
+      pageBtns: Array.from({ length: pages }, (_, i) => ({
+        label: String(i + 1), active: i === page, idle: i !== page,
+        pick: () => this.setState({ page: i })
+      })),
+      canPrev: page > 0, noPrev: page === 0,
+      canNext: page < pages - 1, noNext: page >= pages - 1,
+      goPrev: () => this.setState({ page: Math.max(0, page - 1) }),
+      goNext: () => this.setState({ page: Math.min(pages - 1, page + 1) }),
+      modalOpen: !!open,
+      open: open || { title: "", agency: "", period: "", code: "", role: "", overview: "", coverNote: "", statusLabel: "", statusStyle: {}, papers: [] },
+      hasPapers: !!open && open.papers.length > 0,
+      close: () => this.setState({ openId: null }),
+      stop: (e) => e.stopPropagation(),
+      nav: this.state.nav, navAbout: this.state.navAbout, navTeam: this.state.navTeam,
+      openNav: () => this.setState({ nav: true }), closeNav: () => this.setState({ nav: false }),
+      openAbout: () => this.setState({ navAbout: true }), closeAbout: () => this.setState({ navAbout: false }),
+      openTeam: () => this.setState({ navTeam: true }), closeTeam: () => this.setState({ navTeam: false })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

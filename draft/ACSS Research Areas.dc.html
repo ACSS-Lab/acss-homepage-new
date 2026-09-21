@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics=""><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+--navy-900:#0A1B3D;--navy-700:#143B84;--navy-600:#1B4DA8;--navy-500:#2E64C7;--navy-100:#E7EEFA;
+--ink:#17181C;--gray-700:#4E5968;--gray-500:#66707E;--gray-300:#D1D6DB;--gray-100:#F2F4F6;--white:#fff;--bg:#FCFCFD;
+--radius-sm:8px;--radius-md:12px;--radius-lg:14px;--radius-full:9999px;
+--shadow-sm:0 1px 2px rgba(10,27,61,.06);--shadow-md:0 6px 20px rgba(10,27,61,.08);--shadow-lg:0 14px 36px rgba(10,27,61,.12);
+--ease:cubic-bezier(.2,.8,.2,1);
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--space-12:48px;--space-16:64px;--space-24:96px;
+--dur-fast:150ms;--dur:200ms;--dur-slow:300ms;
+--container:1120px;--container-narrow:720px;
+--font-sans:"Pretendard Variable","Pretendard","Spoqa Han Sans Neo","Noto Sans KR",sans-serif;
+--font-mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+--ph:repeating-linear-gradient(135deg,#EDEFF2 0 9px,#E4E8EC 9px 18px);
+}
+@keyframes zoomLoop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+.acard{position:relative;overflow:hidden}
+.acard .acard-img{transition:transform 600ms var(--ease)}
+.acard:hover .acard-img,.acard:focus-visible .acard-img{animation:zoomLoop 5s var(--ease) infinite}
+@media (prefers-reduced-motion:reduce){.acard:hover .acard-img,.acard:focus-visible .acard-img{animation:none}}
+body{margin:0;background:var(--bg);font-family:var(--font-sans);color:var(--ink)}
+a{color:var(--navy-600);text-decoration:none}a:hover{color:var(--navy-500)}
+:focus-visible{outline:2px solid var(--navy-500);outline-offset:3px}
+@keyframes riseIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.rise{animation:riseIn var(--dur-slow) var(--ease) both}
+.rise:nth-child(2){animation-delay:70ms}
+.rise:nth-child(3){animation-delay:140ms}
+@media (prefers-reduced-motion:reduce){.rise{animation:none}}
+</style></helmet>
+
+<header style="position:sticky;top:0;z-index:20;background:var(--white);box-shadow:var(--shadow-sm)">
+<div style="width:100%;box-sizing:border-box;padding:0 var(--space-12);height:68px;display:flex;align-items:center;justify-content:space-between">
+<a href="./ACSS%20Home.dc.html" style="display:flex;align-items:center;gap:10px;color:var(--ink)">
+<span style="width:22px;height:22px;background:var(--navy-900);border-radius:var(--radius-sm);display:block"></span>
+<span style="font:700 19px/1 var(--font-sans);letter-spacing:-.02em">ACSS</span>
+<span style="font:400 12px/1 var(--font-sans);color:var(--gray-500);padding-left:10px;border-left:1px solid var(--gray-300)">KAIST EE</span>
+</a>
+<nav aria-label="Main" style="display:flex;align-items:center;gap:var(--space-1)">
+<div style="position:relative" onMouseEnter="{{ openAbout }}" onMouseLeave="{{ closeAbout }}" onFocus="{{ openAbout }}" onBlur="{{ closeAbout }}">
+<a href="./ACSS%20Our%20Vision.dc.html" aria-current="page" style="display:flex;align-items:center;gap:5px;padding:9px 14px;font:600 14px/1.5 var(--font-sans);color:var(--navy-600);border-radius:var(--radius-md);background:var(--navy-100)">About<span aria-hidden="true" style="font-size:12px">▾</span></a>
+<sc-if value="{{ navAbout }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 4px);left:0;min-width:196px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:var(--space-2)">
+<a href="./ACSS%20Our%20Vision.dc.html" style="display:block;padding:10px 12px;font:400 14px/1.5 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">Our Vision</a>
+<a href="#top" style="display:block;padding:10px 12px;font:600 14px/1.5 var(--font-sans);color:var(--navy-600);border-radius:var(--radius-sm);background:var(--gray-100)">Research Areas</a>
+</div>
+</sc-if>
+</div>
+<div style="position:relative" onMouseEnter="{{ openNav }}" onMouseLeave="{{ closeNav }}" onFocus="{{ openNav }}" onBlur="{{ closeNav }}">
+<a href="#top" style="display:flex;align-items:center;gap:5px;padding:9px 14px;font:400 14px/1.5 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">Research<span aria-hidden="true" style="font-size:12px;color:var(--gray-500)">▾</span></a>
+<sc-if value="{{ nav }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 4px);left:0;min-width:196px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:var(--space-2)">
+<a href="#top" style="display:block;padding:10px 12px;font:400 14px/1.5 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">Projects</a>
+<a href="#top" style="display:block;padding:10px 12px;font:400 14px/1.5 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">Publications</a>
+</div>
+</sc-if>
+</div>
+<div style="position:relative" onMouseEnter="{{ openTeam }}" onMouseLeave="{{ closeTeam }}" onFocus="{{ openTeam }}" onBlur="{{ closeTeam }}">
+<a href="./ACSS%20Team.dc.html" style="display:flex;align-items:center;gap:5px;padding:9px 14px;font:400 14px/1.5 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">Team<span aria-hidden="true" style="font-size:12px;color:var(--gray-500)">▾</span></a>
+<sc-if value="{{ navTeam }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 4px);left:0;min-width:196px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:var(--space-2)">
+<a href="./ACSS%20Professor.dc.html" style="display:block;padding:10px 12px;font:400 14px/1.5 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">PI &amp; Staffs</a>
+<a href="./ACSS%20Team.dc.html" style="display:block;padding:10px 12px;font:400 14px/1.5 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">Members</a>
+</div>
+</sc-if>
+</div>
+<a href="./ACSS%20Gallery.dc.html" style="padding:9px 14px;font:400 14px/1.5 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">Gallery</a>
+<a href="./ACSS%20Contact.dc.html" style="padding:9px 14px;font:400 14px/1.5 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">Contact</a>
+</nav>
+</div>
+</header>
+
+<main id="top" style="background:var(--bg)">
+
+<section style="position:relative;background:var(--navy-900)">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 14px,rgba(255,255,255,.015) 14px 28px)"></div>
+<div style="position:absolute;right:24px;top:16px;font:400 12px/1.5 var(--font-mono);color:rgba(255,255,255,.62);text-align:right;overflow-wrap:anywhere;word-break:break-word">page header image — 1920×360<br>research or simulation still</div>
+<div style="position:relative;max-width:var(--container);margin:0 auto;padding:76px 24px 60px;text-align:center">
+<h1 style="margin:0;font:700 48px/1.15 var(--font-sans);letter-spacing:-.03em;color:var(--white)">Research Areas</h1>
+
+<div style="margin:26px 0 0;display:flex;justify-content:center">
+<div style="display:inline-flex;align-items:center;gap:var(--space-1);padding:5px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-full)">
+<a href="./ACSS%20Our%20Vision.dc.html" style="display:flex;align-items:center;padding:9px 20px;border-radius:var(--radius-full);font:500 14px/1.4 var(--font-sans);color:rgba(255,255,255,.72)" style-hover="background:rgba(255,255,255,.1);color:var(--white)">Our Vision</a>
+<span style="display:flex;align-items:center;padding:9px 20px;border-radius:var(--radius-full);font:600 14px/1.4 var(--font-sans);color:var(--navy-900);background:var(--white);cursor:default">Research Areas</span>
+</div>
+</div>
+</div>
+</section>
+
+<section style="max-width:var(--container);margin:0 auto;padding:var(--space-16) var(--space-6) 0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-6);flex-wrap:wrap">
+<h2 style="margin:0;font:600 24px/1.3 var(--font-sans);letter-spacing:-.01em;color:var(--ink)">
+<span style="display:{{ dEn }}">Our Research Directions</span>
+<span style="display:{{ dKo }}">세 가지 연구 방향</span>
+</h2>
+<span style="font:400 14px/1.5 var(--font-sans);color:var(--gray-500)">
+<span style="display:{{ dEn }}">Select an area to read it in full below</span>
+<span style="display:{{ dKo }}">주제를 선택하면 아래에 전문이 표시돼요</span>
+</span>
+</div>
+
+<div style="margin-top:var(--space-6);display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch">
+<sc-for list="{{ areas }}" as="a" hint-placeholder-count="3">
+<span style="display:flex">
+<sc-if value="{{ a.active }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ a.pick }}" aria-pressed="true" class="acard" style="flex:1;min-width:0;height:260px;display:block;padding:0;border:0;border-radius:var(--radius-lg);background:var(--navy-900);box-shadow:var(--shadow-md);cursor:pointer;text-align:left;transform:translateY(-2px)">
+<span class="acard-img" style="position:absolute;inset:0;display:block;background:var(--ph)"></span>
+<span style="position:absolute;inset:0;display:block;background:linear-gradient(to top,rgba(10,27,61,.88) 0%,rgba(10,27,61,.42) 46%,rgba(10,27,61,.06) 100%)"></span>
+<span style="position:absolute;top:16px;left:18px;right:18px;font:400 12px/1.5 var(--font-mono);color:rgba(23,24,28,.66);overflow-wrap:anywhere;word-break:break-word">{{ a.imgNote }}</span>
+<span style="position:absolute;left:22px;right:22px;bottom:20px;display:flex;flex-direction:column;gap:var(--space-2)">
+<span style="font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--white);text-wrap:pretty">{{ a.title }}</span>
+</span>
+</button>
+</sc-if>
+<sc-if value="{{ a.idle }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ a.pick }}" aria-pressed="false" class="acard" style="flex:1;min-width:0;height:260px;display:block;padding:0;border:0;border-radius:var(--radius-lg);background:var(--navy-900);cursor:pointer;text-align:left;transition:box-shadow var(--dur) var(--ease),transform var(--dur) var(--ease)" style-hover="box-shadow:var(--shadow-md);transform:translateY(-2px)">
+<span class="acard-img" style="position:absolute;inset:0;display:block;background:var(--ph);opacity:.72"></span>
+<span style="position:absolute;inset:0;display:block;background:linear-gradient(to top,rgba(10,27,61,.9) 0%,rgba(10,27,61,.58) 52%,rgba(10,27,61,.3) 100%)"></span>
+<span style="position:absolute;top:16px;left:18px;right:18px;font:400 12px/1.5 var(--font-mono);color:rgba(23,24,28,.66);overflow-wrap:anywhere;word-break:break-word">{{ a.imgNote }}</span>
+<span style="position:absolute;left:22px;right:22px;bottom:20px;display:flex;flex-direction:column;gap:var(--space-2)">
+<span style="font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:rgba(255,255,255,.9);text-wrap:pretty">{{ a.title }}</span>
+</span>
+</button>
+</sc-if>
+</span>
+</sc-for>
+</div>
+</section>
+
+<section aria-live="polite" style="max-width:var(--container);margin:0 auto;padding:var(--space-12) var(--space-6) var(--space-24)">
+<div key="{{ current.key }}">
+<div style="padding-bottom:20px;border-bottom:1px solid var(--gray-300)">
+<h2 style="margin:0;max-width:860px;font:600 24px/1.3 var(--font-sans);letter-spacing:-.01em;color:var(--ink);text-wrap:pretty">{{ current.title }}</h2>
+</div>
+
+<div style="margin-top:var(--space-2);display:flex;flex-direction:column">
+<sc-for list="{{ current.subs }}" as="s" hint-placeholder-count="2">
+<div class="rise" style="padding:36px 0;border-bottom:1px solid var(--gray-100);display:flex;gap:var(--space-8);align-items:flex-start">
+<div style="flex:1;min-width:0;display:grid;grid-template-columns:132px minmax(0,1fr);gap:var(--space-4) var(--space-8);align-items:baseline">
+<div style="font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--ink)">{{ s.num }}</div>
+<h3 style="margin:0;font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--ink);text-wrap:pretty">{{ s.title }}</h3>
+<div style="font:500 14px/1.5 var(--font-sans);color:var(--gray-500)">Broad Problem</div>
+<div>
+<p style="display:{{ dEn }};margin:0;font:400 16px/1.65 var(--font-sans);color:var(--gray-700);text-wrap:pretty">{{ s.problem }}</p>
+<p style="display:{{ dKo }};margin:0;font:400 16px/1.75 var(--font-sans);color:var(--gray-700);text-wrap:pretty">{{ s.koProblem }}</p>
+</div>
+<div style="font:500 14px/1.5 var(--font-sans);color:var(--gray-500)">Research Goal</div>
+<div>
+<p style="display:{{ dEn }};margin:0;font:400 16px/1.65 var(--font-sans);color:var(--ink);text-wrap:pretty">{{ s.goal }}</p>
+<p style="display:{{ dKo }};margin:0;font:400 16px/1.75 var(--font-sans);color:var(--ink);text-wrap:pretty">{{ s.koGoal }}</p>
+</div>
+<div style="font:500 14px/1.5 var(--font-sans);color:var(--gray-500)">Application Areas</div>
+<div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
+<sc-for list="{{ s.areaChips }}" as="c" hint-placeholder-count="4">
+<span style="padding:5px 12px;border-radius:var(--radius-full);background:var(--gray-100);font:500 12px/1.4 var(--font-sans);color:var(--gray-700)">{{ c.label }}</span>
+</sc-for>
+</div>
+<div style="font:500 14px/1.5 var(--font-sans);color:var(--gray-500)">Related Papers</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)">
+<sc-for list="{{ s.papers }}" as="p" hint-placeholder-count="2">
+<a href="{{ p.url }}" style="display:block;padding:18px;border-radius:var(--radius-md);background:var(--gray-100);color:var(--ink)" style-hover="background:var(--navy-100)">
+<div style="font:600 15px/1.5 var(--font-sans);color:var(--ink);text-wrap:pretty">{{ p.title }}</div>
+<div style="margin-top:6px;font:400 12px/1.6 var(--font-mono);color:var(--gray-500)">{{ p.venue }}</div>
+<div style="margin-top:12px;font:600 13px/1 var(--font-sans);color:var(--navy-600)">Read paper →</div>
+</a>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+</main>
+
+<div style="position:fixed;right:24px;bottom:24px;z-index:40">
+<button type="button" onClick="{{ toggleLang }}" aria-label="Language" style="display:flex;padding:var(--space-1);border:1px solid var(--gray-300);border-radius:var(--radius-full);background:var(--white);box-shadow:var(--shadow-md);cursor:pointer">
+<span style="font:600 12px/1 var(--font-sans);padding:9px 14px;border-radius:var(--radius-full);background:{{ enPillBg }};color:{{ enPillFg }}">EN</span>
+<span style="font:600 12px/1 var(--font-sans);padding:9px 14px;border-radius:var(--radius-full);background:{{ koPillBg }};color:{{ koPillFg }}">KR</span>
+</button>
+</div>
+
+<footer style="background:var(--navy-900);color:rgba(255,255,255,.72);padding:var(--space-12) var(--space-6) var(--space-8)">
+<div style="max-width:var(--container);margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px">
+<div style="font:400 13px/1.7 var(--font-sans)">
+<div style="font:600 14px/1.5 var(--font-sans);color:var(--white)">Autonomous Control and Stochastic Systems Research Lab.</div>
+School of Electrical Engineering, KAIST
+</div>
+<a href="mailto:acss@kaist.ac.kr" style="font:400 13px/1.7 var(--font-sans);color:rgba(255,255,255,.72)" style-hover="color:var(--white)">acss@kaist.ac.kr</a>
+</div>
+<div style="max-width:var(--container);margin:28px auto 0;padding-top:var(--space-4);border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--space-2);font:400 12px/1.5 var(--font-sans);color:rgba(255,255,255,.5)">
+<span>© 2026 KAIST ACSS.</span>
+<a href="https://mintcat98.github.io/" target="_blank" rel="noopener" style="color:rgba(255,255,255,.5);text-decoration:none" style-hover="color:rgba(255,255,255,.85)">Designed by Mincheol Kang</a>
+</div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0A1B3D&quot;,&quot;options&quot;:[&quot;#1B4DA8&quot;,&quot;#143B84&quot;,&quot;#0A1B3D&quot;,&quot;#2E64C7&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;showSummary&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Cards&quot;}}">
+class Component extends DCLogic {
+  state = { nav: false, navAbout: false, navTeam: false, active: 0, lang: "en" };
+
+  componentDidMount() { this.applyAccent(); }
+  componentDidUpdate() { this.applyAccent(); }
+  applyAccent() { const a = this.props.accent; if (a) document.documentElement.style.setProperty("--navy-600", a); }
+
+  renderVals() {
+    const DATA = [
+      {
+        title: "Autonomous Decision-Making under Environment & System Uncertainties",
+        summary: "생성 AI 기반 플래닝과 적응 제어로, 환경·시스템 불확실성 아래에서도 안전성 보장을 유지하는 자율 의사결정.",
+        subs: [
+          {
+            title: "Safety vs. Multimodality in Generative AI Planning",
+            problem: "In robot planning problems, generative AI methods (diffusion models, flow-matching, etc.) can represent multimodal behaviors (e.g., a robot arm picking up a cup in multiple different positions). However, this flexibility conflicts inherently with safety, stability, and related guarantees crucial to closed-loop control.",
+            goal: "Develop generative AI-based planning algorithms for autonomous (robotic) agents that fundamentally encode safety/stability constraints without losing multimodal flexibility. Current methods of investigation include designing hierarchical safety filters and distributional control formulations.",
+            koProblem: "로봇 planning 문제에서 generative AI 기법(diffusion model, flow-matching 등)은 multimodal한 행동을 표현할 수 있습니다(예: 로봇 팔이 컵을 여러 다른 위치에서 집는 경우). 그러나 이러한 유연성은 closed-loop control에서 핵심적인 safety, stability 및 관련 보장과 본질적으로 충돌합니다.",
+            koGoal: "multimodal한 유연성을 잃지 않으면서 safety/stability 제약을 근본적으로 내재화하는, generative AI 기반 planning 알고리즘을 자율(로봇) 에이전트를 위해 개발합니다. 현재 검토 중인 방법으로는 hierarchical safety filter 설계와 distributional control 정식화가 있습니다.",
+            areas: "Generative AI for robotics; Diffusion/Flow-matching; Safe/Robust autonomy; Trajectory and motion planning."
+          },
+          {
+            title: "Robust & Adaptive Control with Uncertainty Quantification",
+            problem: "Real-world autonomous systems often experience external environment uncertainties and unmodeled dynamics. In particular, when stochastic effects are nonstationary (e.g., highly-dynamic environments, interaction-awareness), many stochastic control algorithms can experience poor adaptability and robustness.",
+            goal: "Develop path-planners that are robust and adaptive especially against nonstationary uncertainties, by combining both model-based and data-driven methods. Current methods of investigation include classical set prediction & propagation methods, learning-based OOD detectors (e.g., random network distillation), and online reinforcement learning.",
+            koProblem: "실제 환경의 자율 시스템은 외부 환경의 불확실성과 모델링되지 않은 dynamics를 자주 겪습니다. 특히 stochastic한 영향이 nonstationary할 때(예: 변화가 큰 환경, interaction-awareness가 필요한 상황) 많은 stochastic control 알고리즘은 적응성과 robustness가 크게 떨어집니다.",
+            koGoal: "model-based 방법과 data-driven 방법을 결합해, 특히 nonstationary한 불확실성에 대해 robust하고 adaptive한 path-planner를 개발합니다. 현재 검토 중인 방법으로는 고전적인 set prediction & propagation, learning-based OOD detector(예: random network distillation), online reinforcement learning이 있습니다.",
+            areas: "Fault-tolerant systems; OOD detection for control; Autonomous trajectory and motion planning; Online reinforcement learning."
+          }
+        ]
+      },
+      {
+        title: "Large-Scale Control and Estimation for Networks / Multiagent Systems",
+        summary: "네트워크 규모가 커져도 견고하게 동작하는 분산 제어·상태추정과, 센서 네트워크 기반 상황 인식 구조.",
+        subs: [
+          {
+            title: "Robust & Adaptive Large-Scale Network Control",
+            problem: "Scalable implementations of stochastic control and state-estimation algorithms introduce additional uncertainties (e.g., dynamic graph topology, delayed information transmission among agents) and constraints (e.g., limited communication bandwidth, lack of coordination among agents).",
+            goal: "Develop distributed/decentralized stochastic control and state-estimation algorithms for large-scale systems that are robust, adaptive, and scalable (i.e., localizable) to high-dimensional network uncertainties. Current methods of investigation include system level synthesis, consensus methods, and others.",
+            koProblem: "stochastic control과 state-estimation 알고리즘을 확장 가능하게 구현하면 추가적인 불확실성(예: 동적으로 변하는 graph topology, 에이전트 간 정보 전달 지연)과 제약(예: 제한된 통신 대역폭, 에이전트 간 coordination 부재)이 생깁니다.",
+            koGoal: "고차원 network 불확실성에 대해 robust하고 adaptive하며 scalable(즉, localizable)한 distributed/decentralized stochastic control 및 state-estimation 알고리즘을 large-scale 시스템에 대해 개발합니다. 현재 검토 중인 방법으로는 system level synthesis, consensus 기법 등이 있습니다.",
+            areas: "Multi-agent systems; Large-scale networks; Fault-tolerant control; Consensus; System level synthesis."
+          },
+          {
+            title: "Situational Awareness with Wireless Sensor Networks",
+            problem: "Real-time situational awareness for large-scale environments requires a delicate balance between efficiency and accuracy. However, many conventional data-gathering architectures have the external sensors transmit all their measurements to the decision-making central agent, increasing traffic congestion and unnecessarily redundant communications. In the case of visual data, high computation and power demands for processing can cause large reconstruction errors from asynchronous sensor updates.",
+            goal: "Develop architectures for large-scale, distributed estimation and scene reconstruction, with special focus on improving data preprocessing and transmission to optimally balance network efficiency and good reconstruction performance. Current methods of investigation include sensor scheduling, and 3D Gaussian splats.",
+            koProblem: "대규모 환경에 대한 실시간 situational awareness는 효율성과 정확도 사이의 섬세한 균형을 요구합니다. 그러나 기존의 많은 data-gathering 구조는 외부 sensor가 모든 측정값을 의사결정 중심 에이전트로 전송하게 해, 트래픽 혼잡과 불필요하게 중복된 통신을 늘립니다. 시각 데이터의 경우 처리에 필요한 높은 연산량과 전력 요구가 asynchronous한 sensor 갱신으로 인한 큰 reconstruction 오차를 유발할 수 있습니다.",
+            koGoal: "large-scale distributed estimation과 scene reconstruction을 위한 구조를 개발합니다. 특히 network 효율성과 좋은 reconstruction 성능이 최적으로 균형을 이루도록 데이터 전처리와 전송을 개선하는 데 집중합니다. 현재 검토 중인 방법으로는 sensor scheduling과 3D Gaussian splat이 있습니다.",
+            areas: "Distributed data-gathering; Multi-target Tracking; Distributed 3D reconstruction; Sensor networks; Robotic sensor networks."
+          }
+        ]
+      },
+      {
+        title: "Data-Efficient Online Learning for Adaptive Autonomous Systems",
+        summary: "제어에 유효한 잠재 표현과 데이터 효율적 적응 기법으로, 온라인에서 학습하며 새 과제에 적응하는 에이전트.",
+        subs: [
+          {
+            title: "Control-Relevant Latent Representations for Embodied AI",
+            problem: "AGI architectures (e.g., VLAMs) offer a powerful foundation for complex autonomous decision-making and embodied AI. However, their internal representations are often difficult to analyze, especially when 1) conditions like visual inputs, language inputs, or contexts change, and when 2) when tasks must be performed sequentially over time without catastrophic forgetting.",
+            goal: "Develop control-relevant latent representations and geometric models of the latent space for VLAM-based decision makers. Develop, in particular, a \u201csimilarity metric\u201d on the latent space so that semantically-equivalent observations remain close. Current methods of investigation include manifold steering, dimensionality reduction, and group equivariance.",
+            koProblem: "AGI 구조(예: VLAM)는 복잡한 자율 의사결정과 embodied AI를 위한 강력한 토대를 제공합니다. 그러나 내부 표현은 분석이 어려운 경우가 많습니다. 특히 1) 시각 입력, 언어 입력, context 같은 조건이 바뀔 때, 그리고 2) catastrophic forgetting 없이 여러 task를 시간에 걸쳐 순차적으로 수행해야 할 때 그렇습니다.",
+            koGoal: "VLAM 기반 의사결정기를 위한 control-relevant latent representation과 latent space의 기하학적 모델을 개발합니다. 특히 의미적으로 동등한 관측이 서로 가깝게 유지되도록 latent space 상의 \u201csimilarity metric\u201d을 개발합니다. 현재 검토 중인 방법으로는 manifold steering, 차원 축소, group equivariance가 있습니다.",
+            areas: "Vision-language-action models; World models; Embodied AI; Huamn-robot interaction; Continuous Control; Representation learning."
+          },
+          {
+            title: "Data-Efficient Adaptation and Active Learning",
+            problem: "Real-world data collection for robotic control is often expensive, sparse, and safety-critical. This means naive methods of fine-tuning and training are often unsuitable for robotic systems, especially if they must learn to adapt to new tasks and environments.",
+            goal: "Develop methods for improving robot performance by identifying the most valuable data samples and allowing agents to make decisions quickly (with accelerated convergence towards the optimal hyperparameters). Current methods of investigation include adaptive gradient descent, active learning, and stochastic optimization.",
+            koProblem: "로봇 제어를 위한 실제 데이터 수집은 비용이 크고, 희소하며, safety-critical한 경우가 많습니다. 따라서 단순한 fine-tuning이나 학습 방식은 로봇 시스템에 적합하지 않은 경우가 많으며, 새로운 task와 환경에 적응해야 할 때 특히 그렇습니다.",
+            koGoal: "가장 가치 있는 데이터 샘플을 식별하고 에이전트가 빠르게 결정을 내리도록(최적 hyperparameter로의 수렴을 가속하며) 하여 로봇 성능을 개선하는 방법을 개발합니다. 현재 검토 중인 방법으로는 adaptive gradient descent, active learning, stochastic optimization이 있습니다.",
+            areas: "Optimization methods in ML; Active learning; Online learning; Stochastic Approximation; Data-efficient control."
+          }
+        ]
+      }
+    ];
+
+    const pad = (n) => (n < 10 ? "0" + n : "" + n);
+    const idx = Math.min(this.state.active, DATA.length - 1);
+    const showSummary = this.props.showSummary ?? true;
+
+    const areas = DATA.map((d, i) => ({
+      num: pad(i + 1),
+      title: d.title,
+      summary: showSummary ? d.summary : "",
+      subCountLine: "세부 주제 " + d.subs.length + "개",
+      imgNote: "research image — /images/research/" + pad(i + 1) + ".jpg",
+      active: idx === i,
+      idle: idx !== i,
+      pick: () => this.setState({ active: i })
+    }));
+
+    const cur = DATA[idx];
+    const en = this.state.lang === "en";
+    return {
+      areas,
+      dEn: en ? "block" : "none",
+      dKo: en ? "none" : "block",
+      enPillBg: en ? "var(--navy-900)" : "transparent",
+      enPillFg: en ? "var(--white)" : "var(--gray-500)",
+      koPillBg: en ? "transparent" : "var(--navy-900)",
+      koPillFg: en ? "var(--gray-500)" : "var(--white)",
+      toggleLang: () => this.setState((s) => ({ lang: s.lang === "en" ? "ko" : "en" })),
+      current: {
+        key: "area-" + idx,
+        num: pad(idx + 1),
+        title: cur.title,
+        subs: cur.subs.map((s, j) => ({
+          num: String.fromCharCode(65 + j) + ".",
+          title: s.title,
+          problem: s.problem,
+          goal: s.goal,
+          koProblem: s.koProblem,
+          koGoal: s.koGoal,
+          areaChips: s.areas.replace(/\.$/, "").split(";").map((x) => ({ label: x.trim() })).filter((x) => x.label),
+          papers: s.papers || [
+            { title: "대표 논문 제목을 넣어 주세요", venue: "저자, 학회/저널, 연도", url: "#" },
+            { title: "두 번째 논문 제목을 넣어 주세요", venue: "저자, 학회/저널, 연도", url: "#" }
+          ]
+        }))
+      },
+      nav: this.state.nav, navAbout: this.state.navAbout, navTeam: this.state.navTeam,
+      openNav: () => this.setState({ nav: true }), closeNav: () => this.setState({ nav: false }),
+      openAbout: () => this.setState({ navAbout: true }), closeAbout: () => this.setState({ navAbout: false }),
+      openTeam: () => this.setState({ navTeam: true }), closeTeam: () => this.setState({ navTeam: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

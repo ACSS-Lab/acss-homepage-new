@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+--navy-900:#0A1B3D;--navy-700:#143B84;--navy-600:#1B4DA8;--navy-500:#2E64C7;--navy-100:#E7EEFA;
+--ink:#17181C;--gray-700:#4E5968;--gray-500:#66707E;--gray-300:#D1D6DB;--gray-100:#F2F4F6;--white:#fff;--bg:#FCFCFD;
+--radius-sm:8px;--radius-md:12px;--radius-lg:14px;--radius-full:9999px;
+--shadow-sm:0 1px 2px rgba(10,27,61,.06);--shadow-md:0 6px 20px rgba(10,27,61,.08);--shadow-lg:0 14px 36px rgba(10,27,61,.12);
+--ease:cubic-bezier(.2,.8,.2,1);
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--space-12:48px;--space-16:64px;--space-24:96px;
+--dur-fast:150ms;--dur:200ms;--dur-slow:300ms;
+--container:1120px;--container-narrow:720px;
+--font-sans:"Pretendard Variable","Pretendard","Spoqa Han Sans Neo","Noto Sans KR",sans-serif;
+--font-mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+--ph:repeating-linear-gradient(135deg,#EDEFF2 0 9px,#E4E8EC 9px 18px);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:var(--font-sans)}
+a{color:var(--navy-600);text-decoration:none}a:hover{color:var(--navy-500)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--navy-500);outline-offset:2px}
+@keyframes riseIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.rise{animation:riseIn 420ms var(--ease) both}
+@keyframes caretBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.rise{animation:none}}
+</style></helmet>
+
+<header style="position:sticky;top:0;z-index:20;background:var(--white);box-shadow:var(--shadow-sm)">
+<div style="width:100%;box-sizing:border-box;padding:0 var(--space-12);height:68px;display:flex;align-items:center;justify-content:space-between">
+<a href="./ACSS%20Home.dc.html" style="display:flex;align-items:center;gap:10px;color:var(--ink)">
+<span style="width:22px;height:22px;background:var(--navy-900);border-radius:5px;display:block"></span>
+<span style="font:700 19px/1 var(--font-sans);letter-spacing:-.02em">ACSS</span>
+<span style="font:400 12px/1 var(--font-sans);color:var(--gray-500);padding-left:10px;border-left:1px solid var(--gray-300)">KAIST EE</span>
+</a>
+<nav style="display:flex;align-items:center;gap:var(--space-1)">
+<div style="position:relative" onMouseEnter="{{ openAbout }}" onMouseLeave="{{ closeAbout }}">
+<a href="#top" aria-current="page" style="display:flex;align-items:center;gap:5px;padding:9px 14px;font:600 15px/1 var(--font-sans);color:var(--navy-600);border-radius:var(--radius-md);background:var(--navy-100)">About<span style="font-size:12px">▾</span></a>
+<sc-if value="{{ navAbout }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 4px);left:0;min-width:196px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:var(--space-2)">
+<a href="#top" style="display:block;padding:10px 12px;font:600 14px/1.2 var(--font-sans);color:var(--navy-600);border-radius:var(--radius-sm);background:var(--gray-100)">Our Vision</a>
+<a href="#top" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">Research Areas</a>
+</div>
+</sc-if>
+</div>
+<div style="position:relative" onMouseEnter="{{ openNav }}" onMouseLeave="{{ closeNav }}">
+<a href="#top" style="display:flex;align-items:center;gap:5px;padding:9px 14px;font:500 15px/1 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">Research<span style="font-size:12px;color:var(--gray-500)">▾</span></a>
+<sc-if value="{{ nav }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 4px);left:0;min-width:196px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:var(--space-2)">
+<a href="#top" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">Projects</a>
+<a href="#top" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-sm)" style-hover="background:var(--gray-100);color:var(--navy-600)">Publications</a>
+</div>
+</sc-if>
+</div>
+<div style="position:relative" onMouseEnter="{{ openTeam }}" onMouseLeave="{{ closeTeam }}">
+<a href="./ACSS%20Team.dc.html" style="display:flex;align-items:center;gap:5px;padding:9px 14px;font:500 15px/1 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">Team<span style="font-size:12px;color:var(--gray-500)">▾</span></a>
+<sc-if value="{{ navTeam }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 4px);left:0;min-width:206px;background:var(--white);box-shadow:var(--shadow-md);padding:var(--space-2)">
+<a href="./ACSS%20Professor.dc.html" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700)" style-hover="background:var(--gray-100);color:var(--navy-600)">PI &amp; Staffs</a>
+<a href="./ACSS%20Team.dc.html#current" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700)" style-hover="background:var(--gray-100);color:var(--navy-600)">Current members</a>
+<a href="./ACSS%20Team.dc.html#interns" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700)" style-hover="background:var(--gray-100);color:var(--navy-600)">Undergraduate interns</a>
+<a href="./ACSS%20Team.dc.html#alumni" style="display:block;padding:10px 12px;font:500 14px/1.2 var(--font-sans);color:var(--gray-700)" style-hover="background:var(--gray-100);color:var(--navy-600)">Alumni</a>
+</div>
+</sc-if>
+</div>
+<a href="./ACSS%20Gallery.dc.html" style="padding:9px 14px;font:500 15px/1 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">Gallery</a>
+<a href="./ACSS%20Contact.dc.html" style="padding:9px 14px;font:500 15px/1 var(--font-sans);color:var(--gray-700);border-radius:var(--radius-md)" style-hover="background:var(--gray-100);color:var(--ink)">Contact</a>
+</nav>
+</div>
+</header>
+
+<main id="top" style="background:var(--bg)">
+
+<section style="position:relative;background:var(--navy-900);overflow:hidden">
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 14px,rgba(255,255,255,.015) 14px 28px)"></div>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,27,61,.72) 0%,rgba(10,27,61,.88) 55%,rgba(10,27,61,.97) 100%)"></div>
+<div style="position:absolute;right:24px;top:16px;font:400 12px/1.5 var(--font-mono);color:rgba(255,255,255,.62);text-align:right;overflow-wrap:anywhere;word-break:break-word">background image — 1920×900<br>그라데이션 오버레이 위에 텍스트</div>
+<div style="position:relative;max-width:var(--container);margin:0 auto;padding:88px 24px 84px">
+<h1 ref="{{ headlineRef }}" style="margin:0 auto;max-width:980px;text-align:center;font:700 48px/1.16 var(--font-sans);min-height:2.32em;letter-spacing:-.03em;color:var(--white);text-wrap:balance">Structured by <span style="font-style:italic;font-weight:400">theory</span>,<br>robustly adaptive under <span style="font-style:italic;font-weight:400">uncertainty</span>.</h1>
+<p style="display:{{ dEn }};margin:26px auto 0;max-width:820px;text-align:center;font:400 20px/1.7 var(--font-sans);color:rgba(255,255,255,.8);text-wrap:pretty">We develop structured, data-efficient decision-making for stochastic autonomous systems — control theory, optimization, and modern AI, with theoretical guarantees for safety, stability, and robust adaptation under uncertainty.</p>
+<p style="display:{{ dKo }};margin:26px auto 0;max-width:820px;text-align:center;font:400 20px/1.75 var(--font-sans);color:rgba(255,255,255,.8);text-wrap:pretty">확률적(stochastic) 자율 시스템을 위한 구조적이고 데이터 효율적인 의사결정 기법을 연구합니다. control theory, optimization, modern AI를 결합하면서도 safety, stability, robust adaptation에 대한 이론적 보장을 유지합니다.</p>
+<div style="margin:56px auto 0;max-width:1000px;display:grid;grid-template-columns:1fr 1fr;gap:56px">
+<div>
+<h2 style="display:{{ dEn }};margin:0;font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--white)">Real-world autonomy</h2>
+<h2 style="display:{{ dKo }};margin:0;font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--white)">실제 환경의 자율성</h2>
+<p style="display:{{ dEn }};margin:14px 0 0;font:400 16px/1.75 var(--font-sans);color:rgba(255,255,255,.68);text-wrap:pretty">Limited data, model mismatch, faults, and out-of-distribution (OOD) behavior demand methods that are practically effective and theoretically reliable.</p>
+<p style="display:{{ dKo }};margin:14px 0 0;font:400 16px/1.8 var(--font-sans);color:rgba(255,255,255,.68);text-wrap:pretty">제한된 데이터, 모델 불일치, 고장, out-of-distribution(OOD) 거동은 실제로 효과적이면서 이론적으로도 신뢰할 수 있는 방법을 요구합니다.</p>
+<div style="margin:var(--space-8) 0 0;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:var(--space-3)">
+<a href="./ACSS%20Contact.dc.html" style="display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:13px 22px;border:1px solid var(--white);border-radius:var(--radius-md);background:var(--white);color:var(--navy-900);font:600 15px/1 var(--font-sans)" style-hover="background:var(--navy-100);border-color:var(--navy-100)">Join Us →</a>
+</div>
+</div>
+<div>
+<h2 style="display:{{ dEn }};margin:0;font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--white)">Where it applies</h2>
+<h2 style="display:{{ dKo }};margin:0;font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--white)">적용 분야</h2>
+<p style="display:{{ dEn }};margin:14px 0 0;font:400 16px/1.75 var(--font-sans);color:rgba(255,255,255,.68);text-wrap:pretty">Motion planning, distribution shifts and OOD behavior, reinforcement learning, multi-agent and networked systems, and embodied AI.</p>
+<p style="display:{{ dKo }};margin:14px 0 0;font:400 16px/1.8 var(--font-sans);color:rgba(255,255,255,.68);text-wrap:pretty">Motion planning, distribution shift와 OOD 거동, reinforcement learning, multi-agent 및 networked systems, embodied AI.</p><div style="margin:var(--space-8) 0 0;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:var(--space-3)">
+<a href="./ACSS%20Research%20Areas.dc.html" style="display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:13px 22px;border:1px solid var(--white);border-radius:var(--radius-md);background:var(--white);color:var(--navy-900);font:600 15px/1 var(--font-sans)" style-hover="background:var(--navy-100);border-color:var(--navy-100)">Research Areas →</a>
+
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section style="max-width:var(--container);margin:0 auto;padding:var(--space-16) var(--space-6) 0">
+<div style="display:grid;grid-template-columns:180px minmax(0,1fr) 268px;gap:40px;align-items:start;padding-top:var(--space-6);border-top:1px solid var(--gray-300)">
+<div style="font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--ink)">
+<span style="display:{{ dEn }}">A Layperson's Introduction</span>
+<span style="display:{{ dKo }}">비전문가를 위한 소개</span>
+</div>
+<div style="max-width:var(--container-narrow)">
+<p style="display:{{ dEn }};margin:0;font:400 16px/1.75 var(--font-sans);color:var(--ink);text-wrap:pretty"><b style="font-weight:600">Uncertainty is everywhere in the real world</b>. A sudden power outage may occur at home; flights, packages, and emails may be delayed; and every commute involves pedestrians, cyclists, and vehicles whose behaviors are uncertain. Even our own choices can be uncertain, from what gift to buy for a friend, to what clothes to wear for the day.</p>
+<p style="display:{{ dEn }};margin:20px 0 0;font:400 16px/1.75 var(--font-sans);color:var(--ink);text-wrap:pretty">Despite this, people navigate daily life reasonably well because we can adapt, plan, and make reliable decisions even when our predictions are imperfect. It follows naturally that control and decision-making methods for cyberphysical/robotic autonomous systems should follow a similar principle.</p>
+<p style="display:{{ dKo }};margin:0;font:400 16px/1.85 var(--font-sans);color:var(--ink);text-wrap:pretty"><b style="font-weight:600">불확실성은 현실 세계 어디에나 있습니다</b>. 집에서는 갑작스러운 정전이 일어날 수 있고, 항공편과 택배, 이메일은 지연될 수 있으며, 매일의 이동에는 행동을 예측하기 어려운 보행자와 자전거, 차량이 함께 있습니다. 친구에게 어떤 선물을 살지, 오늘 무엇을 입을지처럼 우리 자신의 선택조차 불확실합니다.</p>
+<p style="display:{{ dKo }};margin:20px 0 0;font:400 16px/1.85 var(--font-sans);color:var(--ink);text-wrap:pretty">그럼에도 사람들은 일상을 큰 문제 없이 살아갑니다. 예측이 완벽하지 않아도 <b style="font-weight:600">적응하고, 계획하고, 신뢰할 수 있는 결정</b>을 내릴 수 있기 때문입니다. cyberphysical/robotic 자율 시스템을 위한 제어와 의사결정 방법 역시 <b style="font-weight:600">같은 원리를 따라야 한다</b>는 결론은 자연스럽습니다.</p>
+</div>
+<div>
+<div style="aspect-ratio:3/4;border-radius:var(--radius-lg);background:var(--ph);display:flex;align-items:flex-end;padding:14px">
+<span style="font:400 12px/1.5 var(--font-mono);color:var(--gray-500);text-wrap:pretty;overflow-wrap:anywhere;word-break:break-word">photo — 보행자·자전거·차량이 섞인 교차로</span>
+</div>
+<p style="margin:10px 0 0;font:400 12px/1.6 var(--font-sans);color:var(--gray-500);text-wrap:pretty">Fig 1. 일상의 이동에 섞여 있는 불확실성. alt 텍스트 필수.</p>
+</div>
+</div>
+</section>
+
+<section style="max-width:var(--container);margin:0 auto;padding:56px 24px 96px">
+<div style="display:grid;grid-template-columns:180px minmax(0,1fr) 268px;gap:40px;align-items:start;padding-top:var(--space-6);border-top:1px solid var(--gray-300)">
+<div style="font:600 20px/1.4 var(--font-sans);letter-spacing:-.01em;color:var(--ink)">
+<span style="display:{{ dEn }}">Some Technical Background</span>
+<span style="display:{{ dKo }}">기술적 배경</span>
+</div>
+<div style="max-width:var(--container-narrow)">
+<p style="display:{{ dEn }};margin:0;font:400 16px/1.75 var(--font-sans);color:var(--ink);text-wrap:pretty">Probabilistic concepts like stochastic processes/differential equations provide core mathematical tools for modeling systems affected by random phenomena. In control systems engineering and its related subfields, such structured model-based methods are often interpretable and theoretically grounded, making it feasible to derive concrete guarantees for properties such as stability, safety, and robustness.</p>
+<p style="display:{{ dEn }};margin:20px 0 0;font:400 16px/1.75 var(--font-sans);color:var(--ink);text-wrap:pretty">However, many uncertain systems in practice are too complex to model exactly <i style="">("All models are wrong, but some are useful" -- Box, 1976)</i>. This has motivated data-driven, often model-free approaches based on artificial intelligence (AI), especially because of their strong representation and generalization abilities. At the same time, AI-based methods require high-quality data and substantial computation, and their lack of interpretability can make it difficult to certify stability, safety, or reliability under distribution shifts or faults.</p>
+<p style="display:{{ dEn }};margin:20px 0 0;font:400 16px/1.75 var(--font-sans);color:var(--ink);text-wrap:pretty">To achieve trustworthy autonomous control and decision-making under uncertainty, it is important to study the spectrum between model-based<i style="">(structured)</i> and model-free<i style="">(data-driven)</i> methods. The goal is to combine the flexibility of the model-free with the structure, reliability, and certifiability of the model-based.</p>
+<p style="display:{{ dKo }};margin:0;font:400 16px/1.85 var(--font-sans);color:var(--ink);text-wrap:pretty">Stochastic process나 stochastic differential equation 같은 확률 개념은 무작위 현상의 영향을 받는 시스템을 모델링하는 <b style="font-weight:600">핵심 수학 도구</b>입니다. 제어공학과 인접 분야에서 이런 구조적인 model-based 방법은 해석 가능하고 이론적 근거가 분명해, stability, safety, robustness 같은 성질에 대해 구체적인 보장을 이끌어낼 수 있습니다.</p>
+<p style="display:{{ dKo }};margin:20px 0 0;font:400 16px/1.85 var(--font-sans);color:var(--ink);text-wrap:pretty">그러나 현실의 많은 불확실한 시스템은 <b style="font-weight:600">정확히 모델링하기에는 너무 복잡합니다</b><i>("All models are wrong, but some are useful" -- Box, 1976)</i>. 그래서 표현력과 일반화 능력이 뛰어난 AI 기반의 data-driven, 흔히 model-free인 접근이 주목받아 왔습니다. 다만 AI 기반 방법은 양질의 데이터와 상당한 계산량을 필요로 하고, <b style="font-weight:600">해석 가능성이 낮아</b> distribution shift나 고장 상황에서 stability, safety, reliability를 보장하기 어렵습니다.</p>
+<p style="display:{{ dKo }};margin:20px 0 0;font:400 16px/1.85 var(--font-sans);color:var(--ink);text-wrap:pretty">불확실성 하에서 신뢰할 수 있는 자율 제어와 의사결정을 이루려면 <b style="font-weight:600">model-based<i>(structural)</i>와 model-free<i>(data-driven)</i> 사이의 스펙트럼</b>을 연구하는 것이 중요합니다. 목표는 model-free의 유연성과 model-based의 구조·신뢰성·검증 가능성을 결합하는 것입니다.</p>
+</div>
+<div>
+<div style="aspect-ratio:3/4;border-radius:var(--radius-lg);background:var(--ph);display:flex;align-items:flex-end;padding:14px">
+<span style="font:400 12px/1.5 var(--font-mono);color:var(--gray-500);text-wrap:pretty;overflow-wrap:anywhere;word-break:break-word">research figure — model-based ↔ model-free 스펙트럼</span>
+</div>
+<p style="margin:10px 0 0;font:400 12px/1.6 var(--font-sans);color:var(--gray-500);text-wrap:pretty">Fig 2. 구조와 데이터 주도성 사이의 스펙트럼. 캡션·alt 텍스트 필수.</p>
+</div>
+</div>
+</section>
+
+</main>
+
+<div style="position:fixed;right:24px;bottom:24px;z-index:40">
+<button type="button" onClick="{{ toggleLang }}" aria-label="Language" style="display:flex;padding:var(--space-1);border:1px solid var(--gray-300);border-radius:var(--radius-full);background:var(--white);box-shadow:var(--shadow-md);cursor:pointer">
+<span style="font:600 12px/1 var(--font-sans);padding:9px 14px;border-radius:var(--radius-full);background:{{ enPillBg }};color:{{ enPillFg }}">EN</span>
+<span style="font:600 12px/1 var(--font-sans);padding:9px 14px;border-radius:var(--radius-full);background:{{ koPillBg }};color:{{ koPillFg }}">KR</span>
+</button>
+</div>
+
+<footer style="background:var(--navy-900);color:rgba(255,255,255,.72);padding:var(--space-12) var(--space-6) var(--space-8)">
+<div style="max-width:var(--container);margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px">
+<div style="font:400 13px/1.7 var(--font-sans)">
+<div style="font:600 14px/1.5 var(--font-sans);color:var(--white)">Autonomous Control and Stochastic Systems Research Lab.</div>
+School of Electrical Engineering, KAIST
+</div>
+<a href="mailto:acss@kaist.ac.kr" style="font:400 13px/1.7 var(--font-sans);color:rgba(255,255,255,.72)" style-hover="color:var(--white)">acss@kaist.ac.kr</a>
+</div>
+<div style="max-width:var(--container);margin:28px auto 0;padding-top:var(--space-4);border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--space-2);font:400 12px/1.5 var(--font-sans);color:rgba(255,255,255,.62)">
+<span>© 2026 KAIST ACSS.</span>
+<a href="https://mintcat98.github.io/" target="_blank" rel="noopener" style="color:rgba(255,255,255,.62);text-decoration:none" style-hover="color:rgba(255,255,255,.85)">Designed by Mincheol Kang</a>
+</div>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0A1B3D&quot;,&quot;options&quot;:[&quot;#1B4DA8&quot;,&quot;#143B84&quot;,&quot;#0A1B3D&quot;,&quot;#2E64C7&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;typing&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Headline&quot;},&quot;typingSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:42,&quot;min&quot;:10,&quot;max&quot;:120,&quot;step&quot;:2,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Headline&quot;}}">
+class Component extends DCLogic {
+  state = { nav: false, navAbout: false, navTeam: false, lang: "en" };
+
+  headlineRef = React.createRef();
+
+  componentDidMount() { this.applyAccent(); this.startTyping(); }
+
+  startTyping() {
+    const el = this.headlineRef.current;
+    if (!el || this._typed) return;
+    if (this.props.typing === false) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    this._typed = true;
+
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    let n;
+    while ((n = walker.nextNode())) nodes.push({ node: n, text: n.nodeValue });
+    nodes.forEach((x) => { x.node.nodeValue = ""; });
+
+    el.querySelectorAll("[data-caret]").forEach((c) => c.remove());
+    const token = (el.__typeToken = (el.__typeToken || 0) + 1);
+    const caret = document.createElement("span");
+    caret.setAttribute("aria-hidden", "true");
+    caret.setAttribute("data-caret", "");
+    caret.style.cssText = "display:inline-block;width:3px;height:.82em;margin-left:.06em;vertical-align:-.06em;background:currentColor;animation:caretBlink 900ms steps(1,end) infinite";
+
+    const speed = Math.max(8, Number(this.props.typingSpeed) || 42);
+    const erase = Math.max(6, Math.round(speed * 0.45));
+    const wait = (ms) => new Promise((r) => { this._typeT = setTimeout(r, ms); });
+
+    // 전체 헤드라인을 하나의 문자열로 보고, 앞에서부터 k글자만 노출
+    const total = nodes.reduce((s, x) => s + x.text.length, 0);
+    const showFull = (k) => {
+      let left = k, last = nodes[0].node;
+      nodes.forEach((x) => {
+        const take = Math.max(0, Math.min(x.text.length, left));
+        x.node.nodeValue = x.text.slice(0, take);
+        if (take > 0) last = x.node;
+        left -= take;
+      });
+      place(last);
+    };
+    const place = (node) => {
+      if (caret.previousSibling !== node) node.parentNode.insertBefore(caret, node.nextSibling);
+    };
+    const clearAll = () => nodes.forEach((x) => { x.node.nodeValue = ""; });
+    const showShort = (k) => {
+      clearAll();
+      nodes[0].node.nodeValue = "Our Vision".slice(0, k);
+      place(nodes[0].node);
+    };
+
+    const fullText = nodes.map((x) => x.text).join("");
+    const pauseAt = (k) => {
+      const ch = fullText[k - 1];
+      return ch === "," || ch === "." ? speed * 7 : speed;
+    };
+
+    const run = async () => {
+      while (!this._stopped && el.__typeToken === token) {
+        for (let k = 1; k <= 10; k++) { showShort(k); await wait(speed); }
+        await wait(1100);
+        for (let k = 9; k >= 0; k--) { showShort(k); await wait(erase); }
+        await wait(260);
+        for (let k = 1; k <= total; k++) { showFull(k); await wait(pauseAt(k)); }
+        await wait(3200);
+        for (let k = total - 1; k >= 0; k--) { showFull(k); await wait(erase); }
+        await wait(400);
+      }
+    };
+    this._typeT = setTimeout(run, 320);
+  }
+
+  componentWillUnmount() { this._stopped = true; clearTimeout(this._typeT); }
+  componentDidUpdate() { this.applyAccent(); }
+  applyAccent() { const a = this.props.accent; if (a) document.documentElement.style.setProperty("--navy-600", a); }
+
+  renderVals() {
+    const en = this.state.lang !== "ko";
+    return {
+      headlineRef: this.headlineRef,
+      dEn: en ? "block" : "none",
+      dKo: en ? "none" : "block",
+      enPillBg: en ? "var(--navy-900)" : "transparent",
+      enPillFg: en ? "var(--white)" : "var(--gray-500)",
+      koPillBg: en ? "transparent" : "var(--navy-900)",
+      koPillFg: en ? "var(--gray-500)" : "var(--white)",
+      toggleLang: () => this.setState((s) => ({ lang: s.lang === "ko" ? "en" : "ko" })),
+      nav: this.state.nav, navAbout: this.state.navAbout, navTeam: this.state.navTeam,
+      openNav: () => this.setState({ nav: true }), closeNav: () => this.setState({ nav: false }),
+      openAbout: () => this.setState({ navAbout: true }), closeAbout: () => this.setState({ navAbout: false }),
+      openTeam: () => this.setState({ navTeam: true }), closeTeam: () => this.setState({ navTeam: false })
+    };
+  }
+}
+
+</script>
+</body>
+</html>
