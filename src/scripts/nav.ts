@@ -1,8 +1,16 @@
-// Keyboard support for the header dropdowns. Opening and closing on hover/focus
-// is pure CSS (see NavItem.astro); this adds what CSS can't do:
+// Header menu behavior. Opening and closing the dropdowns on hover/focus is
+// pure CSS (see NavItem.astro); this adds what CSS can't do:
 //   Escape      close the menu and return focus to its top-level link
 //   ArrowDown   move into the menu / to the next entry (wraps)
 //   ArrowUp     move to the previous entry (wraps)
+// and, below md, the drawer (a <dialog>, see SiteHeader.astro):
+//   [data-nav-toggle]   opens it; aria-expanded and the header's data-menu-open mirror its state
+//   [data-nav-drawer]   the dialog; Escape, a click on the backdrop, a click on a menu link
+//                       or widening the window past md close it (focus returns to the toggle)
+//   [data-nav-close]    its close button
+
+/** Mirrors `md` in tokens.css. */
+const DESKTOP = '(min-width: 768px)';
 
 export function initNav(root: ParentNode = document): void {
   root.querySelectorAll<HTMLElement>('[data-nav-item]').forEach((item) => {
@@ -32,5 +40,32 @@ export function initNav(root: ParentNode = document): void {
       const start = current === -1 && step === -1 ? 0 : current;
       links[(start + step + links.length) % links.length].focus();
     });
+  });
+
+  root.querySelectorAll<HTMLButtonElement>('[data-nav-toggle]').forEach((toggle) => {
+    const header = toggle.closest<HTMLElement>('header');
+    const drawer = header?.querySelector<HTMLDialogElement>('[data-nav-drawer]');
+    if (!header || !drawer) return;
+    const desktop = window.matchMedia(DESKTOP);
+
+    const sync = () => {
+      header.toggleAttribute('data-menu-open', drawer.open);
+      toggle.setAttribute('aria-expanded', String(drawer.open));
+    };
+
+    toggle.addEventListener('click', () => {
+      if (!drawer.open && !desktop.matches) drawer.showModal();
+      sync();
+    });
+    drawer.addEventListener('close', sync);
+    drawer.querySelectorAll<HTMLElement>('[data-nav-close]').forEach((button) => button.addEventListener('click', () => drawer.close()));
+    drawer.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target === drawer || target.closest('a')) drawer.close();
+    });
+    desktop.addEventListener('change', (event) => {
+      if (event.matches && drawer.open) drawer.close();
+    });
+    sync();
   });
 }

@@ -98,7 +98,7 @@
   --font-sans: "Pretendard Variable", "Pretendard", "Spoqa Han Sans Neo", "Noto Sans KR", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;  /* placeholder notes, venue lines */
   ```
-- **Baseline feel**: Toss uses a dense 13px baseline, but we have lots of *reading* content, so **body is 16px** for legibility. Only dense areas (lists/meta) drop to 13–14px.
+- **Baseline feel**: Toss uses a dense 13px baseline, but we have lots of *reading* content, so **body is 16px** for legibility. Only dense areas (lists/meta) drop to 13-14px.
 - **12px is for low-priority info only** (captions, footnotes, disclaimers).
 
 | Token | Size (mobile/desktop) | Weight | Line-height | Use |
@@ -111,12 +111,12 @@
 | `--fs-wordmark` | 19px | 700 | 1 | header wordmark |
 | `--fs-lg` | 18px | 600 | 1.4 | small card title |
 | `--fs-body` | 16px | 400 | 1.65 | body (abstracts, intros) |
-| `--fs-ui` | 15px | 500–600 | 1 | nav items, buttons |
+| `--fs-ui` | 15px | 500-600 | 1 | nav items, buttons |
 | `--fs-sm` | 14px | 400 | 1.5 | list rows, meta |
-| `--fs-meta` | 13px | 400–600 | 1.5 | footer, dense meta, inline CTAs |
+| `--fs-meta` | 13px | 400-600 | 1.5 | footer, dense meta, inline CTAs |
 | `--fs-caption` | 12px | 500 | 1.4 | captions, badges |
 
-- `tokens.css` currently holds the **desktop** values only; the mobile column is the target for the responsive pass.
+- The mobile column applies below `md` (768px) through the `@media` block in `tokens.css`; components just use the token.
 - Slightly tighten heading letter-spacing (-0.01em … -0.03em as size grows). Constrain long body (abstracts, research intros) to `--container-narrow` for readable line length.
 - **Korean prose is set looser than English**: `--lh-prose-en: 1.75`, `--lh-prose-ko: 1.85`.
 
@@ -132,7 +132,7 @@
 - **Keep the footer structurally identical across all subpages** — the one element that stays fixed as a nav anchor.
 
 ### Don't
-- Force everything into a uniform 3–4 column grid.
+- Force everything into a uniform 3-4 column grid.
 - Repeat the same **"headline → title → description → button → content" section formula.** It pads whitespace and buries the key info.
 
 ### Per-page density
@@ -169,6 +169,7 @@
 ### Navigation
 - **Home variant (`overlay`)**: fixed over the hero and transparent; white text and mark. Over the first 160px of scroll it fades to white in 1/20 steps, text turns dark past the midpoint and `--shadow-sm` appears past 75%.
 - Sticky top, `--header-h` tall, white bg + `--shadow-sm`. Brand lockup (navy mark, wordmark, affiliation) left; menu right. Menu entries come from `navigation.yaml`.
+- Below `md` the menu sits behind a 44px `menu` button and opens as a **right-hand drawer**: a native `<dialog>` (top layer, `--overlay` backdrop, page scroll locked), `min(320px, 85vw)` wide and full height, sliding in over `--dur-slow`. A 44px `x` button tops it, then one full-width 44px row per entry with dropdown children inline and indented. Escape, the backdrop, a menu link, or widening past `md` closes it and focus returns to the button.
 - Current section: `--navy-100` pill, `--navy-600` text, weight 600. Hover: `--gray-100` pill.
 - **Dropdown on mouseover and on keyboard focus.** Full keyboard operation: Tab/Enter, arrows to move through a menu, Esc to close it.
 
@@ -251,7 +252,7 @@
 - `--radius-full`, `--fs-caption`, neutral by default (`--gray-100`/`--gray-700`). Use `--navy-100` only when type distinction is needed.
 
 ### Footer
-- `--navy-900` dark section. Address, email, map. Identical structure on every page.
+- `--navy-900` dark section spanning the full width with the same side padding as the header (`--space-12`, `--gutter` on mobile); lab name/affiliation left, e-mail right, then a ruled line with the copyright and credit. Stacks on mobile. Identical on every page.
 
 ---
 
@@ -307,9 +308,9 @@
 - **Entrance animation**: one global `.rise` (12px rise, `--dur-enter`), siblings staggered 70ms apart via an inline `--i` index. Disabled under `prefers-reduced-motion`.
 - Autoplay intervals (carousels) are *behaviour settings*, not tokens — they live in the site config data.
 
-Breakpoints: `640 / 768 / 1024 / 1280`. Vertical section gaps: `--space-24` desktop, `--space-12` mobile.
+**Breakpoints**: `sm 640 · md 768 · lg 1024 · xl 1280` (max-width queries: 639 / 767 / 1023 / 1279px). Media queries can't read tokens, so components write these literally; `tokens.css` documents them. Below `md` the type scale, `--gutter` (24 → 16px) and `--space-section` (96 → 48px) switch to their mobile values automatically.
 
-> The pages ported from the design drafts are desktop-first and only carry the drafts' own `760 / 900 / 1180` breakpoints for now; the responsive pass will reconcile them with the scale above.
+Rules of thumb: a filter sidebar collapses at `lg`; two-column card grids and side-by-side text/figure rows stack at `md`; row-internal grids (thumbnail beside text) stack at `sm`. Touch targets are 44px.
 
 ---
 

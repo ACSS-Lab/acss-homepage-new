@@ -3,6 +3,8 @@
 
 nav:
   label: Main
+  openMenu: Open menu
+  closeMenu: Close menu
 
 # EN/KR switch on bilingual pages
 language:

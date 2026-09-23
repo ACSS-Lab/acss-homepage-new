@@ -3,6 +3,11 @@
 //   sticky   white bar that stays at the top while scrolling (every page but home)
 //   overlay  fixed over the hero, transparent, fading to white on scroll (home);
 //            scripts/header-overlay.ts drives --nav-p / data-solid / data-shadow
+// Below md the menu collapses behind a button and opens as a right-hand drawer:
+// a native <dialog> (top layer, dimmed backdrop, scroll lock, focus handling).
+// At md and above the closed dialog is `display: contents`, so the same <nav>
+// simply flows into the bar; scripts/nav.ts opens and closes it.
+import Icon from '../ui/Icon.astro';
 import NavItem from './NavItem.astro';
 import { getNavigation, getSite, getUi } from '../../lib/content';
 import { link } from '../../lib/url';
@@ -22,9 +27,21 @@ const [site, items, ui] = await Promise.all([getSite(), getNavigation(), getUi()
       <span class="wordmark">{site.shortName}</span>
       <span class="affiliation">{site.affiliationShort}</span>
     </a>
-    <nav class="nav" aria-label={ui.nav.label}>
-      {items.map((item) => <NavItem item={item} />)}
-    </nav>
+    <button class="toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+      <span class="sr-only">{ui.nav.openMenu}</span>
+      <Icon name="menu" size={22} />
+    </button>
+    <dialog class="drawer" id="site-nav" aria-label={ui.nav.label} data-nav-drawer>
+      <div class="drawer-bar">
+        <button class="toggle close" type="button" data-nav-close>
+          <span class="sr-only">{ui.nav.closeMenu}</span>
+          <Icon name="x" size={22} />
+        </button>
+      </div>
+      <nav class="nav" aria-label={ui.nav.label}>
+        {items.map((item) => <NavItem item={item} />)}
+      </nav>
+    </dialog>
   </div>
 </header>
 
@@ -48,6 +65,7 @@ const [site, items, ui] = await Promise.all([getSite(), getNavigation(), getUi()
   }
 
   .bar {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -89,13 +107,42 @@ const [site, items, ui] = await Promise.all([getSite(), getNavigation(), getUi()
     gap: var(--space-1);
   }
 
+  .toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-right: -11px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .toggle:hover {
+    background: var(--gray-100);
+  }
+
+  /* At md and above the closed dialog has no box of its own: its nav flows into the bar */
+  @media (min-width: 768px) {
+    .drawer:not([open]) {
+      display: contents;
+    }
+
+    .drawer-bar {
+      display: none;
+    }
+  }
+
   /* Overlay: white at --nav-p opacity; text stays white until past the midpoint */
   .overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    min-width: 1400px;
     background: color-mix(in srgb, var(--white) calc(var(--nav-p, 0) * 100%), transparent);
     box-shadow: none;
     transition:
@@ -109,22 +156,114 @@ const [site, items, ui] = await Promise.all([getSite(), getNavigation(), getUi()
 
   .overlay .brand,
   .overlay .mark,
-  .overlay .affiliation {
+  .overlay .affiliation,
+  .overlay .toggle {
     transition:
       color var(--dur) linear,
       background var(--dur) linear;
   }
 
-  .overlay:not([data-solid]) .brand {
+  .overlay:not([data-solid]):not([data-menu-open]) .brand,
+  .overlay:not([data-solid]):not([data-menu-open]) .toggle {
     color: var(--white);
   }
 
-  .overlay:not([data-solid]) .mark {
+  .overlay:not([data-solid]):not([data-menu-open]) .mark {
     background: var(--white);
   }
 
-  .overlay:not([data-solid]) .affiliation {
+  .overlay:not([data-solid]):not([data-menu-open]) .affiliation {
     border-left-color: var(--on-dark-border-strong);
     color: var(--on-dark-faint);
+  }
+
+  .overlay:not([data-solid]):not([data-menu-open]) .toggle:hover {
+    background: var(--on-dark-fill-hover);
+  }
+
+  @media (max-width: 767px) {
+    .bar {
+      padding: 0 var(--gutter);
+    }
+
+    .toggle {
+      display: flex;
+    }
+
+    /* The drawer: full height, hugging the right edge, over a dimmed page */
+    .drawer {
+      position: fixed;
+      inset: 0 0 0 auto;
+      display: none;
+      flex-direction: column;
+      width: min(320px, 85vw);
+      max-width: none;
+      height: auto;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      border: 0;
+      background: var(--white);
+      box-shadow: var(--shadow-lg);
+      color: var(--ink);
+    }
+
+    .drawer[open] {
+      display: flex;
+      animation: drawerIn var(--dur-slow) var(--ease) both;
+    }
+
+    .drawer::backdrop {
+      background: var(--overlay);
+    }
+
+    .drawer[open]::backdrop {
+      animation: fadeIn var(--dur) var(--ease) both;
+    }
+
+    .drawer-bar {
+      display: flex;
+      flex: none;
+      align-items: center;
+      justify-content: flex-end;
+      height: var(--header-h);
+      padding: 0 var(--gutter);
+    }
+
+    /* The nav fills the rest of the drawer, so a click that reaches the dialog itself is on the backdrop */
+    .nav {
+      flex: 1;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0 var(--space-3) var(--space-6);
+    }
+  }
+
+  @keyframes drawerIn {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drawer[open],
+    .drawer[open]::backdrop {
+      animation: none;
+    }
   }
 </style>

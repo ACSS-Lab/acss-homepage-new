@@ -77,17 +77,17 @@ const isActive = isCurrent || children.some((child) => isCurrentPage(child.href,
   }
 
   /* Inside the transparent home header, links are white until it turns solid */
-  :global([data-header='overlay']:not([data-solid])) .link {
+  :global([data-header='overlay']:not([data-solid]):not([data-menu-open])) .link {
     color: var(--on-dark-strong);
   }
 
-  :global([data-header='overlay']:not([data-solid])) .link:hover,
-  :global([data-header='overlay']:not([data-solid])) .link:focus-visible {
+  :global([data-header='overlay']:not([data-solid]):not([data-menu-open])) .link:hover,
+  :global([data-header='overlay']:not([data-solid]):not([data-menu-open])) .link:focus-visible {
     background: var(--on-dark-fill-hover);
     color: var(--white);
   }
 
-  :global([data-header='overlay']:not([data-solid])) .caret {
+  :global([data-header='overlay']:not([data-solid]):not([data-menu-open])) .caret {
     color: var(--on-dark-faint);
   }
 
@@ -153,5 +153,35 @@ const isActive = isCurrent || children.some((child) => isCurrentPage(child.href,
     background: var(--gray-100);
     color: var(--navy-600);
     font-weight: 600;
+  }
+
+  /* In the mobile panel every entry is a full-width row and dropdown children sit inline, indented */
+  @media (max-width: 767px) {
+    .link {
+      min-height: 44px;
+      padding: 0 var(--space-3);
+    }
+
+    .item {
+      display: contents;
+    }
+
+    .menu {
+      display: block;
+      position: static;
+      min-width: 0;
+      padding: 0 0 var(--space-2) var(--space-6);
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .menu::before {
+      content: none;
+    }
+
+    .menu-link {
+      min-height: 40px;
+      padding: 10px var(--space-3);
+    }
   }
 </style>

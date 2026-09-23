@@ -70,7 +70,7 @@
   --area-estimation: #C97A12;
   --area-applications: #79828E;
 
-  /* Typography (desktop values; the responsive pass will add the mobile steps) */
+  /* Typography (desktop values; the mobile steps are in the @media block at the end) */
   --font-sans: "Pretendard Variable", "Pretendard", "Spoqa Han Sans Neo", "Noto Sans KR", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --fs-display: 48px;
@@ -125,6 +125,8 @@
   --dur-loop: 5s;     /* looping hover animation */
 
   /* Layout */
+  --gutter: var(--space-6); /* side padding of page columns */
+  --space-section: var(--space-24); /* bottom padding of a page's last section */
   --container: 1120px;
   --container-narrow: 720px;
   --container-wide: 1424px; /* list pages with a filter sidebar */
@@ -135,4 +137,21 @@
   --z-header: 20;
   --z-dropdown: 30;
   --z-fab: 40;
+}
+
+/*
+ * Breakpoints: sm 640px · md 768px · lg 1024px · xl 1280px.
+ * Media queries cannot read custom properties, so components write these
+ * values literally (max-width: 767px etc.); keep them in step with DESIGN.md.
+ * Below md the type scale and rhythm switch to their mobile values.
+ */
+@media (max-width: 767px) {
+  :root {
+    --fs-display: 36px;
+    --fs-h1: 28px;
+    --fs-h2: 22px;
+    --fs-h3: 18px;
+    --gutter: var(--space-4);
+    --space-section: var(--space-12);
+  }
 }

@@ -1,5 +1,6 @@
 ---
-// Site footer — identical on every page. All text comes from site.yaml.
+// Site footer — identical on every page and, like the header, spanning the full
+// width. All text comes from site.yaml.
 import { getSite } from '../../lib/content';
 
 const site = await getSite();
@@ -28,7 +29,7 @@ const year = new Date().getFullYear();
 
 <style>
   .footer {
-    padding: var(--space-12) var(--space-6) var(--space-8);
+    padding: var(--space-12) var(--space-12) var(--space-8);
     background: var(--navy-900);
     color: var(--on-dark);
   }
@@ -37,8 +38,6 @@ const year = new Date().getFullYear();
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    max-width: var(--container);
-    margin: 0 auto;
   }
 
   .main {
@@ -54,6 +53,7 @@ const year = new Date().getFullYear();
 
   .email {
     color: var(--on-dark);
+    overflow-wrap: anywhere;
   }
 
   .email:hover {
@@ -75,5 +75,21 @@ const year = new Date().getFullYear();
 
   .credit:hover {
     color: var(--on-dark-strong);
+  }
+
+  @media (max-width: 767px) {
+    .footer {
+      padding: var(--space-8) var(--gutter) var(--space-6);
+    }
+
+    .main {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .legal {
+      margin-top: var(--space-5);
+    }
   }
 </style>
