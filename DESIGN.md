@@ -180,10 +180,11 @@
 - Every page except Home and Contact opens with a dark banner (`PageHero`): `--navy-900` + `--stripe-dark`, centered `--fs-display` title. Until a background image exists, a mono note top-right describes the intended image.
 - Under the title sits a segmented pill (`HeroTabs`) listing the sibling pages of the current menu section — it is generated from `navigation.yaml`, not authored per page. Current tab: white pill, `--navy-900` text. A grouped tab opens a rounded dropdown (`--radius-lg`, `--shadow-lg`) on hover/focus, with optional counts.
 
-- **Tall variant** (Our Vision): more padding plus `--scrim-hero`, carrying a lede and two text columns with CTAs. Its headline types itself in a loop (intro word, then the headline, italics preserved); under `prefers-reduced-motion` the static headline is shown.
+- **Tall variant** (Our Vision): more padding plus `--scrim-hero`, carrying a lede and two text columns with CTAs (one column below `md`).
+  Its headline types itself in a loop (intro word, then the headline, italics preserved); a hidden copy of the headline reserves its height at every width, and under `prefers-reduced-motion` the static headline is shown.
 
 ### Image card picker + detail panel (Research Areas)
-- Three 260px image cards (`--radius-lg`, navy base, title bottom-left in white) act as toggle buttons. Selected: lifted 2px with `--shadow-md`, full-opacity image, `--scrim-card`. Idle: 72% image, heavier `--scrim-card-idle`; hover lifts it and slowly zooms the image (`--dur-loop`, off under reduced motion).
+- Three 260px image cards (`--radius-lg`, navy base, title bottom-left in white) act as toggle buttons; below `md` they become a swipeable strip of 200px cards with scroll snapping. Selected: lifted 2px with `--shadow-md`, full-opacity image, `--scrim-card`. Idle: 72% image, heavier `--scrim-card-idle`; hover lifts it and slowly zooms the image (`--dur-loop`, off under reduced motion).
 - The selected area's text appears below: each sub-topic is a two-column grid (132px gray label, content) with lettered headings, neutral chips for application areas, and related-paper tiles (`--gray-100`, hover `--navy-100`) that deep-link to the paper. Sub-topics rise in each time a card is picked.
 
 ### Team page
@@ -195,7 +196,7 @@
 
 ### Contact page
 - The only page without a dark banner: a plain `--fs-h1` title with a rule. Below, titled bands (`132px` label rail + content) separated by `--gray-300` rules.
-- **Track cards**: white `--radius-lg` cards, two visible at a time, in a carousel (bar dots left, round 44px `--gray-100` arrow buttons right; arrows dim to 40% and disable at the ends). An open track shows an accent badge, a ruled checklist and a "draft this email" text link; a closed one is grayed with a `circle-slash` notice.
+- **Track cards**: white `--radius-lg` cards, two visible at a time (one below `md`), in a carousel (bar dots left, round 44px `--gray-100` arrow buttons right; arrows dim to 40% and disable at the ends). An open track shows an accent badge, a ruled checklist and a "draft this email" text link; a closed one is grayed with a `circle-slash` notice.
 - **Map card**: full-bleed map with floating provider pills (active `--navy-600`). Only the default provider loads with the page; others load on first use.
 - **Address card**: inline EN/KR segmented switch (white active pill on `--gray-100`) and a round copy button whose icon turns into a check for 1.6s.
 
@@ -203,7 +204,10 @@
 - `Badge`: `--radius-full`, `--fs-caption` 500. Tones: `solid` (`--navy-600` fill, white, 600), `accent` (`--navy-100` / `--navy-700`), `neutral` (`--gray-100` / `--gray-700`), `muted` (`--gray-100` / `--gray-500`).
 
 ### Editorial row (long-form text)
-- Three columns: a 180px label rail, prose capped at `--container-narrow`, and a 268px figure (3:4, `--radius-lg`) with a caption. A `--gray-300` rule on top separates rows. The template for any future long-form page.
+- Three columns: a 180px label rail, prose capped at `--container-narrow`, and a 268px figure (3:4, `--radius-lg`) with a caption.
+  A `--gray-300` rule on top separates rows.
+  Below `lg` the label and prose share the left column with a 220px figure beside them; below `md` label, prose and figure stack.
+  The template for any future long-form page.
 
 ### Language switch
 - Bilingual pages render both languages and show one. A floating EN/KR pill (bottom-right, `--shadow-md`) switches them; the active side is `--navy-900` on white. English is the default; the choice is not remembered between pages.

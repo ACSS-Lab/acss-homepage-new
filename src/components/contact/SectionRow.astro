@@ -38,4 +38,15 @@ const { title, divided = false } = Astro.props;
   .content {
     min-width: 0;
   }
+  @media (max-width: 767px) {
+    .row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-3);
+    }
+
+    .divided {
+      margin-top: var(--space-5);
+      padding: var(--space-5) 0;
+    }
+  }
 </style>

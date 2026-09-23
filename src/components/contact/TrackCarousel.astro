@@ -15,13 +15,12 @@ interface Props {
 
 const { tracks, email, labels } = Astro.props;
 const ui = (await getUi()).carousel;
-const PER_VIEW = 2;
-const positions = Math.max(0, tracks.length - PER_VIEW) + 1;
 ---
 
 <div class="carousel" data-carousel>
   <div class="controls">
-    <CarouselDots count={positions} />
+    {/* One dot per possible position; carousel.ts hides the ones the current --per-view cannot reach */}
+    <CarouselDots count={tracks.length} />
     <div class="arrows">
       <button class="arrow" type="button" aria-label={ui.previous} data-carousel-prev>
         <Icon name="chevron-left" size={20} />
@@ -36,7 +35,7 @@ const positions = Math.max(0, tracks.length - PER_VIEW) + 1;
     <div class="track">
       {
         tracks.map((track) => (
-          <article class:list={['card', { closed: !track.open }]}>
+          <article class:list={['card', { closed: !track.open }]} data-carousel-slide>
             <div class="head">
               <h3 class="label">{track.label}</h3>
               <Badge tone={track.open ? 'accent' : 'muted'}>{track.open ? labels.openBadge : labels.closedBadge}</Badge>
@@ -80,6 +79,7 @@ const positions = Math.max(0, tracks.length - PER_VIEW) + 1;
 </script>
 
 <style>
+  /* --per-view is read by carousel.ts; it drops to 1 on phones */
   .carousel {
     --gap: var(--space-5);
     --per-view: 2;
@@ -247,6 +247,15 @@ const positions = Math.max(0, tracks.length - PER_VIEW) + 1;
   @media (prefers-reduced-motion: reduce) {
     .track {
       transition: none;
+    }
+  }
+  @media (max-width: 767px) {
+    .carousel {
+      --per-view: 1;
+    }
+
+    .card {
+      padding: var(--space-5) var(--space-4);
     }
   }
 </style>

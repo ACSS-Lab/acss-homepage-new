@@ -2,6 +2,8 @@
 // Hero headline with the typewriter animation (scripts/typewriter.ts).
 // The full headline is in the HTML, so it reads normally without JavaScript or
 // under reduced motion; screen readers get it from aria-label while it animates.
+// A hidden copy of the headline sits under the live one so the block keeps its
+// full height at every width while the text types.
 import { parseEmphasis, stripEmphasis } from '../../lib/emphasis';
 
 interface Props {
@@ -17,10 +19,12 @@ const lines = parseEmphasis(text);
 <h1
   class="headline"
   aria-label={stripEmphasis(text)}
-  data-typewriter={typing.enabled ? '' : undefined}
   data-typing-intro={typing.intro}
   data-typing-speed={typing.speed}
->{lines.map((line, i) => (<>{i > 0 && <br />}{line.map((part) => (part.em ? <span class="em">{part.text}</span> : part.text))}</>))}</h1>
+>
+  <span class="ghost" aria-hidden="true">{lines.map((line, i) => (<>{i > 0 && <br />}{line.map((part) => (part.em ? <span class="em">{part.text}</span> : part.text))}</>))}</span>
+  <span class="live" data-typewriter={typing.enabled ? '' : undefined}>{lines.map((line, i) => (<>{i > 0 && <br />}{line.map((part) => (part.em ? <span class="em">{part.text}</span> : part.text))}</>))}</span>
+</h1>
 
 <script>
   import { initTypewriter } from '../../scripts/typewriter';
@@ -29,14 +33,23 @@ const lines = parseEmphasis(text);
 
 <style>
   .headline {
+    display: grid;
     max-width: 980px;
-    min-height: 2.32em; /* two lines, reserved so the page doesn't jump while typing */
     margin: 0 auto;
     font: 700 var(--fs-display) / 1.16 var(--font-sans);
     letter-spacing: -0.03em;
     color: var(--white);
     text-align: center;
     text-wrap: balance;
+  }
+
+  /* Both copies occupy the same cell; the hidden one holds the height */
+  .headline > * {
+    grid-area: 1 / 1;
+  }
+
+  .ghost {
+    visibility: hidden;
   }
 
   .em {

@@ -4,7 +4,9 @@
 //     [data-map-tab="google|naver|kakao"]     pill; aria-pressed marks the active one
 //     [data-map-layer="google|naver|kakao"]   layer; all but the active one are `hidden`
 //
-// The Kakao layer is built the first time it is shown. Kakao's embed snippet
+// The Kakao layer is built the first time it is shown, and rebuilt when its
+// card changes size by more than a few pixels, because the embed is drawn at a
+// fixed pixel size. Kakao's embed snippet
 // relies on document.write, which does nothing in a loaded page, so it runs
 // inside a srcdoc iframe where it executes at parse time. In that context its
 // script chain requests http:// URLs (blocked as mixed content), so
@@ -23,6 +25,7 @@ function renderKakao(host: HTMLElement): void {
   host.dataset.kakaoReady = 'true';
   const width = String(Math.max(320, Math.round(host.clientWidth) || 640));
   const height = String(Math.max(240, Math.round(host.clientHeight) || 360));
+  host.dataset.kakaoSize = `${width}x${height}`;
 
   const iframe = document.createElement('iframe');
   iframe.title = title ?? '';
@@ -61,5 +64,21 @@ export function initMap(root: ParentNode = document): void {
         });
       });
     });
+
+    const kakao = map.querySelector<HTMLElement>('[data-map-layer="kakao"]');
+    if (kakao) {
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      new ResizeObserver(() => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          if (kakao.hidden || !kakao.dataset.kakaoReady) return;
+          const [w, h] = (kakao.dataset.kakaoSize ?? '0x0').split('x').map(Number);
+          if (Math.abs(kakao.clientWidth - w) <= 8 && Math.abs(kakao.clientHeight - h) <= 8) return;
+          kakao.replaceChildren();
+          delete kakao.dataset.kakaoReady;
+          renderKakao(kakao);
+        }, 250);
+      }).observe(kakao);
+    }
   });
 }

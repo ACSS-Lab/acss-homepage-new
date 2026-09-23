@@ -9,11 +9,15 @@
 //                                   while current, and when it ends the carousel advances
 //                                   (that is the autoplay clock; reduced motion disables the
 //                                   animation and therefore autoplay)
+//     [data-carousel-slide]         one per slide (optional). With the root's `--per-view` custom
+//                                   property this gives the reachable positions: slides - perView + 1.
+//                                   Dots beyond that are hidden, and the count is re-read whenever
+//                                   the root resizes (e.g. --per-view changing at a breakpoint).
 //     [data-carousel-toggle]        play/pause button; sets data-paused on the root (CSS stops
 //                                   the fill) and swaps its [data-carousel-play|pause] icons.
 //                                   Starts paused under reduced motion.
 //
-// The number of positions is the number of dots rendered by the component.
+// Without [data-carousel-slide] the number of positions is the number of dots.
 
 import { prefersReducedMotion } from './util';
 
@@ -23,11 +27,13 @@ export function initCarousel(root: ParentNode = document): void {
     const next = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]');
     const dots = Array.from(carousel.querySelectorAll<HTMLElement>('[data-carousel-dot]'));
     const loop = carousel.hasAttribute('data-loop');
-    const last = Math.max(0, dots.length - 1);
+    const slides = carousel.querySelectorAll('[data-carousel-slide]').length;
+    let positions = Math.max(1, dots.length);
     let slide = 0;
 
     const go = (to: number) => {
-      slide = loop ? (to + dots.length) % Math.max(1, dots.length) : Math.min(last, Math.max(0, to));
+      const last = positions - 1;
+      slide = loop ? (to + positions) % positions : Math.min(last, Math.max(0, to));
       carousel.style.setProperty('--slide', String(slide));
       dots.forEach((dot, i) => dot.toggleAttribute('data-current', i === slide));
       if (prev) prev.disabled = !loop && slide === 0;
@@ -50,6 +56,15 @@ export function initCarousel(root: ParentNode = document): void {
       };
       toggle.addEventListener('click', () => setPaused(!carousel.hasAttribute('data-paused')));
       setPaused(prefersReducedMotion());
+    }
+    if (slides > 0) {
+      const measure = () => {
+        const perView = Math.max(1, parseInt(getComputedStyle(carousel).getPropertyValue('--per-view'), 10) || 1);
+        positions = Math.max(1, slides - perView + 1);
+        dots.forEach((dot, i) => (dot.hidden = i >= positions));
+        go(slide); // clamps to the new last position
+      };
+      new ResizeObserver(measure).observe(carousel); // runs once on observe, then on every size change
     }
     go(0);
   });

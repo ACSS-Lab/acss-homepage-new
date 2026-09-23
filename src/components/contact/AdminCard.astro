@@ -89,4 +89,9 @@ const { name, badge, bullets, email } = Astro.props;
     color: var(--navy-600);
     overflow-wrap: anywhere;
   }
+  @media (max-width: 639px) {
+    .card {
+      padding: var(--space-5);
+    }
+  }
 </style>

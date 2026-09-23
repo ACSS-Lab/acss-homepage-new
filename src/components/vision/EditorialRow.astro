@@ -47,4 +47,41 @@
   .prose :global(strong) {
     font-weight: 600;
   }
+  /* Tablet: label and prose share the left column, the figure sits beside them */
+  @media (max-width: 1023px) {
+    .row {
+      grid-template-columns: minmax(0, 1fr) 220px;
+      grid-template-areas:
+        'label figure'
+        'prose figure';
+      gap: var(--space-4) var(--space-8);
+    }
+
+    .label {
+      grid-area: label;
+    }
+
+    .prose {
+      grid-area: prose;
+    }
+
+    .aside {
+      grid-area: figure;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .row {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'label'
+        'prose'
+        'figure';
+      gap: var(--space-4);
+    }
+
+    .aside {
+      max-width: 320px;
+    }
+  }
 </style>

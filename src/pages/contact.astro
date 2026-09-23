@@ -68,7 +68,7 @@ const mailto = (subject: string) => `mailto:${site.adminEmail}?subject=${encodeU
   }
 
   .body {
-    padding-block: var(--space-12) var(--space-24);
+    padding-block: var(--space-12) var(--space-section);
   }
 
   .lead,
@@ -129,5 +129,28 @@ const mailto = (subject: string) => `mailto:${site.adminEmail}?subject=${encodeU
 
   .collaboration-cta {
     margin-top: 18px;
+  }
+  @media (max-width: 767px) {
+    .page-head {
+      padding-top: var(--space-10);
+    }
+
+    .visit {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+    }
+
+    .map {
+      grid-row: auto;
+      grid-column: auto;
+      min-height: 280px;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .notice {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
   }
 </style>

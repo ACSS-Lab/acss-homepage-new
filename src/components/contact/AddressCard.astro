@@ -91,4 +91,13 @@ const { title, address, labels } = Astro.props;
     color: var(--ink);
     white-space: pre-line;
   }
+  @media (max-width: 639px) {
+    .card {
+      padding: var(--space-5);
+    }
+
+    .head {
+      flex-wrap: wrap;
+    }
+  }
 </style>

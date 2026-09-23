@@ -65,6 +65,12 @@ const [page, areas, nav] = await Promise.all([getPage('research-areas'), getRese
   }
 
   .detail {
-    padding-block: var(--space-12) var(--space-24);
+    padding-block: var(--space-12) var(--space-section);
+  }
+
+  @media (max-width: 767px) {
+    .picker {
+      padding-top: var(--space-10);
+    }
   }
 </style>

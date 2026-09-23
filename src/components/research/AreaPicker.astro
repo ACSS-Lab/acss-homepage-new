@@ -145,4 +145,22 @@ const { areas, imageNote } = Astro.props;
       animation: none;
     }
   }
+  /* Phones: a swipeable strip instead of three stacked image cards */
+  @media (max-width: 767px) {
+    .cards {
+      display: flex;
+      gap: var(--space-3);
+      margin-inline: calc(-1 * var(--gutter));
+      padding: var(--space-1) var(--gutter) var(--space-3);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .card {
+      flex: 0 0 min(280px, 78%);
+      height: 200px;
+      scroll-snap-align: start;
+    }
+  }
 </style>
