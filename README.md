@@ -2,7 +2,8 @@
 
 Website of the Autonomous Control and Stochastic Systems Research Lab (ACSS), School of Electrical Engineering, KAIST.
 
-A static site built with [Astro](https://astro.build). Content (publications, members, projects, gallery, notices) lives in YAML files under `src/content/` and is validated against a schema at build time, so adding or changing content never requires touching page code.
+A static site built with [Astro](https://astro.build).
+Content (publications, members, projects, gallery, notices) lives in YAML files under `src/content/` and is validated against a schema at build time, so adding or changing content never requires touching page code.
 
 ## Which document do I need?
 
@@ -15,12 +16,19 @@ A static site built with [Astro](https://astro.build). Content (publications, me
 
 ## Documents
 
-- [MAINTAINING.md](MAINTAINING.md): the maintainer's guide. How the site is built, which page reads which content folder, step-by-step recipes (add a paper, add a member, post a notice, open or close recruiting), what to do when a build fails.
-- [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and [CONTRIBUTING.ko.md](.github/CONTRIBUTING.ko.md): how lab members request an update through a GitHub Issue. The templates are in [.github/ISSUE_TEMPLATE/](.github/ISSUE_TEMPLATE/).
-- [DESIGN.md](DESIGN.md): the design system. Tokens, typography, layout, every component, copywriting tone, the accessibility checklist, and the change rules in section 9. `src/styles/tokens.css` is its single source of truth.
-- [CLAUDE.md](CLAUDE.md): the rules Claude Code follows in this repo, which are also the project rules for any developer. Static site only, content out of code, tokens and lucide only, English docs and commits, what "done" means.
-- [.claude/rules/](.claude/rules/): rules that apply to specific paths (the content model, UI code). [.claude/skills/](.claude/skills/): the content recipes as procedures Claude runs.
-- `src/content/<collection>/_template.yaml`: one per content folder. Documents every field of that collection and is the file you copy to add an item.
+- [MAINTAINING.md](MAINTAINING.md): the maintainer's guide.
+  How the site is built, which page reads which content folder, step-by-step recipes (add a paper, add a member, post a notice, open or close recruiting), and what to do when a build fails.
+- [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and [CONTRIBUTING.ko.md](.github/CONTRIBUTING.ko.md): how lab members request an update through a GitHub Issue.
+  The templates are in [.github/ISSUE_TEMPLATE/](.github/ISSUE_TEMPLATE/).
+- [DESIGN.md](DESIGN.md): the design system.
+  Tokens, typography, layout, every component, copywriting tone, the accessibility checklist, and the change rules in section 9.
+  `src/styles/tokens.css` is its single source of truth.
+- [CLAUDE.md](CLAUDE.md): the rules Claude Code follows in this repo, which are also the project rules for any developer.
+  Static site only, content out of code, tokens and lucide only, English docs and commits, one sentence per line, and what "done" means.
+- [.claude/rules/](.claude/rules/): rules that apply to specific paths (the content model, UI code).
+  [.claude/skills/](.claude/skills/): the content recipes as procedures Claude runs.
+- `src/content/<collection>/_template.yaml`: one per content folder.
+  It documents every field of that collection and is the file you copy to add an item.
 
 ## Development
 
@@ -35,4 +43,5 @@ npm run check    # type check
 npm run guard    # project rules (lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs)
 ```
 
-Before opening a pull request: `npm run build`, `npm run check` and `npm run guard` must pass, and `DESIGN.md`, `MAINTAINING.md` or the affected `_template.yaml` are updated in the same change when the design or the content model changes.
+Before opening a pull request, `npm run build`, `npm run check` and `npm run guard` must pass.
+When the design or the content model changes, update `DESIGN.md`, `MAINTAINING.md` or the affected `_template.yaml` in the same change.

@@ -1,11 +1,11 @@
-# MAINTAINING.md — ACSS Website Maintenance Guide
+# MAINTAINING.md: ACSS Website Maintenance Guide
 
-> For the person who maintains the site. No technical background needed.
+> For the person who maintains the site.
+> No technical background needed.
 > When you hit an unfamiliar term, ask Claude "what does this mean?"
 >
-> Claude's own working rules live in `CLAUDE.md`, `.claude/rules/` and
-> `.claude/skills/`. You don't need to read those; the "Ask Claude" prompts
-> below are all you need.
+> Claude's own working rules live in `CLAUDE.md`, `.claude/rules/` and `.claude/skills/`.
+> You don't need to read those; the "Ask Claude" prompts below are all you need.
 
 ---
 

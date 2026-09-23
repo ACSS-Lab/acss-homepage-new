@@ -8,8 +8,8 @@ argument-hint: [notice | news | gallery] [details]
 
 Request, if given: $ARGUMENTS
 
-Pick the collection, copy its `_template.yaml`, name the copy, fill it in, run
-`npm run build`. Dates are `YYYY-MM-DD`; today unless the user says otherwise.
+Pick the collection, copy its `_template.yaml`, name the copy, fill it in, and run `npm run build`.
+Dates are `YYYY-MM-DD`; use today unless the user says otherwise.
 Order on the site is automatic (newest first), so nothing else changes.
 
 | the user wants | collection | file name |
@@ -20,28 +20,26 @@ Order on the site is automatic (newest first), so nothing else changes.
 
 ## Notice
 
-Required: `title`, `date`. Recruiting notices get `pinned: true`, a short
-`badge` (Recruiting, Position, ...) and `link: /contact/` or an https URL.
-The home page shows the newest few, so nothing needs deleting. When the user
-says a round has closed, set that notice's `pinned` to false.
+Required: `title`, `date`.
+Recruiting notices get `pinned: true`, a short `badge` (Recruiting, Position, ...) and `link: /contact/` or an https URL.
+The home page shows the newest few, so nothing needs deleting.
+When the user says a round has closed, set that notice's `pinned` to false.
 
 ## News
 
-Required: `kind` (paper, award, grant, media), `date`. When the item is about
-an existing paper or project, use `publication: <id>` or `project: <id>` and
-leave `title` and `link` out; they follow automatically. Otherwise write
-`title`, optional `meta` (who, where) and optional `link`.
+Required: `kind` (paper, award, grant, media), `date`.
+When the item is about an existing paper or project, use `publication: <id>` or `project: <id>` and leave `title` and `link` out; they follow automatically.
+Otherwise write `title`, optional `meta` (who, where) and optional `link`.
 
 ## Gallery
 
-Required: `title`, `date`, `tags`. Reuse existing tags before inventing one:
+Required: `title`, `date`, `tags`.
+Reuse existing tags before inventing one:
 
 ```bash
 grep -h '^tags:' src/content/gallery/*.yaml | sort | uniq -c
 ```
 
-Photos go to `public/images/gallery/<id>/01.jpg`, `02.jpg`, ... and are listed
-under `photos` in viewing order; the first is the cover unless `cover` is set.
-If the photos are not available yet, set `placeholderCount` instead of
-`photos` and tell the user where to put the files. Remove `placeholderCount`
-once `photos` is filled in.
+Photos go to `public/images/gallery/<id>/01.jpg`, `02.jpg`, ... and are listed under `photos` in viewing order; the first is the cover unless `cover` is set.
+If the photos are not available yet, set `placeholderCount` instead of `photos` and tell the user where to put the files.
+Remove `placeholderCount` once `photos` is filled in.
