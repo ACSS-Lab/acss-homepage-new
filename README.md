@@ -6,7 +6,7 @@ A static site built with [Astro](https://astro.build). Content (publications, me
 
 ## Maintaining content
 
-Start with **[CLAUDE.md](CLAUDE.md)**: it explains how the site is built, lists every page and where its content lives, and has step-by-step recipes (add a paper, add a member, post a notice, open or close recruiting, ...). Each content folder has a `_template.yaml` to copy.
+Start with **[MAINTAINING.md](MAINTAINING.md)**: it explains how the site is built, lists every page and where its content lives, and has step-by-step recipes (add a paper, add a member, post a notice, open or close recruiting, ...). Each content folder has a `_template.yaml` to copy.
 
 ## Development
 

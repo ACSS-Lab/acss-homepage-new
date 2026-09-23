@@ -5,7 +5,8 @@
 // doesn't match (missing field, unknown option, malformed link) fails the build
 // instead of silently breaking a page.
 //
-// Keep in sync: this schema, the recipes in CLAUDE.md §3, and — once it exists —
+// Keep in sync: this schema, the templates, the skills in .claude/skills/, the
+// recipes in MAINTAINING.md section 3, and — once it exists —
 // the web admin config (public/admin/config.yml).
 //
 // Location matters: Astro only reads this file at src/content.config.ts.
@@ -90,7 +91,7 @@ const navigation = defineCollection({
 const ui = defineCollection({
   loader: singleton('site', 'ui'),
   schema: z.object({
-    nav: z.object({ label: z.string() }),
+    nav: z.object({ label: z.string(), openMenu: z.string(), closeMenu: z.string() }),
     language: z.object({ label: z.string(), en: z.string(), ko: z.string() }),
     carousel: z.object({ previous: z.string(), next: z.string(), goTo: z.string().includes('{n}') }),
     pagination: z.object({ previous: z.string(), next: z.string(), page: z.string().includes('{n}') }),
