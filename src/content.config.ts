@@ -87,6 +87,9 @@ const ui = defineCollection({
     nav: z.object({ label: z.string() }),
     language: z.object({ label: z.string(), en: z.string(), ko: z.string() }),
     carousel: z.object({ previous: z.string(), next: z.string() }),
+    pagination: z.object({ previous: z.string(), next: z.string(), page: z.string().includes('{n}') }),
+    modal: z.object({ close: z.string() }),
+    publicationTypes: z.object({ journal: z.string(), conference: z.string(), preprint: z.string(), patent: z.string() }),
     person: z.object({
       email: z.string(),
       links: z.object({ homepage: z.string(), linkedin: z.string(), scholar: z.string() }),
@@ -331,6 +334,23 @@ const pages = defineCollection({
       }),
       // Long text of each section: src/content/prose/vision/<id>/en.md and ko.md
       sections: z.array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), heading: bilingual, figure })),
+    }),
+    z.object({
+      page: z.literal('projects'),
+      title: z.string(),
+      hero: z.object({ title: z.string(), note: z.string().optional(), countLine: z.string() }),
+      perPage: z.number().int().min(2).max(12).default(4),
+      filter: z.object({ label: z.string(), all: z.string(), ongoing: z.string(), done: z.string(), empty: z.string() }),
+      labels: z.object({
+        agency: z.string(),
+        period: z.string(),
+        role: z.string(),
+        overview: z.string(),
+        related: z.string(),
+        relatedHint: z.string(),
+        openDetail: z.string().includes('{label}'),
+        coverNote: z.string().includes('{path}'),
+      }),
     }),
     z.object({
       page: z.literal('contact'),

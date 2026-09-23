@@ -1,0 +1,85 @@
+---
+// Page numbers with previous/next arrows. Buttons for every possible page are
+// rendered; scripts/paged-filter.ts hides the ones beyond the current count.
+import Icon from './Icon.astro';
+import { getUi } from '../../lib/content';
+
+interface Props {
+  /** Largest number of pages the list can have. */
+  pages: number;
+}
+
+const { pages } = Astro.props;
+const labels = (await getUi()).pagination;
+---
+
+<nav class="pagination" data-pagination>
+  <button class="arrow" type="button" aria-label={labels.previous} data-page-prev>
+    <Icon name="chevron-left" size={18} />
+  </button>
+  {
+    Array.from({ length: pages }, (_, i) => (
+      <button class="page" type="button" aria-label={labels.page.replace('{n}', String(i + 1))} aria-current={i === 0 ? 'page' : 'false'} data-page={i}>
+        {i + 1}
+      </button>
+    ))
+  }
+  <button class="arrow" type="button" aria-label={labels.next} data-page-next>
+    <Icon name="chevron-right" size={18} />
+  </button>
+</nav>
+
+<style>
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 52px;
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--gray-300);
+  }
+
+  .arrow,
+  .page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--gray-700);
+    cursor: pointer;
+  }
+
+  .arrow {
+    width: 44px;
+    color: var(--ink);
+  }
+
+  .page {
+    min-width: 44px;
+    padding: 0 10px;
+    font: 400 var(--fs-sm) / 1 var(--font-sans);
+  }
+
+  .arrow:hover:not(:disabled),
+  .page:hover:not([aria-current='page']) {
+    background: var(--gray-100);
+    color: var(--ink);
+  }
+
+  .arrow:disabled {
+    border-color: var(--gray-100);
+    color: var(--gray-500);
+    cursor: default;
+  }
+
+  .page[aria-current='page'] {
+    border-color: transparent;
+    background: var(--navy-600);
+    color: var(--white);
+    font-weight: 600;
+  }
+</style>

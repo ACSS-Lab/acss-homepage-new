@@ -1,0 +1,137 @@
+---
+// Project summary card. The whole card is a button that opens the project's detail window.
+import Badge from '../ui/Badge.astro';
+import Figure from '../ui/Figure.astro';
+import type { Project } from '../../lib/content';
+import { formatPeriod } from '../../lib/format';
+
+interface Props {
+  project: Project;
+  statusLabel: string;
+  labels: { agency: string; period: string; openDetail: string; coverNote: string };
+  index: number;
+}
+
+const { project, statusLabel, labels, index } = Astro.props;
+const coverNote = labels.coverNote.replace('{path}', `/images/projects/${project.id}.jpg`);
+---
+
+<button
+  class="card rise"
+  type="button"
+  style={`--i: ${index}`}
+  aria-label={labels.openDetail.replace('{label}', project.title)}
+  data-item
+  data-filter={project.status}
+  data-modal-open={`project-${project.id}`}
+>
+  <span class="status">
+    <Badge tone={project.status === 'ongoing' ? 'solid' : 'neutral'}>{statusLabel}</Badge>
+  </span>
+  <span class="title">{project.title}</span>
+  <span class="cover-frame">
+    <Figure class="cover" src={project.cover} alt="" note={coverNote} />
+  </span>
+  <span class="meta">
+    <span class="meta-label">{labels.agency}</span>
+    <span class="meta-value agency">{project.agency}</span>
+    <span class="meta-label">{labels.period}</span>
+    <span class="meta-value period">{formatPeriod(project.start, project.end)}</span>
+  </span>
+</button>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-4);
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      transform var(--dur-slow) var(--ease),
+      box-shadow var(--dur-slow) var(--ease);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  .card:focus-visible {
+    outline-offset: 3px;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .title {
+    display: block;
+    margin-top: var(--space-3);
+    font: 600 var(--fs-lg) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .cover-frame {
+    display: block;
+    width: 100%;
+    margin-top: var(--space-4);
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--gray-100);
+  }
+
+  .cover {
+    --figure-pad: 10px;
+    aspect-ratio: 16 / 9;
+    transition: transform var(--dur-emph) var(--ease);
+  }
+
+  .card:hover .cover {
+    transform: scale(1.05);
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 6px var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  .meta-label {
+    font: 500 var(--fs-caption) / 1.6 var(--font-sans);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+
+  .meta-value {
+    font: 400 var(--fs-sm) / 1.6 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .agency {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .period {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card,
+    .cover {
+      transition: none;
+    }
+  }
+</style>

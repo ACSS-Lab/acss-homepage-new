@@ -12,5 +12,6 @@ export default defineConfig({
   // Section roots open their first page.
   redirects: {
     '/about': '/about/vision/',
+    '/research': '/research/projects/',
   },
 });

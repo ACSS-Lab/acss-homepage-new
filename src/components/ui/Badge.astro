@@ -1,7 +1,8 @@
 ---
-// Small status pill. `accent` draws attention (navy tint); `neutral` and `muted` stay gray.
+// Small status pill. `solid` is the strongest (navy fill), `accent` a navy tint;
+// `neutral` and `muted` stay gray.
 interface Props {
-  tone?: 'accent' | 'neutral' | 'muted';
+  tone?: 'solid' | 'accent' | 'neutral' | 'muted';
 }
 
 const { tone = 'neutral' } = Astro.props;
@@ -16,6 +17,12 @@ const { tone = 'neutral' } = Astro.props;
     border-radius: var(--radius-full);
     font: 500 var(--fs-caption) / 1.4 var(--font-sans);
     white-space: nowrap;
+  }
+
+  .solid {
+    background: var(--navy-600);
+    color: var(--white);
+    font-weight: 600;
   }
 
   .accent {

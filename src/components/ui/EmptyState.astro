@@ -1,0 +1,23 @@
+---
+// Card shown in place of a list when nothing matches the current filter.
+interface Props {
+  hidden?: boolean;
+}
+
+const { hidden = false } = Astro.props;
+---
+
+<div class="empty" hidden={hidden} data-filter-empty><slot /></div>
+
+<style>
+  .empty {
+    margin-top: 28px;
+    padding: var(--space-10);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    font: 400 var(--fs-body) / 1.6 var(--font-sans);
+    color: var(--gray-700);
+    text-align: center;
+  }
+</style>

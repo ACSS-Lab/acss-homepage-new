@@ -185,7 +185,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
   - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
-  - `pages/` (the wording of each page, one file per page), `prose/` (long bilingual text in Markdown), `team/` (one file per person), `publications/` (one file per paper), `projects/` (one file per project), `research-areas/` (one file per area, in file-name order), `contact/tracks.yaml` (application tracks). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
+  - `pages/` (the wording of each page, one file per page; a page's display settings such as cards per page live there too), `prose/` (long bilingual text in Markdown), `team/` (one file per person), `publications/` (one file per paper), `projects/` (one file per project), `research-areas/` (one file per area, in file-name order), `contact/tracks.yaml` (application tracks). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.

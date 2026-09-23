@@ -12,6 +12,7 @@ import CircleSlash from '@lucide/astro/icons/circle-slash';
 import Copy from '@lucide/astro/icons/copy';
 import GraduationCap from '@lucide/astro/icons/graduation-cap';
 import House from '@lucide/astro/icons/house';
+import X from '@lucide/astro/icons/x';
 
 export const icons = {
   'arrow-right': ArrowRight,
@@ -23,6 +24,7 @@ export const icons = {
   copy: Copy,
   'graduation-cap': GraduationCap,
   house: House,
+  x: X,
 } as const;
 
 export type IconName = keyof typeof icons;

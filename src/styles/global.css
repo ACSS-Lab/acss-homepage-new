@@ -33,6 +33,11 @@ a:hover {
   display: none !important;
 }
 
+/* No page scroll while a modal window is open. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
 /* Bilingual pages render both languages; the nearest [data-lang-scope] says
    which one is shown (switched by scripts/lang-toggle.ts). */
 [data-lang-scope='en'] [data-lang='ko'],

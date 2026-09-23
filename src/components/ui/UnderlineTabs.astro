@@ -1,0 +1,74 @@
+---
+// Row of filter chips drawn as underlined text with a count, after a small label.
+// The chips carry data-filter-chip for scripts/paged-filter.ts.
+interface Props {
+  label: string;
+  tabs: { value: string; label: string; count: number }[];
+}
+
+const { label, tabs } = Astro.props;
+---
+
+<div class="bar">
+  <span class="label">{label}</span>
+  <div class="tabs">
+    {
+      tabs.map((tab, i) => (
+        <button class="tab" type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-filter-chip data-value={tab.value}>
+          {tab.label}
+          <span class="count">{tab.count}</span>
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .bar {
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    gap: 10px 18px;
+    align-items: baseline;
+  }
+
+  .label {
+    font: 500 var(--fs-caption) / 1.9 var(--font-sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+  }
+
+  .tab {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 2px 0 5px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    font: 400 var(--fs-sm) / 1.4 var(--font-sans);
+    color: var(--gray-500);
+    cursor: pointer;
+  }
+
+  .tab:hover {
+    color: var(--ink);
+  }
+
+  .tab[aria-pressed='true'] {
+    border-bottom-color: var(--navy-600);
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .count {
+    font: 400 var(--fs-caption) / 1.4 var(--font-sans);
+    color: var(--gray-500);
+  }
+</style>

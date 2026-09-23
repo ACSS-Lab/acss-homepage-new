@@ -10,6 +10,24 @@ language:
   en: EN
   ko: KR
 
+# Page-by-page lists
+pagination:
+  previous: Previous page
+  next: Next page
+  # {n} is replaced with the page number.
+  page: Page {n}
+
+# Pop-up windows
+modal:
+  close: Close
+
+# Publication types, as shown on chips
+publicationTypes:
+  journal: Journal
+  conference: Conference
+  preprint: Preprint
+  patent: Patent
+
 # Carousels
 carousel:
   previous: Previous

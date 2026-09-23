@@ -47,6 +47,9 @@
   /* Darkens a tall hero toward the bottom so text stays readable over a background image */
   --scrim-hero: linear-gradient(180deg, rgba(10, 27, 61, .72) 0%, rgba(10, 27, 61, .88) 55%, rgba(10, 27, 61, .97) 100%);
 
+  /* Dimmed page behind a modal window */
+  --overlay: rgba(10, 27, 61, .72);
+
   /* Bottom-up navy scrims that keep a title readable over a card image (selected / idle) */
   --scrim-card: linear-gradient(to top, rgba(10, 27, 61, .88) 0%, rgba(10, 27, 61, .42) 46%, rgba(10, 27, 61, .06) 100%);
   --scrim-card-idle: linear-gradient(to top, rgba(10, 27, 61, .9) 0%, rgba(10, 27, 61, .58) 52%, rgba(10, 27, 61, .3) 100%);

@@ -1,0 +1,75 @@
+---
+import HeroTabs from '../../components/layout/HeroTabs.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import ProjectCard from '../../components/projects/ProjectCard.astro';
+import ProjectModal from '../../components/projects/ProjectModal.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import Pagination from '../../components/ui/Pagination.astro';
+import UnderlineTabs from '../../components/ui/UnderlineTabs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getNavigation, getPage, getProjects } from '../../lib/content';
+import { sectionTabs } from '../../lib/navigation';
+
+const [page, projects, nav] = await Promise.all([getPage('projects'), getProjects(), getNavigation()]);
+const { filter, labels } = page;
+
+const count = (status: string) => projects.filter((p) => p.status === status).length;
+const statusLabel = (status: 'ongoing' | 'done') => filter[status];
+const countLine = page.hero.countLine.replace('{total}', String(projects.length)).replace('{ongoing}', String(count('ongoing')));
+const tabs = [
+  { value: 'all', label: filter.all, count: projects.length },
+  { value: 'ongoing', label: filter.ongoing, count: count('ongoing') },
+  { value: 'done', label: filter.done, count: count('done') },
+];
+---
+
+<BaseLayout title={page.title}>
+  <PageHero title={page.hero.title} note={page.hero.note}>
+    <HeroTabs slot="tabs" tabs={sectionTabs(nav, Astro.url.pathname)} />
+    <p class="count">{countLine}</p>
+  </PageHero>
+
+  <section class="container list" data-paged data-per-page={page.perPage}>
+    <UnderlineTabs label={filter.label} tabs={tabs} />
+
+    <div class="grid">
+      {projects.map((project, i) => <ProjectCard project={project} statusLabel={statusLabel(project.status)} labels={labels} index={i} />)}
+    </div>
+
+    <EmptyState hidden>{filter.empty}</EmptyState>
+    <Pagination pages={Math.ceil(projects.length / page.perPage)} />
+  </section>
+
+  {projects.map((project) => <ProjectModal project={project} statusLabel={statusLabel(project.status)} labels={labels} />)}
+</BaseLayout>
+
+<script>
+  import { initPagedFilter } from '../../scripts/paged-filter';
+  initPagedFilter();
+</script>
+
+<style>
+  .count {
+    margin: 22px 0 0;
+    font: 400 var(--fs-caption) / 1.5 var(--font-sans);
+    color: var(--on-dark-muted);
+    text-align: center;
+  }
+
+  .list {
+    padding-block: var(--space-12) var(--space-24);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    margin-top: 28px;
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

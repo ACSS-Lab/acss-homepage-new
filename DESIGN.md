@@ -69,6 +69,7 @@
 --ph-dark:     repeating-linear-gradient(135deg,rgba(255,255,255,.09) 0 10px,rgba(255,255,255,.035) 10px 20px);
 --stripe-dark: repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 14px,rgba(255,255,255,.015) 14px 28px);  /* dark hero overlay */
 --scrim-hero:  linear-gradient(180deg,rgba(10,27,61,.72) 0%,rgba(10,27,61,.88) 55%,rgba(10,27,61,.97) 100%);  /* tall hero: keeps text readable over a background image */
+--overlay:         rgba(10,27,61,.72);  /* page dimmed behind a modal */
 --scrim-card:      linear-gradient(to top,rgba(10,27,61,.88) 0%,rgba(10,27,61,.42) 46%,rgba(10,27,61,.06) 100%);  /* image card, selected */
 --scrim-card-idle: linear-gradient(to top,rgba(10,27,61,.9) 0%,rgba(10,27,61,.58) 52%,rgba(10,27,61,.3) 100%);    /* image card, idle */
 ```
@@ -175,7 +176,7 @@
 - **Address card**: inline EN/KR segmented switch (white active pill on `--gray-100`) and a round copy button whose icon turns into a check for 1.6s.
 
 ### Badges (status)
-- `Badge`: `--radius-full`, `--fs-caption` 500. Tones: `accent` (`--navy-100` / `--navy-700`), `neutral` (`--gray-100` / `--gray-700`), `muted` (`--gray-100` / `--gray-500`).
+- `Badge`: `--radius-full`, `--fs-caption` 500. Tones: `solid` (`--navy-600` fill, white, 600), `accent` (`--navy-100` / `--navy-700`), `neutral` (`--gray-100` / `--gray-700`), `muted` (`--gray-100` / `--gray-500`).
 
 ### Editorial row (long-form text)
 - Three columns: a 180px label rail, prose capped at `--container-narrow`, and a 268px figure (3:4, `--radius-lg`) with a caption. A `--gray-300` rule on top separates rows. The template for any future long-form page.
@@ -189,6 +190,15 @@
 
 ### Filters (Team / Publications)
 - **Chips / segmented control.** Only the selected chip is `--navy-600` + white text; unselected is `--gray-100` + `--gray-700` (minimize blue). Instant client-side updates + shareable via URL query.
+
+### Status tabs + pagination (Projects / Gallery)
+- `UnderlineTabs`: an uppercase label in a 76px rail, then text tabs with a gray count; the active tab is `--ink` 600 on a 2px `--navy-600` underline, idle tabs `--gray-500`.
+- `Pagination`: 44px square buttons (`--radius-sm`, `--gray-300` border), current page `--navy-600` filled, arrows disabled at the ends; sits under a `--gray-300` rule. Page changes replay the cards' `.rise` entrance.
+- `EmptyState`: a centered white card with the "nothing here" sentence.
+
+### Modal window
+- Native `<dialog>` (`Modal`): white `--radius-lg` card, max 840px / 88vh, `--shadow-lg`, over an `--overlay` backdrop; pops in (280ms) with a fading backdrop. Escape, focus trapping and focus return come from the browser; page scroll is locked while open; backdrop click closes when the window opts in. A 40px round `--gray-100` close button (lucide `x`) sits top-right.
+- **Project card** (opens the window): white `--radius-lg` card, status `Badge` (`solid` for ongoing), `--fs-lg` title, 16:9 cover (`--radius-md`, zooms 5% on hover while the card lifts 3px with `--shadow-md`), then an uppercase-label / value grid. Two cards per row.
 
 ### Buttons
 - Buttons are links styled by `Button` (`variant`: `primary` | `on-dark`).

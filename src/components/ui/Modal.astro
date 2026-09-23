@@ -1,0 +1,81 @@
+---
+// Modal window on the native <dialog>. Open it with a button carrying
+// data-modal-open="<id>"; see scripts/modal.ts. The close button goes in the
+// "close" area of the caller's content via data-modal-close.
+interface Props {
+  id: string;
+  /** Accessible name of the window. */
+  label: string;
+  /** Clicking the dimmed backdrop closes the window. */
+  backdropClose?: boolean;
+}
+
+const { id, label, backdropClose = false } = Astro.props;
+---
+
+<dialog class="modal" id={id} aria-label={label} data-backdrop-close={backdropClose ? '' : undefined}>
+  <div class="card"><slot /></div>
+</dialog>
+
+<script>
+  import { initModal } from '../../scripts/modal';
+  initModal();
+</script>
+
+<style>
+  .modal {
+    width: 100%;
+    max-width: 840px;
+    max-height: 88vh;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-lg);
+    color: var(--ink);
+  }
+
+  .modal::backdrop {
+    background: var(--overlay);
+  }
+
+  .modal[open] {
+    animation: popIn 280ms var(--ease) both;
+  }
+
+  .modal[open]::backdrop {
+    animation: fadeIn var(--dur) var(--ease) both;
+  }
+
+  .card {
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes popIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal[open],
+    .modal[open]::backdrop {
+      animation: none;
+    }
+  }
+</style>
