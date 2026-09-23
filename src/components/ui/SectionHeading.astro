@@ -2,14 +2,19 @@
 // Section title with a small square marker and a rule underneath.
 interface Props {
   title: string;
+  /** Small gray number after the title, e.g. how many items follow. */
+  count?: number;
+  /** Heading level; h3 for a heading inside a tab section. */
+  as?: 'h2' | 'h3';
 }
 
-const { title } = Astro.props;
+const { title, count, as: Tag = 'h2' } = Astro.props;
 ---
 
 <div class="heading">
   <span class="marker"></span>
-  <h2 class="title">{title}</h2>
+  <Tag class="title">{title}</Tag>
+  {count !== undefined && <span class="count">{count}</span>}
 </div>
 
 <style>
@@ -26,6 +31,11 @@ const { title } = Astro.props;
     width: 8px;
     height: 8px;
     background: var(--gray-500);
+  }
+
+  .count {
+    font: 400 var(--fs-caption) / 1.4 var(--font-sans);
+    color: var(--gray-500);
   }
 
   .title {

@@ -1,0 +1,222 @@
+---
+import HeroTabs from '../../components/layout/HeroTabs.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import AlumniCard from '../../components/team/AlumniCard.astro';
+import MemberCard from '../../components/team/MemberCard.astro';
+import Button from '../../components/ui/Button.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { DEGREE_ORDER, ROLE_ORDER, getAreaIndex, getNavigation, getPage, getTeam } from '../../lib/content';
+import { sectionTabs } from '../../lib/navigation';
+
+const [page, team, nav, areas] = await Promise.all([getPage('team'), getTeam(), getNavigation(), getAreaIndex()]);
+const { labels } = page;
+
+const tabs = sectionTabs(nav, Astro.url.pathname, {
+  '/team/#current': team.members.length,
+  '/team/#interns': team.interns.length,
+  '/team/#alumni': team.alumni.length,
+});
+const roleGroups = ROLE_ORDER.map((role) => ({ role, title: page.roles[role], people: team.members.filter((m) => m.role === role) })).filter((g) => g.people.length > 0);
+const degreeGroups = DEGREE_ORDER.map((degree) => ({ degree, title: page.degrees[degree], people: team.alumni.filter((a) => a.degree === degree) })).filter((g) => g.people.length > 0);
+const internTerm = (intern: (typeof team.interns)[number]) => `${intern.year} ${labels.terms[intern.term]}`;
+---
+
+<BaseLayout title={page.title}>
+  <PageHero title={page.hero.title} note={page.hero.note}>
+    <HeroTabs slot="tabs" tabs={tabs} />
+  </PageHero>
+
+  <div data-tabs data-default="current">
+    <section class="container panel" data-tab-panel="current">
+      {
+        roleGroups.map((group, g) => (
+          <div class="group rise" style={`--i: ${g}`}>
+            <SectionHeading as="h3" title={group.title} count={group.people.length} />
+            <div class="grid">
+              {group.people.map((member, i) => (
+                <MemberCard member={member} areas={areas} labels={labels} index={i} />
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+
+    <section class="container panel" data-tab-panel="interns" hidden>
+      <div class="interns">
+        <div>
+          <h2 class="panel-title">{page.interns.title}</h2>
+          <p class="panel-note">{page.interns.note}</p>
+        </div>
+        <div class="intern-list">
+          {
+            team.interns.map((intern) => (
+              <div class="intern">
+                <span class="intern-name">
+                  {intern.name} {intern.nameKo && <span class="intern-ko">{intern.nameKo}</span>}
+                </span>
+                <span class="intern-topics">{intern.topics.join(' · ')}</span>
+                <span class="intern-term">{internTerm(intern)}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="container panel" data-tab-panel="alumni" hidden>
+      <div class="alumni-head">
+        <h2 class="panel-title">{page.alumni.title}</h2>
+        <span class="alumni-note">{page.alumni.note}</span>
+      </div>
+      {
+        degreeGroups.map((group, g) => (
+          <div class="group alumni-group rise" style={`--i: ${g}`}>
+            <SectionHeading as="h3" title={group.title} count={group.people.length} />
+            <div class="grid">
+              {group.people.map((alumnus, i) => (
+                <AlumniCard alumnus={alumnus} degreeTitle={page.degreeTitles[alumnus.degree]} labels={labels} index={i} />
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+
+    <section class="container join-section" data-hide-on-tab="alumni">
+      <div class="join">
+        <div>
+          <div class="join-title">{page.join.title}</div>
+          <p class="join-body">{page.join.body}</p>
+        </div>
+        <Button href={page.join.href} variant="primary" arrow>{page.join.cta}</Button>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  import { initTabs } from '../../scripts/tabs';
+  initTabs();
+</script>
+
+<style>
+  .panel {
+    padding-top: var(--space-14);
+  }
+
+  .group {
+    margin-top: 34px;
+  }
+
+  .panel > .group:first-child {
+    margin-top: 14px;
+  }
+
+  .alumni-group {
+    margin-top: 30px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 18px;
+  }
+
+  .panel-title {
+    margin: 0;
+    font: 600 var(--fs-h2) / 1.3 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .panel-note {
+    margin: var(--space-3) 0 0;
+    font: 400 var(--fs-sm) / 1.7 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .interns {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 44px;
+    align-items: start;
+  }
+
+  .intern-list {
+    border-bottom: 1px solid var(--gray-300);
+  }
+
+  .intern {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr auto;
+    gap: var(--space-6);
+    align-items: baseline;
+    padding: var(--space-4) var(--space-1);
+    border-top: 1px solid var(--gray-300);
+  }
+
+  .intern-name {
+    font: 600 var(--fs-body) / 1.4 var(--font-sans);
+    color: var(--ink);
+  }
+
+  .intern-ko {
+    font-weight: 400;
+    color: var(--gray-500);
+  }
+
+  .intern-topics {
+    font: 400 var(--fs-sm) / 1.55 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .intern-term {
+    font: 400 var(--fs-caption) / 1.5 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .alumni-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .alumni-note {
+    font: 400 var(--fs-meta) / 1.5 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .join-section {
+    padding-block: var(--space-14) var(--space-24);
+  }
+
+  /* The alumni tab has no join banner under it, so it carries the page's bottom padding itself. */
+  .panel[data-tab-panel='alumni'] {
+    padding-bottom: var(--space-24);
+  }
+
+  .join {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    padding: 28px var(--space-8);
+    background: var(--gray-100);
+  }
+
+  .join-title {
+    font: 600 var(--fs-h3) / 1.4 var(--font-sans);
+    color: var(--ink);
+  }
+
+  .join-body {
+    max-width: 640px;
+    margin: var(--space-2) 0 0;
+    font: 400 var(--fs-body) / 1.6 var(--font-sans);
+    color: var(--gray-700);
+  }
+</style>

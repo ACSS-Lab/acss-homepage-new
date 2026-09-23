@@ -1,0 +1,45 @@
+---
+// Card for a graduate: years in the lab, degree, optional note and current affiliation.
+import PersonCard from '../people/PersonCard.astro';
+import type { Alumnus } from '../../lib/content';
+import { formatMonthYear } from '../../lib/format';
+
+interface Props {
+  alumnus: Alumnus;
+  degreeTitle: string;
+  labels: { currentAffiliation: string };
+  index: number;
+}
+
+const { alumnus, degreeTitle, labels, index } = Astro.props;
+const years = `${formatMonthYear(alumnus.joined)} – ${formatMonthYear(alumnus.graduated)}`;
+const subtitle = [alumnus.nameKo, degreeTitle].filter(Boolean).join(' · ');
+---
+
+<PersonCard class="rise" style={`--i: ${index}`} person={alumnus} subtitle={subtitle} aside={years}>
+  {alumnus.note && <div class="note">{alumnus.note}</div>}
+  <div class="label">{labels.currentAffiliation}</div>
+  <div class="now">{alumnus.now ?? '—'}</div>
+</PersonCard>
+
+<style>
+  .note {
+    margin-top: 6px;
+    font: 400 var(--fs-caption) / 1.5 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .label {
+    margin-top: var(--space-3);
+    font: 500 var(--fs-caption) / 1.4 var(--font-sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+
+  .now {
+    margin-top: 3px;
+    font: 400 var(--fs-sm) / 1.6 var(--font-sans);
+    color: var(--gray-700);
+  }
+</style>

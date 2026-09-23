@@ -1,0 +1,42 @@
+---
+// Research-area tag: the short code on a fill colored by its family.
+// The full area name is shown as a tooltip.
+import type { Area } from '../../lib/content';
+
+interface Props {
+  area: Area;
+}
+
+const { area } = Astro.props;
+---
+
+<span class="chip" data-family={area.family} title={area.label}>{area.code}</span>
+
+<style>
+  .chip {
+    flex: none;
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    font: 500 var(--fs-caption) / 1.4 var(--font-sans);
+    color: var(--white);
+  }
+
+  [data-family='control'] {
+    background: var(--area-control);
+  }
+  [data-family='uncertainty'] {
+    background: var(--area-uncertainty);
+  }
+  [data-family='learning'] {
+    background: var(--area-learning);
+  }
+  [data-family='modeling'] {
+    background: var(--area-modeling);
+  }
+  [data-family='estimation'] {
+    background: var(--area-estimation);
+  }
+  [data-family='applications'] {
+    background: var(--area-applications);
+  }
+</style>

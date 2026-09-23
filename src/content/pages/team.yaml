@@ -1,0 +1,55 @@
+# Wording of the Team page (/team/).
+# The people themselves are in src/content/team/.
+
+page: team
+title: Team # browser tab title
+
+hero:
+  title: Team
+  # Describes the background image planned for the banner; delete once it is no longer useful.
+  note: |-
+    page header image — 1920×360
+    연구실 사진 또는 시뮬레이션 스틸
+
+# Section headings on the "Current members" tab, in display order.
+roles:
+  postdoc: Postdoctoral Researchers
+  phd: Ph.D. Students
+  ms: M.S. Students
+
+# Section headings on the "Alumni" tab.
+degrees:
+  PhD: Ph.D. Alumni
+  MS: M.S. Alumni
+degreeTitles:
+  PhD: Doctoral Student
+  MS: Master's Student
+
+labels:
+  representative: Lab Representative
+  researchInterest: Research interest
+  currentAffiliation: Current affiliation
+  # Join date on a member card. {date} is replaced with e.g. "Feb 2025".
+  joined: "{date} –"
+  incoming: Incoming {date}
+  # Term names for interns
+  terms:
+    spring: Spring
+    summer: Summer
+    fall: Fall
+    winter: Winter
+
+interns:
+  title: Undergraduate interns
+  note: Interns join for a semester or a break. Photos and full details are omitted here.
+
+alumni:
+  title: Alumni
+  note: Current affiliations are updated after confirmation with each alum.
+
+# Banner under the lists (not shown on the Alumni tab)
+join:
+  title: We're looking for people to research with
+  body: We recruit MS/PhD students and undergraduate interns. Reach out with your CV and the topics you'd like to work on.
+  cta: How to apply
+  href: /contact/

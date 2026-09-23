@@ -78,6 +78,10 @@
 --scrim-card-idle: linear-gradient(to top,rgba(10,27,61,.9) 0%,rgba(10,27,61,.58) 52%,rgba(10,27,61,.3) 100%);    /* image card, idle */
 ```
 
+> **Research-area chips**: each family in `taxonomy/areas.yaml` has a fill token, white text on top:
+> `--area-control #2B4C9B` · `--area-uncertainty #C0453F` · `--area-learning #6F5EA0` · `--area-modeling #B93E93` · `--area-estimation #C97A12` · `--area-applications #79828E`.
+> Adding a family means adding a token here and in `tokens.css`. (`estimation` and `applications` measure below 4.5:1 with 12px white text; darken them when the taxonomy is next revised.)
+>
 > **Image placeholders**: until a real photo/figure exists, its slot shows the `--ph` stripes (`--ph-dark` on dark surfaces) with a short mono note describing the intended image. The slot keeps its final aspect ratio so the layout doesn't shift when the asset arrives.
 >
 > **Feel in practice**: most screens (publication lists, member lists) are white bg + black text + gray meta, with navy dotted in only on links, selected states, and primary buttons. The home hero and footer use `--navy-900` dark sections as "brand moments."
@@ -172,6 +176,13 @@
 ### Image card picker + detail panel (Research Areas)
 - Three 260px image cards (`--radius-lg`, navy base, title bottom-left in white) act as toggle buttons. Selected: lifted 2px with `--shadow-md`, full-opacity image, `--scrim-card`. Idle: 72% image, heavier `--scrim-card-idle`; hover lifts it and slowly zooms the image (`--dur-loop`, off under reduced motion).
 - The selected area's text appears below: each sub-topic is a two-column grid (132px gray label, content) with lettered headings, neutral chips for application areas, and related-paper tiles (`--gray-100`, hover `--navy-100`) that deep-link to the paper. Sub-topics rise in each time a card is picked.
+
+### Team page
+- Three tabs selected by the URL fragment (`#current`, `#interns`, `#alumni`) from the banner's Members dropdown, whose entries carry counts and highlight the tab in view. The header menu links to the same fragments.
+- **Current members**: role sections (dot-and-rule heading with a gray count), two `PersonCard`s per row with join date top-right, an uppercase "Research interest" label and `AreaChip`s (family-colored code chips; full name on hover). A lab representative gets an uppercase `--navy-100` badge next to the name.
+- **Undergraduate interns**: a 280px intro column and a ruled list (name + Korean name / topic / term) instead of cards.
+- **Alumni**: degree sections of `PersonCard`s showing years in the lab, degree title, an optional note and "Current affiliation".
+- A `--gray-100` join banner with a primary button closes the page except on the Alumni tab.
 
 ### Contact page
 - The only page without a dark banner: a plain `--fs-h1` title with a rule. Below, titled bands (`132px` label rail + content) separated by `--gray-300` rules.

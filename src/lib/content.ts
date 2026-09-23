@@ -137,7 +137,8 @@ export interface Team {
   alumni: Alumnus[];
 }
 
-const ROLE_ORDER = ['postdoc', 'phd', 'ms'] as const;
+export const ROLE_ORDER = ['postdoc', 'phd', 'ms'] as const;
+export const DEGREE_ORDER = ['PhD', 'MS'] as const;
 const TERM_ORDER = ['spring', 'summer', 'fall', 'winter'] as const;
 
 /** Subfolder of src/content/team/ each `group` must be filed under. */

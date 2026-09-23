@@ -20,7 +20,7 @@ const { tabs } = Astro.props;
             {tab.label}
             <Icon name="chevron-down" size={12} class="caret" />
           </a>
-          <div class="menu">
+          <div class="menu" data-tab-links>
             {tab.menu.map((entry) => (
               <a class="entry" href={entry.href}>
                 {entry.label}
@@ -141,6 +141,13 @@ const { tabs } = Astro.props;
   .entry:focus-visible {
     background: var(--gray-100);
     color: var(--navy-600);
+  }
+
+  /* The tab currently shown on this page (set by scripts/tabs.ts) */
+  .entry[aria-current='true'] {
+    background: var(--gray-100);
+    color: var(--navy-600);
+    font-weight: 600;
   }
 
   .count {

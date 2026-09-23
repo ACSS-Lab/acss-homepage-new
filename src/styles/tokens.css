@@ -59,6 +59,14 @@
   --scrim-card: linear-gradient(to top, rgba(10, 27, 61, .88) 0%, rgba(10, 27, 61, .42) 46%, rgba(10, 27, 61, .06) 100%);
   --scrim-card-idle: linear-gradient(to top, rgba(10, 27, 61, .9) 0%, rgba(10, 27, 61, .58) 52%, rgba(10, 27, 61, .3) 100%);
 
+  /* Research-area families (chip fills; white text). One per family id in taxonomy/areas.yaml. */
+  --area-control: #2B4C9B;
+  --area-uncertainty: #C0453F;
+  --area-learning: #6F5EA0;
+  --area-modeling: #B93E93;
+  --area-estimation: #C97A12;
+  --area-applications: #79828E;
+
   /* Typography (desktop values; the responsive pass will add the mobile steps) */
   --font-sans: "Pretendard Variable", "Pretendard", "Spoqa Han Sans Neo", "Noto Sans KR", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;

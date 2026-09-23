@@ -35,9 +35,9 @@ const { title, variant = 'banner', note } = Astro.props;
 </section>
 
 <style>
+  /* No overflow clipping: the tab switcher's dropdown hangs below the banner. */
   .hero {
     position: relative;
-    overflow: hidden;
     background: var(--navy-900);
   }
 
