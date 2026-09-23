@@ -71,7 +71,10 @@ try {
       const over = result.scrollWidth > width;
       if (over) failures++;
       console.log(`${String(width).padStart(5)}  ${route.padEnd(28)} ${over ? 'OVERFLOW ' + result.scrollWidth + 'px  ' + result.wide.join(' ') : 'ok'}`);
-      if (shotsDir) await page.screenshot(join(shotsDir, `${route === '/' ? 'home' : route.replaceAll('/', '-').replace(/^-|-$/g, '')}-${width}.png`), true);
+      if (shotsDir) {
+        await page.sleep(700); // let entrance animations finish
+        await page.screenshot(join(shotsDir, `${route === '/' ? 'home' : route.replaceAll('/', '-').replace(/^-|-$/g, '')}-${width}.png`), true);
+      }
     }
   }
 } finally {

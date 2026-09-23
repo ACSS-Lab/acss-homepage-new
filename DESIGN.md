@@ -136,7 +136,10 @@
 - Repeat the same **"headline → title → description → button → content" section formula.** It pads whitespace and buries the key info.
 
 ### Per-page density
-- **Home**: one desktop screen (min 1400×1170): a navy hero that fills the space above a white band. Hero: logo slot top-left, headline + lede + CTA bottom-left, a floating Notice card bottom-right. Band: the Highlights feed (dense rows) on the left, a 16:9 gallery carousel (512px) on the right.
+- **Home**: at `xl` and above one desktop screen (min height 1170px): a navy hero that fills the space above a white band.
+  Hero: logo slot top-left, headline + lede + CTA bottom-left, a floating Notice card bottom-right.
+  Band: the Highlights feed (dense rows) on the left, a 16:9 gallery carousel (512px) on the right.
+  Below `xl` the screen unstacks: hero (headline, lede, CTA), the notice card full width, then Highlights and the gallery one under the other; below `md` the feed drops its meta column.
 - **Publications**: filter chips + publication **list rows** (title, authors, venue, year). Don't turn these into cards.
 - **Team**: filter sidebar + two-column **person cards** grouped by role; interns as ruled summary rows; alumni as cards grouped by degree.
 - **About**: Our Vision is a tall hero plus editorial rows (label / prose / figure); Research Areas is three image cards that switch a detail panel below.

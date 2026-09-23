@@ -137,4 +137,25 @@ const resolve = (item: NewsItem) => {
   .date {
     width: 52px;
   }
+  /* Below xl the rows no longer share a fixed band height */
+  @media (max-width: 1279px) {
+    .rows {
+      flex: none;
+    }
+
+    .row {
+      flex: none;
+      padding: 10px 2px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .meta {
+      display: none;
+    }
+
+    .row {
+      gap: var(--space-3);
+    }
+  }
 </style>

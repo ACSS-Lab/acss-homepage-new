@@ -45,13 +45,12 @@ const headlineLines = hero.headline.split('\n');
 </BaseLayout>
 
 <style>
-  /* One desktop screen: hero fills what the bottom band leaves. */
+  /* One desktop screen (xl and up): hero fills what the bottom band leaves. */
   .screen {
     position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-width: 1400px;
     height: 100vh;
     min-height: 1170px;
     overflow: hidden;
@@ -167,6 +166,64 @@ const headlineLines = hero.headline.split('\n');
     .cta {
       animation: none;
       opacity: 1;
+    }
+  }
+  /* Below xl the screen unstacks: hero, notice card, highlights, gallery, top to bottom */
+  @media (max-width: 1279px) {
+    .screen {
+      height: auto;
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-10);
+      min-height: 0;
+      padding: calc(var(--header-h) + var(--space-8)) var(--space-12) var(--space-12);
+    }
+
+    .stripes {
+      pointer-events: none;
+    }
+
+    /* In flow, but still positioned so they paint above the stripes layer */
+    .logo-slot,
+    .intro,
+    .notice {
+      position: relative;
+      inset: auto;
+    }
+
+    .intro {
+      max-width: 640px;
+    }
+
+    .bg-note {
+      top: calc(var(--header-h) + var(--space-4));
+    }
+
+    .band {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-10);
+      padding: var(--space-10) var(--space-12) var(--space-section);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero,
+    .band {
+      gap: var(--space-8);
+      padding-inline: var(--gutter);
+    }
+
+    .bg-note {
+      display: none;
+    }
+
+    .logo-slot {
+      width: min(252px, 100%);
     }
   }
 </style>
