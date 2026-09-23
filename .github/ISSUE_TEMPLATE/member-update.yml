@@ -34,13 +34,13 @@ body:
     attributes:
       label: Role
       options:
-        - Professor
+        - Postdoc
         - Ph.D. Student
         - M.S. Student
-        - Undergraduate Researcher
-        - Postdoc
+        - Undergraduate Intern
         - Alumni
-        - Visiting Researcher
+        - Visiting Faculty
+        - Staff
     validations:
       required: true
 
@@ -51,10 +51,17 @@ body:
       placeholder: "e.g. example@kaist.ac.kr"
 
   - type: input
+    id: joined
+    attributes:
+      label: Join date (year-month)
+      placeholder: "e.g. 2026-03 (for alumni, also the graduation month: 2026-03 to 2028-02)"
+
+  - type: input
     id: research_interests
     attributes:
-      label: Research Interests (optional)
-      placeholder: "e.g. Autonomous Driving, VLM, Physical AI"
+      label: Research topics (optional)
+      description: Area codes from src/content/taxonomy/areas.yaml, or plain words for interns.
+      placeholder: "e.g. StochCtrl, RL, Robot"
 
   - type: input
     id: google_scholar
@@ -63,10 +70,10 @@ body:
       placeholder: "https://scholar.google.com/..."
 
   - type: input
-    id: github
+    id: linkedin
     attributes:
-      label: GitHub (optional)
-      placeholder: "https://github.com/..."
+      label: LinkedIn (optional)
+      placeholder: "https://www.linkedin.com/in/..."
 
   - type: input
     id: personal_page

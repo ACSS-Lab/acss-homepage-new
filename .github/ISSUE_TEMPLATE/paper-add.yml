@@ -44,20 +44,38 @@ body:
   - type: dropdown
     id: pub_type
     attributes:
-      label: Publication Status
+      label: Type
+      description: Papers under review are listed once they are on arXiv (as a preprint).
       options:
-        - Accepted
-        - To appear
-        - arXiv preprint
-        - Under review
+        - Journal
+        - Conference
+        - Preprint
+        - Patent
     validations:
       required: true
 
   - type: input
-    id: year
+    id: date
     attributes:
-      label: Year
-      placeholder: "e.g. 2026"
+      label: Year and month
+      placeholder: "e.g. 2026-06"
+    validations:
+      required: true
+
+  - type: input
+    id: areas
+    attributes:
+      label: Research areas
+      description: One or more area codes from src/content/taxonomy/areas.yaml (e.g. StochCtrl, RL, Robot).
+      placeholder: "e.g. Planning, UQ, Robot"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: One- or two-sentence summary
+      description: Shown when the paper's row is expanded on the site.
     validations:
       required: true
 

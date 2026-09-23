@@ -128,7 +128,7 @@
 - **Vary the rhythm across sections.** Alternate image position (left/right); slip a card-grid section between plain-text sections. (About's Research Direction is the prime case — figure and text alternating left/right.)
 - **Match density to content type.**
   - *Browse/search* (Publications, Team): light filters + a **dense list**. Scannable rows over showy cards.
-  - *Editorial* (Home, About): hero + a **curated card grid**.
+  - *Editorial* (Home, About): a hero, then long-form rows or a few large cards. Not a uniform grid.
 - **Keep the footer structurally identical across all subpages** — the one element that stays fixed as a nav anchor.
 
 ### Don't
@@ -138,8 +138,8 @@
 ### Per-page density
 - **Home**: one desktop screen (min 1400×1170): a navy hero that fills the space above a white band. Hero: logo slot top-left, headline + lede + CTA bottom-left, a floating Notice card bottom-right. Band: the Highlights feed (dense rows) on the left, a 16:9 gallery carousel (512px) on the right.
 - **Publications**: filter chips + publication **list rows** (title, authors, venue, year). Don't turn these into cards.
-- **Team**: **full card + compact list pairing** (see §4). Interns as summary rows.
-- **About**: text ↔ figure alternating left/right. No uniform grid.
+- **Team**: filter sidebar + two-column **person cards** grouped by role; interns as ruled summary rows; alumni as cards grouped by degree.
+- **About**: Our Vision is a tall hero plus editorial rows (label / prose / figure); Research Areas is three image cards that switch a detail panel below.
 
 ---
 
@@ -150,7 +150,7 @@
 - **Borderless cards.** No border, and no partial accents (e.g. a colored top edge) either. Separate with **subtle shadow + background contrast** only.
 - Keep corner radius **moderate** (not overly rounded).
 - Use cards **only to group related info**.
-- **Full card + compact list pairing**: present the same info as a full card (thumbnail + title + 1–2 line description + tag/CTA) in one place and as a list elsewhere, so users can both scan and read in depth. → **Team page** (featured member cards + full roster list), **Home Highlights** (cards) ↔ the full list on each page.
+- **Card and list side by side**: the same item appears as a card where it is browsed (project cards, gallery covers, person cards) and as a dense row where it is scanned (the home Highlights feed, publication rows). Keep both in step.
 
 **Don't**
 - Wrap standalone info that needs no grouping in a card — scatter it in a grid instead.
@@ -326,7 +326,7 @@ Breakpoints: `640 / 768 / 1024 / 1280`. Vertical section gaps: `--space-24` desk
 
 ## 8. Logo (slated for redesign)
 
-- The current logo (`assets/acss_logo.png`) needs a redesign (confirmed). Use it as interim until the new one ships.
+- The logo is being redesigned (confirmed). No logo file is in the repo yet: the header uses a plain navy mark and the home hero shows a placeholder slot until the new one ships.
 - Store assets in `public/images/logo/` as SVG (preferred) + PNG. Separate light/dark (navy/white) and horizontal/symbol variants.
 - The large hero logo and the left "logo-image button" reuse the same symbol asset.
 

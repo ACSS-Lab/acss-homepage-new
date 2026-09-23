@@ -20,6 +20,22 @@
 
 > **Note: the web admin (`/admin`) is planned but not set up yet.** Until it is, use way 2: edit the files under `src/content/` (on GitHub's website or on your laptop — see section 4), or ask Claude to do it. The recipes in section 3 name the form fields; the same field names are the keys in the data files.
 
+### Pages and where their content lives
+
+| Page | Address | Content files (under `src/content/`) |
+|---|---|---|
+| Home | `/` | `notices/`, `news/`, newest `gallery/` posts; wording in `pages/home.yaml` |
+| Our Vision | `/about/vision/` | `pages/vision.yaml` + long text in `prose/vision/` |
+| Research Areas | `/about/research-areas/` | `research-areas/` (papers linked from `publications/`) |
+| Projects | `/research/projects/` | `projects/` (papers linked from `publications/`) |
+| Publications | `/research/publications/` | `publications/`, tags from `taxonomy/areas.yaml` |
+| PI & Staffs | `/team/professor/` | `team/pi_and_staff/` |
+| Team | `/team/` (`#current`, `#interns`, `#alumni`) | `team/current/`, `team/undergrad_interns/`, `team/alumni/` |
+| Gallery | `/gallery/` | `gallery/` |
+| Contact | `/contact/` | `contact/tracks.yaml`, `site/site.yaml` (address, maps, e-mails) |
+
+Every page's headings and labels are in `pages/<page>.yaml`; the header menu in `site/navigation.yaml`.
+
 ---
 
 ## 2. Setup (one time)
@@ -32,9 +48,9 @@
 
 ---
 
-## 3. Common task recipes (via the web admin)
+## 3. Common task recipes
 
-Each task: log into `/admin` → pick the collection → **New/Edit** → fill the form → **Save/Publish**.
+Each task, until the web admin exists: open the folder named in the recipe → **copy `_template.yaml`** (it explains every field) → fill it in → save and push (section 4). With the web admin it will be: log into `/admin` → pick the collection → **New/Edit** → **Save/Publish**.
 If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 
 ### 3-1. Add a publication (Publications)
@@ -132,9 +148,9 @@ Skip this section if web editing is enough. Useful for larger changes or reviewi
 
 ```bash
 # 1) One time: clone the repo
-git clone <repo URL> && cd acss-web
+git clone <repo URL> && cd acss-homepage
 
-# 2) Install tools (requires Node.js)
+# 2) Install tools (requires Node.js 22 or newer; with nvm: `nvm use` reads .nvmrc)
 npm install
 
 # 3) Run the preview server → open http://localhost:4321 in a browser
@@ -146,7 +162,7 @@ npm run dev
 To push edits to the live site:
 ```bash
 git add -A
-git commit -m "content: one line on what changed and why"
+git commit -m "content: one line on what changed and why (in English)"
 git push
 ```
 `push` triggers an automatic build + deploy.
@@ -158,8 +174,9 @@ git push
 ## 5. When something breaks
 
 - **The site isn't updating** → check that you saved/`push`ed and the deploy finished. Clear your browser cache.
-- **The build failed (a red X on GitHub)** → usually a missing required field or a format error. Copy the error to Claude:
+- **The build failed (a red X on GitHub)** → usually a missing required field, a mistyped option, or an id that points at a file that doesn't exist. The error names the file. Copy it to Claude:
   > Fix this build error: `paste error message`
+- **`npm run guard` failed** → a project rule was broken in code (a hand-drawn icon, a color outside `tokens.css`, ...). The message says which file and rule.
 - **Admin login fails** → confirm with the current admin that you're a GitHub collaborator.
 - **Posted something wrong** → tell Claude "revert my last change" to restore the previous state.
 
@@ -177,7 +194,7 @@ Claude writing/editing code in this repo follows these:
 - **Security invariants**: no committed secrets, force HTTPS, least privilege, pin & update dependencies, form spam protection, keep security headers.
 - **Care for non-technical readers**: explain "what & why" in Korean for each change (in conversation). **Commit messages and code comments are always written in English**, in clear plain language.
 - **No emojis**: never add emojis to docs, code comments, or commit messages. Emojis the user typed themselves stay as they are — don't add new ones and don't remove theirs.
-- **Doc sync**: when structure/design/content-model changes, update `CLAUDE.md`, `DESIGN.md`, and `.claude/skills/` together.
+- **Doc sync**: when structure/design/content-model changes, update `CLAUDE.md`, `DESIGN.md`, and the affected `_template.yaml` files together.
 - **Definition of done**: `npm run build` succeeds (this includes the schema check) → `npm run check` and `npm run guard` pass → accessibility/responsive checked → docs updated → clear commit. Follow this order.
 
 ### Common commands
@@ -201,5 +218,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 - `src/scripts/` — small vanilla-TypeScript behaviors (menus, filters, carousels). No UI framework. Each file documents the `data-*` attributes it expects; `facet-filter.ts` (search + facets + load-more) is shared by Team and Publications.
 - `src/styles/tokens.css` — design tokens.
 - `scripts/guard.mjs` — the rule checks behind `npm run guard`.
-- `public/admin/` — web admin (Sveltia CMS) config.
-- `.github/workflows/deploy.yml` — automatic deployment.
+- `public/images/` — photos and figures referenced from content (`/images/team/<id>.jpg`, `/images/publications/<id>.png`, ...). Until a file exists, the page shows a striped placeholder saying where it should go.
+- `draft/` — the design drafts the pages were ported from. Kept for side-by-side comparison until the port is signed off, then removed.
+- `public/admin/` — web admin (Sveltia CMS) config. **Planned, not set up yet.**
+- `.github/workflows/deploy.yml` — automatic deployment. **Planned, not set up yet.**
