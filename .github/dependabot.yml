@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "quarterly"
     open-pull-requests-limit: 5
     ignore:
       # simple-icons dropped the LinkedIn icon in v14.
@@ -16,4 +16,4 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "quarterly"
