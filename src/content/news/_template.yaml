@@ -1,0 +1,15 @@
+# TEMPLATE — copy this file to post a news item. Files starting with "_" are ignored by the site.
+# Name the copy with a short id, e.g. 2026-icra-best-paper.yaml.
+# The home page's Highlights list shows the newest items.
+
+kind: award # paper | award | grant | media
+date: 2026-05-20 # year-month-day (shown as year.month)
+
+# EITHER write the item yourself ...
+title: Best Paper Award, ICRA 2026 Workshop on Safe Autonomy
+meta: H. Lee # optional; short text on the right (who, where, when)
+# link: https://example.com/   # optional
+
+# ... OR point at an existing entry, and its title and link are used:
+# publication: tro26   # id of a file in src/content/publications/
+# project: uam-safety  # id of a file in src/content/projects/

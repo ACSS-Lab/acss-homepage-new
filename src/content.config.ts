@@ -316,6 +316,43 @@ const gallery = defineCollection({
 });
 
 // ----------------------------------------------------------------------------
+// notices — announcements (recruiting etc.); the newest show on the home page
+// ----------------------------------------------------------------------------
+const notices = defineCollection({
+  loader: folder('notices'),
+  schema: z.object({
+    title: z.string(),
+    date: isoDate,
+    pinned: z.boolean().default(false),
+    badge: z.string().optional(), // short label on the right, e.g. "Recruiting"
+    link: href.optional(),
+  }),
+});
+
+// ----------------------------------------------------------------------------
+// news — the home page's Highlights feed. Written by hand, or pointing at a
+// publication / project whose title and link are then used.
+// ----------------------------------------------------------------------------
+export const newsKinds = ['paper', 'award', 'grant', 'media'] as const;
+
+const news = defineCollection({
+  loader: folder('news'),
+  schema: z
+    .object({
+      kind: z.enum(newsKinds),
+      date: isoDate,
+      title: z.string().optional(),
+      meta: z.string().optional(),
+      link: href.optional(),
+      publication: z.string().optional(), // publication id
+      project: z.string().optional(), // project id
+    })
+    .refine((n) => [n.title, n.publication, n.project].filter(Boolean).length === 1, {
+      message: 'Give exactly one of `title`, `publication` or `project`.',
+    }),
+});
+
+// ----------------------------------------------------------------------------
 // pages — the wording of each page (titles, section names, button labels).
 // One file per page; `page` must equal the file name.
 // ----------------------------------------------------------------------------
@@ -506,4 +543,4 @@ const prose = defineCollection({
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, ui, areas, team, publications, projects, researchAreas, gallery, tracks, pages, prose };
+export const collections = { site, navigation, ui, areas, team, publications, projects, researchAreas, gallery, notices, news, tracks, pages, prose };

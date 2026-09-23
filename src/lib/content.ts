@@ -317,3 +317,43 @@ export async function getGallery(): Promise<GalleryPost[]> {
 
 /** Every tag used by at least one post, in first-seen order (newest post first). */
 export const galleryTags = (posts: GalleryPost[]): string[] => [...new Set(posts.flatMap((p) => p.tags))];
+
+// ----------------------------------------------------------------------------
+// notices / news
+// ----------------------------------------------------------------------------
+
+export type Notice = CollectionEntry<'notices'>['data'] & { id: string };
+
+/** Notices, pinned first, then newest first. */
+export async function getNotices(): Promise<Notice[]> {
+  return (await getCollection('notices'))
+    .map(({ id, data }) => ({ ...data, id }))
+    .sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
+}
+
+type NewsData = CollectionEntry<'news'>['data'];
+export type NewsItem = Omit<NewsData, 'publication' | 'project'> & {
+  id: string;
+  /** Present when the item points at a publication. */
+  publication?: Publication;
+  /** Present when the item points at a project. */
+  project?: Project;
+};
+
+/** News items newest first, with publication/project ids resolved. */
+export async function getNews(): Promise<NewsItem[]> {
+  const [publications, projects, entries] = await Promise.all([getPublications(), getProjects(), getCollection('news')]);
+  const pubById = new Map(publications.map((p) => [p.id, p]));
+  const projectById = new Map(projects.map((p) => [p.id, p]));
+
+  return entries
+    .map(({ id, data }) => {
+      const file = `src/content/news/${id}.yaml`;
+      const { publication, project, ...rest } = data;
+      const item: NewsItem = { ...rest, id };
+      if (publication) item.publication = pubById.get(publication) ?? fail(file, `publication "${publication}" has no file in src/content/publications/.`);
+      if (project) item.project = projectById.get(project) ?? fail(file, `project "${project}" has no file in src/content/projects/.`);
+      return item;
+    })
+    .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
+}

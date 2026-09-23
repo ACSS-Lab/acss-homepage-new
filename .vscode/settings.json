@@ -12,6 +12,8 @@
     "./.astro/collections/researchAreas.schema.json": "src/content/research-areas/*.yaml",
     "./.astro/collections/projects.schema.json": "src/content/projects/*.yaml",
     "./.astro/collections/gallery.schema.json": "src/content/gallery/*.yaml",
+    "./.astro/collections/notices.schema.json": "src/content/notices/*.yaml",
+    "./.astro/collections/news.schema.json": "src/content/news/*.yaml",
     "./.astro/collections/tracks.schema.json": "src/content/contact/tracks.yaml",
     "./.astro/collections/pages.schema.json": "src/content/pages/*.yaml"
   }

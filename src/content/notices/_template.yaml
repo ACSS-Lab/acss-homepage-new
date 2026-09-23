@@ -1,0 +1,9 @@
+# TEMPLATE — copy this file to post a notice. Files starting with "_" are ignored by the site.
+# Name the copy with a short id, e.g. 2026-fall-admissions.yaml.
+# The home page shows the newest notices (pinned ones first).
+
+title: 2026 Fall MS/PhD applicants — rolling until filled
+date: 2026-04-28 # year-month-day
+pinned: true # optional; pinned notices stay at the top
+badge: Recruiting # optional; short label shown on the right
+# link: /contact/   # optional; where the notice leads (a page on this site or an https:// URL)

@@ -62,12 +62,11 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - **Ask Claude**:
   > Add a new PhD student "Hong Gildong" to Team. Email is ..., research topics are ...
 
-### 3-3. Post news (News) / post a notice (Notice)
-- **News** = awards, project results, paper accepts, etc. **Notice** = announcements like grad recruiting.
-- Both show the **5 most recent** on the home page automatically (older ones drop off the list).
-- Required: title, date, (News) type, body.
+### 3-3. Post a notice (Notice)
+- **Notice** = announcements like grad recruiting or open positions. The home page shows the newest few (pinned ones first).
+- Files: `src/content/notices/` — **copy `_template.yaml`**. Required: title, date (`2026-04-28`). Optional: `pinned: true`, `badge` (short label such as "Recruiting"), `link`.
 - **Ask Claude**:
-  > Add a "Best Paper Award" item to News. Date today, type award.
+  > Post a notice "2027 Spring MS/PhD applicants" dated today, pinned, badge Recruiting, linking to the Contact page.
 
 ### 3-4. Post to the gallery (Gallery)
 - Files: `src/content/gallery/` — one file per post. **Copy `_template.yaml`** and name it with a short id (`welcome-2026.yaml`).
@@ -77,9 +76,11 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - **Ask Claude**:
   > Add the 2026 New Year party photos to Gallery as event. Date 2026-01-02.
 
-### 3-5. Change the Home Highlights cards
-- Collection: **Highlights**. Pick the 3 cards (Selected Pub 1 + Project 1 + Award 1).
-- For each card, just choose which publication/project/award it points to.
+### 3-5. Post news (Home Highlights)
+- **News** = awards, grants, paper accepts, media mentions. The home page's Highlights list shows the newest items.
+- Files: `src/content/news/` — **copy `_template.yaml`**. Required: kind (`paper`/`award`/`grant`/`media`), date. Then either write `title` (+ optional `meta`, `link`) yourself, or point at an existing entry with `publication: <id>` or `project: <id>` and its title and link are used automatically.
+- **Ask Claude**:
+  > Add a "Best Paper Award" item to News. Date today, kind award.
 
 ### 3-6. Add a project (Projects)
 - Files: `src/content/projects/` — one file per project. **Copy `_template.yaml`** and name it with a short id (`uam-safety.yaml`).
@@ -191,7 +192,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
   - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
-  - `pages/` (the wording of each page, one file per page; a page's display settings such as cards per page live there too), `prose/` (long bilingual text in Markdown), `team/` (one file per person, in subfolders `current/`, `undergrad_interns/`, `alumni/`, `pi_and_staff/`), `publications/` (one file per paper), `projects/` (one file per project), `gallery/` (one file per post), `research-areas/` (one file per area, in file-name order), `contact/tracks.yaml` (application tracks). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
+  - `pages/` (the wording of each page, one file per page; a page's display settings such as cards per page live there too), `prose/` (long bilingual text in Markdown), `team/` (one file per person, in subfolders `current/`, `undergrad_interns/`, `alumni/`, `pi_and_staff/`), `publications/` (one file per paper), `projects/` (one file per project), `gallery/` (one file per post), `notices/` and `news/` (one file per item), `research-areas/` (one file per area, in file-name order), `contact/tracks.yaml` (application tracks). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.
