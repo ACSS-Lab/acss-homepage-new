@@ -4,8 +4,8 @@
 // on the right. The row's id is the paper's deep-link target (#pub-<id>).
 import AreaChip from '../ui/AreaChip.astro';
 import Badge from '../ui/Badge.astro';
-import Figure from '../ui/Figure.astro';
 import Icon from '../ui/Icon.astro';
+import FigureButton from './FigureButton.astro';
 import LinkChips from './LinkChips.astro';
 import { getUi, type Area, type Publication } from '../../lib/content';
 import { formatMonthName } from '../../lib/format';
@@ -45,7 +45,7 @@ const detailsId = `pub-${pub.id}-details`;
       </span>
     </button>
     <div class="figure-slot">
-      <Figure class="figure" src={pub.figure.image} alt={pub.figure.alt ?? ''} note={figureNote} />
+      <FigureButton dialogId={`figure-${pub.id}`} label={labels.openFigure.replace('{title}', pub.title)} src={pub.figure.image} alt={pub.figure.alt ?? ''} note={figureNote} />
     </div>
   </div>
   <div class="details" id={detailsId} hidden>
@@ -57,7 +57,13 @@ const detailsId = `pub-${pub.id}-details`;
 <style>
   .row {
     border-bottom: 1px solid var(--gray-300);
-    transition: background var(--dur) var(--ease);
+    scroll-margin-top: var(--scroll-offset);
+    transition: background 400ms var(--ease);
+  }
+
+  /* Deep-link target, tinted for a moment by scripts/deeplink.ts */
+  .row[data-highlight] {
+    background: var(--navy-100);
   }
 
   .row:hover,
@@ -156,12 +162,6 @@ const detailsId = `pub-${pub.id}-details`;
     flex-wrap: wrap;
     gap: 6px;
     margin-top: var(--space-3);
-  }
-
-  .figure {
-    --figure-pad: 10px;
-    aspect-ratio: 4 / 3;
-    border-radius: var(--radius-md);
   }
 
   .details {

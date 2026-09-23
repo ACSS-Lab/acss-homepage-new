@@ -92,7 +92,7 @@ const ui = defineCollection({
   schema: z.object({
     nav: z.object({ label: z.string() }),
     language: z.object({ label: z.string(), en: z.string(), ko: z.string() }),
-    carousel: z.object({ previous: z.string(), next: z.string() }),
+    carousel: z.object({ previous: z.string(), next: z.string(), goTo: z.string().includes('{n}') }),
     pagination: z.object({ previous: z.string(), next: z.string(), page: z.string().includes('{n}') }),
     modal: z.object({ close: z.string() }),
     filter: z.object({ label: z.string(), reset: z.string(), filteredBy: z.string() }),
@@ -390,6 +390,12 @@ const pages = defineCollection({
       title: z.string(),
       hero: z.object({ title: z.string(), note: z.string().optional(), countLine: z.string() }),
       pageSize: z.number().int().min(2).max(20).default(6),
+      featured: z.object({
+        show: z.boolean().default(true),
+        title: z.string(),
+        autoplay: z.boolean().default(true),
+        intervalMs: z.number().int().min(1000).max(30000).default(5000),
+      }),
       filters: z.object({ searchPlaceholder: z.string(), type: z.string(), topic: z.string() }),
       list: z.object({
         heading: z.string(),
@@ -402,6 +408,7 @@ const pages = defineCollection({
         selectedBadge: z.string(),
         figureNote: z.string().includes('{path}'),
         openFigure: z.string().includes('{title}'),
+        figureMeta: z.string(),
         linkAria: z.string().includes('{label}'),
         links: z.object({ project: z.string(), venue: z.string(), paper: z.string(), slides: z.string(), video: z.string(), code: z.string() }),
       }),

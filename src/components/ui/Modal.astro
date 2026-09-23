@@ -10,12 +10,14 @@ interface Props {
   backdropClose?: boolean;
   /** `fullscreen`: covers the viewport on a dark ground (photo viewer). */
   variant?: 'card' | 'fullscreen';
+  /** Card width in px (card variant). */
+  maxWidth?: number;
 }
 
-const { id, label, backdropClose = false, variant = 'card' } = Astro.props;
+const { id, label, backdropClose = false, variant = 'card', maxWidth = 840 } = Astro.props;
 ---
 
-<dialog class:list={['modal', variant]} id={id} aria-label={label} data-backdrop-close={backdropClose ? '' : undefined}>
+<dialog class:list={['modal', variant]} id={id} aria-label={label} style={`--max-width: ${maxWidth}px`} data-backdrop-close={backdropClose ? '' : undefined}>
   <div class="card"><slot /></div>
 </dialog>
 
@@ -27,7 +29,7 @@ const { id, label, backdropClose = false, variant = 'card' } = Astro.props;
 <style>
   .modal {
     width: 100%;
-    max-width: 840px;
+    max-width: var(--max-width);
     max-height: 88vh;
     padding: 0;
     border: 0;

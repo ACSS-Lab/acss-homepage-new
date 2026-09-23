@@ -46,6 +46,8 @@ publicationTypes:
 carousel:
   previous: Previous
   next: Next
+  # {n} is replaced with the slide number.
+  goTo: Go to {n}
 
 # Person cards (PI & Staffs, Team)
 person:

@@ -9,6 +9,8 @@ import LoadMoreSentinel from '../../components/filters/LoadMoreSentinel.astro';
 import ResetButton from '../../components/filters/ResetButton.astro';
 import HeroTabs from '../../components/layout/HeroTabs.astro';
 import PageHero from '../../components/layout/PageHero.astro';
+import FeaturedCarousel from '../../components/publications/FeaturedCarousel.astro';
+import FigureLightbox from '../../components/publications/FigureLightbox.astro';
 import PubRow from '../../components/publications/PubRow.astro';
 import YearGroup from '../../components/publications/YearGroup.astro';
 import AreaChip from '../../components/ui/AreaChip.astro';
@@ -27,7 +29,8 @@ const [page, publications, nav, areas, families, ui] = await Promise.all([
   getAreaFamilies(),
   getUi(),
 ]);
-const { list, labels, filters } = page;
+const { list, labels, filters, featured } = page;
+const selected = publications.filter((p) => p.selected);
 
 const accepted = publications.filter((p) => p.type === 'journal' || p.type === 'conference').length;
 const preprints = publications.filter((p) => p.type === 'preprint').length;
@@ -48,6 +51,8 @@ let position = 0;
     <HeroTabs slot="tabs" tabs={sectionTabs(nav, Astro.url.pathname)} />
     <p class="count">{countLine}</p>
   </PageHero>
+
+  {featured.show && selected.length > 0 && <FeaturedCarousel publications={selected} areas={areas} title={featured.title} autoplay={featured.autoplay} intervalMs={featured.intervalMs} labels={labels} />}
 
   <div class="list">
     <FilterLayout pageSize={page.pageSize}>
@@ -93,7 +98,14 @@ let position = 0;
       <LoadMoreSentinel variant="rows" rootMargin="300px 0px" />
     </FilterLayout>
   </div>
+
+  {publications.map((pub) => <FigureLightbox publication={pub} labels={labels} />)}
 </BaseLayout>
+
+<script>
+  import { initDeepLink } from '../../scripts/deeplink';
+  initDeepLink();
+</script>
 
 <style>
   .count {

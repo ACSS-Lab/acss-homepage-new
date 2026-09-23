@@ -1,20 +1,33 @@
 ---
 // Position indicator for a carousel: short bars, the current one wider and navy.
-// scripts/carousel.ts moves `data-current` between the dots.
+// With `fill`, the current bar fills up over `--autoplay-ms` (set on the
+// carousel root) and the carousel advances when it is full; hovering the root
+// pauses it. scripts/carousel.ts moves `data-current` between the dots.
+import { getUi } from '../../lib/content';
+
 interface Props {
   count: number;
+  fill?: boolean;
 }
 
-const { count } = Astro.props;
+const { count, fill = false } = Astro.props;
+const label = (await getUi()).carousel.goTo;
 ---
 
-<div class="dots" aria-hidden="true">
-  {Array.from({ length: count }, (_, i) => <span class="dot" data-carousel-dot data-current={i === 0 ? '' : undefined} />)}
+<div class="dots">
+  {
+    Array.from({ length: count }, (_, i) => (
+      <button class:list={['dot', { 'has-fill': fill }]} type="button" aria-label={label.replace('{n}', String(i + 1))} data-carousel-dot data-current={i === 0 ? '' : undefined}>
+        {fill && <span class="fill" data-carousel-fill />}
+      </button>
+    ))
+  }
 </div>
 
 <style>
   .dots {
     display: flex;
+    align-items: center;
     gap: 6px;
   }
 
@@ -22,8 +35,11 @@ const { count } = Astro.props;
     display: block;
     width: 8px;
     height: 4px;
+    padding: 0;
+    border: 0;
     border-radius: var(--radius-full);
     background: var(--gray-300);
+    cursor: pointer;
     transition:
       width var(--dur-slow) var(--ease),
       background var(--dur-slow) var(--ease);
@@ -32,5 +48,53 @@ const { count } = Astro.props;
   .dot[data-current] {
     width: 20px;
     background: var(--navy-600);
+  }
+
+  /* Progress-bar variant */
+  .has-fill {
+    width: 9px;
+    height: 9px;
+    overflow: hidden;
+  }
+
+  .has-fill[data-current] {
+    width: 36px;
+    background: var(--gray-300);
+  }
+
+  .fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: var(--radius-full);
+    background: var(--navy-600);
+  }
+
+  .has-fill[data-current] > .fill {
+    animation: dotFill var(--autoplay-ms, 5000ms) linear forwards;
+  }
+
+  :global([data-carousel]:hover) .has-fill[data-current] > .fill {
+    animation-play-state: paused;
+  }
+
+  @keyframes dotFill {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dot {
+      transition: none;
+    }
+
+    .has-fill[data-current] > .fill {
+      animation: none;
+      width: 40%;
+    }
   }
 </style>

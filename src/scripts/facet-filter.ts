@@ -15,6 +15,9 @@
 //                                             the count may carry data-count-one / data-count-many templates with {n}
 //     [data-sentinel]                         reveals the next page when scrolled into view; hidden when done
 //
+// Another script can clear the filters by dispatching a `filter:reset` CustomEvent
+// on the root; `detail: { revealAll: true }` also shows every match at once.
+//
 // An option's count is the number of items that match the search and every
 // *other* facet, so it always says how many results choosing it would give.
 
@@ -118,6 +121,14 @@ export function initFacetFilter(root: ParentNode = document): void {
         searches.forEach((input) => (input.value = ''));
         change();
       });
+    });
+
+    filterRoot.addEventListener('filter:reset', (event) => {
+      facets.forEach((f) => (selected[f] = null));
+      query = '';
+      searches.forEach((input) => (input.value = ''));
+      visible = (event as CustomEvent<{ revealAll?: boolean }>).detail?.revealAll ? Infinity : pageSize;
+      render(false);
     });
 
     if (sentinel) {

@@ -210,6 +210,15 @@
 - **Behavior**: search + single-select facets (click again to clear); an option's count is what choosing it would yield given the other filters; results reveal `pageSize` at a time as a skeleton sentinel scrolls into view (person-card skeletons on Team, a year-row skeleton on Publications). An empty result shows the `EmptyState` card with a large reset button. Instant client-side updates; URL query sharing is a follow-up.
 - Team filters by Degree + area; Publications by Type + area. Both sidebars start with their facet sections collapsed except Team's area section.
 
+### Selected publications carousel
+- Above the list: one paper per slide in a white `--radius-lg` card with `--shadow-md` — 320px figure left, badges (accent "Selected" + type), venue · date, `--fs-h3` title, authors, area chips and link chips right. Under it, 36px round arrows around progress dots: the current dot stretches to 36px and fills navy over the autoplay interval; hovering the card pauses it. Slides loop; reduced motion stops autoplay (the dot shows a static 40% fill).
+
+### Figure thumbnails + window
+- Every paper's 4:3 thumbnail is a button (zooms 6% on hover with a `--glass` maximize badge) that opens a 920px card `Modal` showing venue · date, the title, and the figure at its own aspect ratio (`--ph` until the image exists).
+
+### Deep links
+- `#pub-<id>` (used by Projects and Research Areas) clears the filters, reveals and expands the row, scrolls it to `--scroll-offset` under the header, and tints it `--navy-100` for 3s.
+
 ### Publication list
 - Year-grouped rows under an "All publications" heading with the author-marker footnote right-aligned. Each year is a sticky `--fs-h1` label with a paper count in a 104px gutter; rows sit on `--gray-300` rules and tint `--gray-100` on hover.
 - A row: meta line (type `Badge`, venue, month/year, "Selected" accent badge, a 28px round chevron that turns navy and flips when open), `--fs-body` 600 title, authors, `AreaChip`s in taxonomy order; a 176px 4:3 figure on the right. Clicking the text expands the summary and the link chips (36px `--gray-100` pills with a lucide icon per link type, `--navy-600` on hover).

@@ -1,0 +1,200 @@
+---
+// "Selected publications": one paper per slide in a white card, with the figure
+// on the left and the details on the right. Autoplays (pausing on hover) and
+// loops; the dots under it show the progress to the next slide.
+import CarouselDots from '../ui/CarouselDots.astro';
+import Icon from '../ui/Icon.astro';
+import Badge from '../ui/Badge.astro';
+import AreaChip from '../ui/AreaChip.astro';
+import FigureButton from './FigureButton.astro';
+import LinkChips from './LinkChips.astro';
+import { getUi, type Area, type Publication } from '../../lib/content';
+import { formatMonthName } from '../../lib/format';
+
+interface Props {
+  publications: Publication[];
+  areas: Map<string, Area>;
+  title: string;
+  autoplay: boolean;
+  intervalMs: number;
+  labels: { selectedBadge: string; figureNote: string; openFigure: string; linkAria: string; links: Record<string, string> };
+}
+
+const { publications, areas, title, autoplay, intervalMs, labels } = Astro.props;
+const ui = await getUi();
+const areaOrder = [...areas.keys()];
+const sortedAreas = (codes: string[]) => [...codes].sort((a, b) => areaOrder.indexOf(a) - areaOrder.indexOf(b));
+// The dots' progress animation (only rendered when autoplay is on) is the autoplay clock.
+const figureNote = (pub: Publication) => labels.figureNote.replace('{path}', `/images/publications/${pub.id}.png`).replace('{ratio}', pub.figure.ratio.replace('/', ':'));
+---
+
+<section class="container featured">
+  <h2 class="heading">{title}</h2>
+  <div class="carousel" data-carousel data-loop style={`--autoplay-ms: ${intervalMs}ms`}>
+    <div class="card">
+      <div class="track">
+        {
+          publications.map((pub) => (
+            <div class="slide">
+              <FigureButton class="figure" dialogId={`figure-${pub.id}`} label={labels.openFigure.replace('{title}', pub.title)} src={pub.figure.image} alt={pub.figure.alt ?? ''} note={figureNote(pub)} />
+              <div class="text">
+                <div class="meta">
+                  <Badge tone="accent">{labels.selectedBadge}</Badge>
+                  <Badge>{ui.publicationTypes[pub.type]}</Badge>
+                  <span class="venue">
+                    {pub.venue} · {formatMonthName(pub.month, pub.year)}
+                  </span>
+                </div>
+                <h3 class="title">{pub.title}</h3>
+                <p class="authors">{pub.authors.join(', ')}</p>
+                <div class="areas">
+                  {sortedAreas(pub.areas).map((code) => (
+                    <AreaChip area={areas.get(code)!} />
+                  ))}
+                </div>
+                <div class="links">
+                  <LinkChips publication={pub} labels={labels} />
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    {
+      publications.length > 1 && (
+        <div class="nav">
+          <button class="arrow" type="button" aria-label={ui.carousel.previous} data-carousel-prev>
+            <Icon name="chevron-left" size={18} />
+          </button>
+          <CarouselDots count={publications.length} fill={autoplay} />
+          <button class="arrow" type="button" aria-label={ui.carousel.next} data-carousel-next>
+            <Icon name="chevron-right" size={18} />
+          </button>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  import { initCarousel } from '../../scripts/carousel';
+  initCarousel();
+</script>
+
+<style>
+  .featured {
+    padding-top: var(--space-12);
+  }
+
+  .heading {
+    margin: 0 0 var(--space-4);
+    font: 600 var(--fs-h2) / 1.3 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .card {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-md);
+  }
+
+  .track {
+    display: flex;
+    transform: translateX(calc(var(--slide, 0) * -100%));
+    transition: transform var(--dur-emph) var(--ease);
+  }
+
+  .slide {
+    display: grid;
+    flex: 0 0 100%;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: var(--space-8);
+    min-width: 0;
+    padding: var(--space-6);
+  }
+
+  @media (max-width: 900px) {
+    .slide {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .venue {
+    font: 400 var(--fs-meta) / 1.5 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .title {
+    margin: var(--space-3) 0 0;
+    font: 600 var(--fs-h3) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .authors {
+    margin: var(--space-2) 0 0;
+    font: 400 var(--fs-sm) / 1.6 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: var(--space-4);
+  }
+
+  .links {
+    margin-top: auto;
+    padding-top: var(--space-4);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-6);
+    margin-top: var(--space-4);
+  }
+
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--gray-500);
+    cursor: pointer;
+  }
+
+  .arrow:hover {
+    background: var(--gray-100);
+    color: var(--ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .track {
+      transition: none;
+    }
+  }
+</style>

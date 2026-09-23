@@ -1,0 +1,114 @@
+---
+// Window showing a paper's figure at its own aspect ratio, with the venue/date and title above.
+import Icon from '../ui/Icon.astro';
+import Modal from '../ui/Modal.astro';
+import { getUi, type Publication } from '../../lib/content';
+import { formatMonthName } from '../../lib/format';
+import { link } from '../../lib/url';
+
+interface Props {
+  publication: Publication;
+  labels: { figureMeta: string; figureNote: string };
+}
+
+const { publication: pub, labels } = Astro.props;
+const ui = await getUi();
+const meta = labels.figureMeta.replace('{venue}', pub.venue).replace('{date}', formatMonthName(pub.month, pub.year));
+const note = labels.figureNote.replace('{path}', `/images/publications/${pub.id}.png`).replace('{ratio}', pub.figure.ratio.replace('/', ':'));
+---
+
+<Modal id={`figure-${pub.id}`} label={pub.title} backdropClose maxWidth={920}>
+  <div class="body">
+    <div class="head">
+      <div class="text">
+        <div class="meta">{meta}</div>
+        <div class="title">{pub.title}</div>
+      </div>
+      <button class="close" type="button" aria-label={ui.modal.close} data-modal-close>
+        <Icon name="x" size={18} />
+      </button>
+    </div>
+    <div class="box" style={`--ratio: ${pub.figure.ratio}`}>
+      {pub.figure.image ? <img src={link(pub.figure.image)} alt={pub.figure.alt ?? ''} loading="lazy" decoding="async" /> : <span class="note">{note}</span>}
+    </div>
+  </div>
+</Modal>
+
+<style>
+  .body {
+    padding: var(--space-6);
+  }
+
+  .head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .text {
+    min-width: 0;
+  }
+
+  .meta {
+    font: 400 var(--fs-meta) / 1.5 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .title {
+    margin-top: var(--space-1);
+    font: 600 var(--fs-h3) / 1.4 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .close {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    color: var(--gray-700);
+    cursor: pointer;
+  }
+
+  .close:hover {
+    background: var(--navy-100);
+    color: var(--navy-700);
+  }
+
+  .box {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    min-height: 220px;
+    max-height: 82vh;
+    margin: var(--space-4) auto 0;
+    padding: var(--space-4);
+    overflow: hidden;
+    aspect-ratio: var(--ratio);
+    border-radius: var(--radius-md);
+    background: var(--ph);
+  }
+
+  .box:has(> img) {
+    padding: 0;
+  }
+
+  .box > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .note {
+    font: 400 var(--fs-meta) / 1.6 var(--font-mono);
+    color: var(--gray-500);
+    overflow-wrap: anywhere;
+  }
+</style>

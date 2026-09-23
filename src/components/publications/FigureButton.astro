@@ -1,0 +1,80 @@
+---
+// Figure thumbnail that opens the paper's figure window. Zooms slightly and
+// shows a maximize badge on hover.
+import Figure from '../ui/Figure.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  dialogId: string;
+  label: string;
+  src?: string;
+  alt: string;
+  note: string;
+  class?: string;
+}
+
+const { dialogId, label, src, alt, note, class: className } = Astro.props;
+---
+
+<button class:list={['fig-btn', className]} type="button" aria-label={label} data-modal-open={dialogId}>
+  <Figure class="fig" src={src} alt={alt} note={note} />
+  <span class="badge"><Icon name="maximize-2" size={14} /></span>
+</button>
+
+<style>
+  .fig-btn {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    cursor: zoom-in;
+  }
+
+  .fig {
+    --figure-pad: 10px;
+    aspect-ratio: 4 / 3;
+    transition: transform var(--dur-slow) var(--ease);
+  }
+
+  .fig-btn:hover .fig,
+  .fig-btn:focus-visible .fig {
+    transform: scale(1.06);
+  }
+
+  .badge {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: var(--glass);
+    box-shadow: var(--shadow-sm);
+    color: var(--navy-700);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition:
+      opacity var(--dur) var(--ease),
+      transform var(--dur) var(--ease);
+  }
+
+  .fig-btn:hover .badge,
+  .fig-btn:focus-visible .badge {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fig,
+    .badge {
+      transition: none;
+    }
+  }
+</style>

@@ -11,6 +11,13 @@ hero:
 
 pageSize: 6 # rows loaded at a time while scrolling (2-20)
 
+# "Selected publications" carousel above the list (papers with `selected: true`)
+featured:
+  show: true
+  title: Selected publications
+  autoplay: true
+  intervalMs: 5000 # time each paper stays before the next one slides in
+
 # Filter sidebar
 filters:
   searchPlaceholder: Search title, author, venue
@@ -31,6 +38,8 @@ labels:
   figureNote: "figure — {path} · {ratio}"
   # Accessible names. {title} is replaced with the paper title.
   openFigure: "Open figure — {title}"
+  # Meta line in the figure window. {venue} and {date} are replaced.
+  figureMeta: "{venue} · {date}"
   linkAria: "{label} — {title}"
   # Text on the link chips, by link type
   links:
