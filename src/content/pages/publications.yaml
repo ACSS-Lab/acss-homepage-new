@@ -1,0 +1,36 @@
+# Wording of the Publications page (/research/publications/).
+# The papers themselves are in src/content/publications/.
+
+page: publications
+title: Publications # browser tab title
+
+hero:
+  title: Publications
+  # {accepted} = journal + conference papers, {preprints} = preprints. Replaced with the counts.
+  countLine: "{accepted} accepted · {preprints} preprints"
+
+pageSize: 6 # rows loaded at a time while scrolling (2-20)
+
+list:
+  heading: All publications
+  footnote: "* equally contributed first authors  ·  † corresponding author  ·  Author names in the lab are listed as published. Preprints are listed once submitted."
+  empty: No publications match this filter yet.
+  reset: Reset
+  # Count under each year. {n} is replaced; the first form is used for exactly one paper.
+  perYear: ["{n} paper", "{n} papers"]
+
+labels:
+  selectedBadge: Selected
+  # Shown in the figure slot until the image is added. {path} and {ratio} are replaced.
+  figureNote: "figure — {path} · {ratio}"
+  # Accessible names. {title} is replaced with the paper title.
+  openFigure: "Open figure — {title}"
+  linkAria: "{label} — {title}"
+  # Text on the link chips, by link type
+  links:
+    project: Project page
+    venue: Venue
+    paper: Paper
+    slides: Slides
+    video: Video
+    code: Code

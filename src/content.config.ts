@@ -386,6 +386,26 @@ const pages = defineCollection({
       join: z.object({ title: z.string(), body: z.string(), cta: z.string(), href }),
     }),
     z.object({
+      page: z.literal('publications'),
+      title: z.string(),
+      hero: z.object({ title: z.string(), note: z.string().optional(), countLine: z.string() }),
+      pageSize: z.number().int().min(2).max(20).default(6),
+      list: z.object({
+        heading: z.string(),
+        footnote: z.string(),
+        empty: z.string(),
+        reset: z.string(),
+        perYear: z.tuple([z.string().includes('{n}'), z.string().includes('{n}')]),
+      }),
+      labels: z.object({
+        selectedBadge: z.string(),
+        figureNote: z.string().includes('{path}'),
+        openFigure: z.string().includes('{title}'),
+        linkAria: z.string().includes('{label}'),
+        links: z.object({ project: z.string(), venue: z.string(), paper: z.string(), slides: z.string(), video: z.string(), code: z.string() }),
+      }),
+    }),
+    z.object({
       page: z.literal('projects'),
       title: z.string(),
       hero: z.object({ title: z.string(), note: z.string().optional(), countLine: z.string() }),

@@ -1,0 +1,195 @@
+---
+// One publication in the year-grouped list: meta line, title, authors and area
+// chips on a button that expands the summary and link chips; a figure thumbnail
+// on the right. The row's id is the paper's deep-link target (#pub-<id>).
+import AreaChip from '../ui/AreaChip.astro';
+import Badge from '../ui/Badge.astro';
+import Figure from '../ui/Figure.astro';
+import Icon from '../ui/Icon.astro';
+import LinkChips from './LinkChips.astro';
+import { getUi, type Area, type Publication } from '../../lib/content';
+import { formatMonthName } from '../../lib/format';
+
+interface Props {
+  publication: Publication;
+  areas: Map<string, Area>;
+  labels: { selectedBadge: string; figureNote: string; openFigure: string; linkAria: string; links: Record<string, string> };
+  hidden?: boolean;
+}
+
+const { publication: pub, areas, labels, hidden = false } = Astro.props;
+const ui = await getUi();
+// Chips follow the taxonomy's order, whatever order the file lists them in.
+const areaOrder = [...areas.keys()];
+const areaCodes = [...pub.areas].sort((a, b) => areaOrder.indexOf(a) - areaOrder.indexOf(b));
+const areaLabels = areaCodes.map((code) => areas.get(code)?.label ?? code);
+const haystack = [pub.title, pub.authors.join(', '), pub.venue, ...areaLabels].join(' ').toLowerCase();
+const figureNote = labels.figureNote.replace('{path}', `/images/publications/${pub.id}.png`).replace('{ratio}', pub.figure.ratio.replace('/', ':'));
+const detailsId = `pub-${pub.id}-details`;
+---
+
+<div class="row" id={`pub-${pub.id}`} hidden={hidden} data-item data-facet-type={pub.type} data-facet-area={pub.areas.join(' ')} data-search={haystack}>
+  <div class="grid">
+    <button class="toggle" type="button" aria-expanded="false" aria-controls={detailsId} data-accordion>
+      <span class="meta">
+        <Badge tone={pub.type === 'patent' ? 'accent' : 'neutral'}>{ui.publicationTypes[pub.type]}</Badge>
+        <span class="venue">{pub.venue}</span>
+        <span class="date">{formatMonthName(pub.month, pub.year)}</span>
+        {pub.selected && <Badge tone="accent">{labels.selectedBadge}</Badge>}
+        <span class="caret"><Icon name="chevron-down" size={14} /></span>
+      </span>
+      <span class="title">{pub.title}</span>
+      <span class="authors">{pub.authors.join(', ')}</span>
+      <span class="areas">
+        {areaCodes.map((code) => <AreaChip area={areas.get(code)!} />)}
+      </span>
+    </button>
+    <div class="figure-slot">
+      <Figure class="figure" src={pub.figure.image} alt={pub.figure.alt ?? ''} note={figureNote} />
+    </div>
+  </div>
+  <div class="details" id={detailsId} hidden>
+    <p class="summary">{pub.summary}</p>
+    <LinkChips publication={pub} labels={labels} />
+  </div>
+</div>
+
+<style>
+  .row {
+    border-bottom: 1px solid var(--gray-300);
+    transition: background var(--dur) var(--ease);
+  }
+
+  .row:hover,
+  .row:has(:focus-visible) {
+    background: var(--gray-100);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 176px;
+    gap: var(--space-6);
+    align-items: start;
+    padding: var(--space-4) var(--space-3);
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .figure-slot {
+      max-width: 260px;
+    }
+  }
+
+  .toggle {
+    display: block;
+    width: 100%;
+    margin: calc(var(--space-2) * -1);
+    padding: var(--space-2);
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .venue {
+    font: 500 var(--fs-meta) / 1.5 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .date {
+    font: 400 var(--fs-meta) / 1.5 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .caret {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-left: auto;
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    color: var(--gray-500);
+    transition:
+      transform var(--dur) var(--ease),
+      background var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+
+  .toggle[aria-expanded='true'] .caret {
+    background: var(--navy-100);
+    color: var(--navy-700);
+    transform: rotate(180deg);
+  }
+
+  .title {
+    display: block;
+    margin-top: var(--space-2);
+    font: 600 var(--fs-body) / 1.5 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .authors {
+    display: block;
+    margin-top: var(--space-1);
+    font: 400 var(--fs-sm) / 1.5 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: var(--space-3);
+  }
+
+  .figure {
+    --figure-pad: 10px;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-md);
+  }
+
+  .details {
+    padding: 0 var(--space-3) var(--space-6);
+    animation: openIn 260ms var(--ease) both;
+  }
+
+  @keyframes openIn {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .summary {
+    max-width: var(--container-narrow);
+    margin: 0 0 var(--space-3);
+    font: 400 var(--fs-sm) / 1.7 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .details {
+      animation: none;
+    }
+  }
+</style>

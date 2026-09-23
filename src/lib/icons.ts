@@ -8,11 +8,18 @@ import Check from '@lucide/astro/icons/check';
 import ChevronDown from '@lucide/astro/icons/chevron-down';
 import ChevronLeft from '@lucide/astro/icons/chevron-left';
 import ChevronRight from '@lucide/astro/icons/chevron-right';
+import Code from '@lucide/astro/icons/code';
 import CircleSlash from '@lucide/astro/icons/circle-slash';
 import Copy from '@lucide/astro/icons/copy';
+import FileText from '@lucide/astro/icons/file-text';
+import Globe from '@lucide/astro/icons/globe';
 import GraduationCap from '@lucide/astro/icons/graduation-cap';
 import House from '@lucide/astro/icons/house';
+import Landmark from '@lucide/astro/icons/landmark';
 import ListFilter from '@lucide/astro/icons/list-filter';
+import Maximize2 from '@lucide/astro/icons/maximize-2';
+import Play from '@lucide/astro/icons/play';
+import Presentation from '@lucide/astro/icons/presentation';
 import Search from '@lucide/astro/icons/search';
 import X from '@lucide/astro/icons/x';
 
@@ -23,10 +30,17 @@ export const icons = {
   'chevron-left': ChevronLeft,
   'chevron-right': ChevronRight,
   'circle-slash': CircleSlash,
+  code: Code,
   copy: Copy,
+  'file-text': FileText,
+  globe: Globe,
   'graduation-cap': GraduationCap,
   house: House,
+  landmark: Landmark,
   'list-filter': ListFilter,
+  'maximize-2': Maximize2,
+  play: Play,
+  presentation: Presentation,
   search: Search,
   x: X,
 } as const;

@@ -1,0 +1,58 @@
+---
+// Publications of one year: a sticky year label in the left gutter, rows on the right.
+interface Props {
+  year: number;
+  countLabel: string;
+  index: number;
+}
+
+const { year, countLabel, index } = Astro.props;
+---
+
+<div class="group rise" style={`--i: ${index}`} data-group={year}>
+  <div class="gutter">
+    <div class="year">{year}</div>
+    <div class="count" data-group-count>{countLabel}</div>
+  </div>
+  <div class="rows"><slot /></div>
+</div>
+
+<style>
+  .group {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: start;
+    margin-top: var(--space-8);
+  }
+
+  @media (max-width: 900px) {
+    .group {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-3);
+    }
+  }
+
+  .gutter {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-5));
+  }
+
+  .year {
+    font: 700 var(--fs-h1) / 1 var(--font-sans);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .count {
+    margin-top: 6px;
+    font: 400 var(--fs-caption) / 1.4 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .rows {
+    min-width: 0;
+    border-top: 1px solid var(--gray-300);
+  }
+</style>

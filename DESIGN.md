@@ -209,6 +209,10 @@
 - **Mobile bar**: 44px search, 44px pill options (`--navy-600` when selected), a `list-filter` legend toggle, and "Filtered by" + the active chip beside the reset.
 - **Behavior**: search + single-select facets (click again to clear); an option's count is what choosing it would yield given the other filters; results reveal `pageSize` at a time as a skeleton sentinel scrolls into view. Instant client-side updates; URL query sharing is a follow-up.
 
+### Publication list
+- Year-grouped rows under an "All publications" heading with the author-marker footnote right-aligned. Each year is a sticky `--fs-h1` label with a paper count in a 104px gutter; rows sit on `--gray-300` rules and tint `--gray-100` on hover.
+- A row: meta line (type `Badge`, venue, month/year, "Selected" accent badge, a 28px round chevron that turns navy and flips when open), `--fs-body` 600 title, authors, `AreaChip`s in taxonomy order; a 176px 4:3 figure on the right. Clicking the text expands the summary and the link chips (36px `--gray-100` pills with a lucide icon per link type, `--navy-600` on hover).
+
 ### Status tabs + pagination (Projects / Gallery)
 - `UnderlineTabs`: an uppercase label in a 76px rail, then text tabs with a gray count; the active tab is `--ink` 600 on a 2px `--navy-600` underline, idle tabs `--gray-500`.
 - `Pagination`: 44px square buttons (`--radius-sm`, `--gray-300` border), current page `--navy-600` filled, arrows disabled at the ends; sits under a `--gray-300` rule. Page changes replay the cards' `.rise` entrance.

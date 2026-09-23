@@ -1,0 +1,66 @@
+---
+// A paper's external links as icon chips, in the fixed order project, venue,
+// paper, slides, video, code. Only links present in the data are shown.
+import Icon from '../ui/Icon.astro';
+import type { IconName } from '../../lib/icons';
+import { publicationLinkTypes } from '../../content.config';
+import type { Publication } from '../../lib/content';
+
+interface Props {
+  publication: Publication;
+  labels: { linkAria: string; links: Record<(typeof publicationLinkTypes)[number], string> };
+}
+
+const { publication, labels } = Astro.props;
+const ICONS: Record<(typeof publicationLinkTypes)[number], IconName> = {
+  project: 'globe',
+  venue: 'landmark',
+  paper: 'file-text',
+  slides: 'presentation',
+  video: 'play',
+  code: 'code',
+};
+const links = [...publication.links].sort((a, b) => publicationLinkTypes.indexOf(a.type) - publicationLinkTypes.indexOf(b.type));
+/** Explicit label, else the venue short name for venue links, else the type's default. */
+const labelOf = (link: (typeof links)[number]) => link.label ?? (link.type === 'venue' ? publication.venueShort : undefined) ?? labels.links[link.type];
+---
+
+<div class="chips">
+  {
+    links.map((link) => (
+      <a class="chip" href={link.url} target="_blank" rel="noopener" aria-label={labels.linkAria.replace('{label}', labelOf(link)).replace('{title}', publication.title)}>
+        <Icon name={ICONS[link.type]} size={14} />
+        <span>{labelOf(link)}</span>
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    font: 500 var(--fs-meta) / 1 var(--font-sans);
+    color: var(--navy-700);
+    transition:
+      background var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+
+  .chip:hover,
+  .chip:focus-visible {
+    background: var(--navy-600);
+    color: var(--white);
+  }
+</style>
