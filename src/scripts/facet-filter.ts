@@ -11,13 +11,20 @@
 //     [data-filter-search]                    search inputs (kept in sync)
 //     [data-filter-reset]                     clears everything; data-state="clean|dirty" for styling
 //     [data-filter-empty]                     shown when nothing matches
-//     [data-group="g"] > [data-group-count]   section wrappers around items; hidden when none of theirs show
+//     [data-group="g"] > [data-group-count]   section wrappers around items; hidden when none of theirs show;
+//                                             the count may carry data-count-one / data-count-many templates with {n}
 //     [data-sentinel]                         reveals the next page when scrolled into view; hidden when done
 //
 // An option's count is the number of items that match the search and every
 // *other* facet, so it always says how many results choosing it would give.
 
 const readValues = (item: HTMLElement, facet: string): string[] => (item.dataset[`facet${facet[0].toUpperCase()}${facet.slice(1)}`] ?? '').split(/\s+/).filter(Boolean);
+
+/** A plain number, or the element's one/many template with {n} filled in. */
+const formatCount = (el: HTMLElement, n: number): string => {
+  const template = n === 1 ? el.dataset.countOne : el.dataset.countMany;
+  return template ? template.replace('{n}', String(n)) : String(n);
+};
 
 export function initFacetFilter(root: ParentNode = document): void {
   root.querySelectorAll<HTMLElement>('[data-filter-root]').forEach((filterRoot) => {
@@ -62,7 +69,7 @@ export function initFacetFilter(root: ParentNode = document): void {
         const own = items.filter((item) => group.contains(item));
         group.hidden = !own.some((item) => !item.hidden);
         const count = group.querySelector<HTMLElement>('[data-group-count]');
-        if (count) count.textContent = String(own.filter((item) => matched.includes(item)).length);
+        if (count) count.textContent = formatCount(count, own.filter((item) => matched.includes(item)).length);
       });
 
       options.forEach((option) => {

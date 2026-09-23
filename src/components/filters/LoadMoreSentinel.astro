@@ -4,13 +4,34 @@
 interface Props {
   /** How far below the viewport the next page starts loading. */
   rootMargin?: string;
+  /** `cards`: two person-card skeletons. `rows`: a year gutter and one list row. */
+  variant?: 'cards' | 'rows';
 }
 
-const { rootMargin = '200px 0px' } = Astro.props;
+const { rootMargin = '200px 0px', variant = 'cards' } = Astro.props;
 ---
 
-<div class="sentinel" data-sentinel data-root-margin={rootMargin}>
+<div class:list={['sentinel', variant]} data-sentinel data-root-margin={rootMargin}>
   {
+    variant === 'rows' && (
+      <>
+        <div class="gutter">
+          <span class="line year" />
+          <span class="line thin" style="--w: 52px" />
+        </div>
+        <div class="row">
+          <span class="lines">
+            <span class="line" style="--w: 38%" />
+            <span class="line" style="--w: 74%" />
+            <span class="line thin" style="--w: 46%" />
+          </span>
+          <span class="thumb" />
+        </div>
+      </>
+    )
+  }
+  {
+    variant === 'cards' &&
     [56, 48].map((w) => (
       <div class="skeleton">
         <span class="photo" />
@@ -64,5 +85,42 @@ const { rootMargin = '200px 0px' } = Astro.props;
 
   .thin {
     height: 11px;
+  }
+
+  /* rows variant */
+  .rows {
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+  }
+
+  .gutter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .year {
+    --w: 72px;
+    height: 26px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 176px;
+    gap: var(--space-6);
+    padding: var(--space-4) var(--space-3);
+    border-top: 1px solid var(--gray-300);
+  }
+
+  .rows .lines {
+    padding-top: 0;
+  }
+
+  .thumb {
+    display: block;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-md);
+    background: var(--gray-100);
   }
 </style>

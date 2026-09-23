@@ -1,11 +1,17 @@
 ---
-// "All" button that clears every filter. Navy while nothing is filtered, gray once something is.
+// Button that clears every filter. The small "All" form is navy while nothing
+// is filtered and gray once something is; the large form sits in empty states.
 import { getUi } from '../../lib/content';
 
-const label = (await getUi()).filter.reset;
+interface Props {
+  label?: string;
+  variant?: 'small' | 'large';
+}
+
+const { label = (await getUi()).filter.reset, variant = 'small' } = Astro.props;
 ---
 
-<button class="reset" type="button" data-filter-reset data-state="clean">{label}</button>
+<button class:list={['reset', variant]} type="button" data-filter-reset data-state="clean">{label}</button>
 
 <style>
   .reset {
@@ -25,5 +31,22 @@ const label = (await getUi()).filter.reset;
 
   .reset[data-state='dirty']:hover {
     color: var(--ink);
+  }
+
+  .large,
+  .large[data-state='dirty'] {
+    min-height: 44px;
+    margin-top: var(--space-4);
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--gray-100);
+    font: 600 var(--fs-sm) / 1 var(--font-sans);
+    color: var(--ink);
+  }
+
+  .large:hover,
+  .large[data-state='dirty']:hover {
+    background: var(--navy-100);
+    color: var(--navy-700);
   }
 </style>

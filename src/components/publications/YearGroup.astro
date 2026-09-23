@@ -2,17 +2,20 @@
 // Publications of one year: a sticky year label in the left gutter, rows on the right.
 interface Props {
   year: number;
-  countLabel: string;
+  /** Count label templates with {n}: [exactly one, otherwise]. */
+  countFormats: [string, string];
+  count: number;
   index: number;
 }
 
-const { year, countLabel, index } = Astro.props;
+const { year, countFormats, count, index } = Astro.props;
+const countLabel = countFormats[count === 1 ? 0 : 1].replace('{n}', String(count));
 ---
 
 <div class="group rise" style={`--i: ${index}`} data-group={year}>
   <div class="gutter">
     <div class="year">{year}</div>
-    <div class="count" data-group-count>{countLabel}</div>
+    <div class="count" data-group-count data-count-one={countFormats[0]} data-count-many={countFormats[1]}>{countLabel}</div>
   </div>
   <div class="rows"><slot /></div>
 </div>

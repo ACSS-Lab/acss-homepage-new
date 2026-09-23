@@ -207,7 +207,8 @@
 - **Layout**: a `--container-wide` two-column grid (292px sidebar + list, 36px gap). The sidebar sticks below the header; under 1180px it disappears and a compact filter bar at the top of the list takes over.
 - **Sidebar** (`FilterPanel`, white + `--shadow-md`): a rounded `--gray-100` search box; a "Filter / All" header whose reset button is `--navy-600` while nothing is filtered and gray once something is; then facet accordions (uppercase label, the selected option's badge, a chevron that rotates when open). Options are 38px rows with a gray count; the selected one is `--gray-100` with `--navy-600` 600 text. Research areas are grouped by family, each with its color dot.
 - **Mobile bar**: 44px search, 44px pill options (`--navy-600` when selected), a `list-filter` legend toggle, and "Filtered by" + the active chip beside the reset.
-- **Behavior**: search + single-select facets (click again to clear); an option's count is what choosing it would yield given the other filters; results reveal `pageSize` at a time as a skeleton sentinel scrolls into view. Instant client-side updates; URL query sharing is a follow-up.
+- **Behavior**: search + single-select facets (click again to clear); an option's count is what choosing it would yield given the other filters; results reveal `pageSize` at a time as a skeleton sentinel scrolls into view (person-card skeletons on Team, a year-row skeleton on Publications). An empty result shows the `EmptyState` card with a large reset button. Instant client-side updates; URL query sharing is a follow-up.
+- Team filters by Degree + area; Publications by Type + area. Both sidebars start with their facet sections collapsed except Team's area section.
 
 ### Publication list
 - Year-grouped rows under an "All publications" heading with the author-marker footnote right-aligned. Each year is a sticky `--fs-h1` label with a paper count in a 104px gutter; rows sit on `--gray-300` rules and tint `--gray-100` on hover.

@@ -390,6 +390,7 @@ const pages = defineCollection({
       title: z.string(),
       hero: z.object({ title: z.string(), note: z.string().optional(), countLine: z.string() }),
       pageSize: z.number().int().min(2).max(20).default(6),
+      filters: z.object({ searchPlaceholder: z.string(), type: z.string(), topic: z.string() }),
       list: z.object({
         heading: z.string(),
         footnote: z.string(),

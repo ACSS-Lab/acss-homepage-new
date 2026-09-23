@@ -11,6 +11,12 @@ hero:
 
 pageSize: 6 # rows loaded at a time while scrolling (2-20)
 
+# Filter sidebar
+filters:
+  searchPlaceholder: Search title, author, venue
+  type: Type
+  topic: Area of research
+
 list:
   heading: All publications
   footnote: "* equally contributed first authors  ·  † corresponding author  ·  Author names in the lab are listed as published. Preprints are listed once submitted."
