@@ -144,6 +144,20 @@
 - **Team**: filter sidebar + two-column **person cards** grouped by role; interns as ruled summary rows; alumni as cards grouped by degree.
 - **About**: Our Vision is a tall hero plus editorial rows (label / prose / figure); Research Areas is three image cards that switch a detail panel below.
 
+### Responsive behaviour
+
+The minimum supported width is 360px; no page may be wider than its viewport (`npm run responsive` checks every route at 360, 768, 1024 and 1440px).
+What changes at each breakpoint:
+
+| Below | What changes |
+|---|---|
+| `xl` 1280 | Home unstacks: hero, full-width notice card, highlights, gallery. |
+| `lg` 1024 | Filter sidebar becomes the mobile filter bar; editorial rows go to two columns; gallery grid 3-up; the interns intro column stacks. |
+| `md` 768 | Mobile type scale, `--gutter` 16px and `--space-section` 48px; menu drawer; two-column card grids, text/figure rows, contact bands and area details stack; the track carousel shows one card; the area cards become a swipeable strip; gallery grid 2-up; banner placeholder notes hidden; the home feed drops its meta column. |
+| `sm` 640 | Row-internal grids stack: publication figure under the text, person photo track 96px, intern topic under the name, tab pill and underline-tab rail wrap. |
+
+Card grids that share a column with a sidebar (Team, PI & Staffs) do not use a breakpoint at all: `repeat(auto-fill, minmax(min(400px, 100%), 1fr))` gives two cards whenever two 400px cards fit.
+
 ---
 
 ## 4. Components
@@ -322,9 +336,11 @@
 - **Entrance animation**: one global `.rise` (12px rise, `--dur-enter`), siblings staggered 70ms apart via an inline `--i` index. Disabled under `prefers-reduced-motion`.
 - Autoplay intervals (carousels) are *behaviour settings*, not tokens — they live in the site config data.
 
-**Breakpoints**: `sm 640 · md 768 · lg 1024 · xl 1280` (max-width queries: 639 / 767 / 1023 / 1279px). Media queries can't read tokens, so components write these literally; `tokens.css` documents them. Below `md` the type scale, `--gutter` (24 → 16px) and `--space-section` (96 → 48px) switch to their mobile values automatically.
-
-Rules of thumb: a filter sidebar collapses at `lg`; two-column card grids and side-by-side text/figure rows stack at `md`; row-internal grids (thumbnail beside text) stack at `sm`. Touch targets are 44px.
+**Breakpoints**: `sm 640`, `md 768`, `lg 1024`, `xl 1280` (max-width queries: 639 / 767 / 1023 / 1279px).
+Media queries can't read tokens, so components write these literally; `tokens.css` documents them, and `src/scripts/nav.ts` is the only script that repeats one (`(min-width: 768px)` for the drawer).
+Below `md` the type scale, `--gutter` (24 to 16px) and `--space-section` (96 to 48px) switch to their mobile values automatically.
+Section 3 lists what stacks at each breakpoint.
+Touch targets are 44px (`Button` grows to 44px on coarse pointers).
 
 ---
 
