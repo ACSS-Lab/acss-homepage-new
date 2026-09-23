@@ -1,4 +1,4 @@
-# MAINTAINING.md: ACSS Website Maintenance Guide
+# ACSS Website Maintenance Guide
 
 > For the person who maintains the site.
 > No technical background needed.
@@ -161,13 +161,38 @@ nvm use && npm run dev
 # 4) Edit content/code and save → the browser reloads automatically
 ```
 
-To push edits to the live site:
+### Branches: where to work, and how a change reaches the live site
+
+`main` is what visitors see.
+Never edit or commit on `main` directly.
+
+**Content updates** (files under `src/content/` and `public/images/`): work on `dev`, check that the site builds, then merge `dev` into `main`.
+No pull request is needed.
+
 ```bash
+# 1) Start from the latest dev
+git checkout dev && git pull
+
+# 2) Edit, then check that the site still builds
+nvm use && npm run build
+
+# 3) Commit and push to dev
 git add -A
 git commit -m "content: one line on what changed and why (in English)"
 git push
+
+# 4) Publish: merge dev into main and push. Pushing main is what updates the live site.
+git checkout main && git pull
+git merge dev
+git push
+git checkout dev
 ```
-`push` triggers an automatic build + deploy.
+
+**Development work** (new features, design changes, anything under `src/` other than `src/content/`): a pull request is the rule.
+Create a branch from `dev` (for example `feat/mobile-nav`), push it, and open a pull request into `dev` on GitHub.
+Merge it only after `build`, `check` and `guard` pass and the preview looks right.
+Then publish as above by merging `dev` into `main`.
+When you work with Claude, tell it which branch you are on; its own rules in `CLAUDE.md` say the same thing.
 
 > **Mistakes are fine.** Every change is recorded and **can be reverted**. Don't be afraid — if you're stuck, ask Claude.
 
@@ -175,7 +200,8 @@ git push
 
 ## 5. When something breaks
 
-- **The site isn't updating** → check that you saved/`push`ed and the deploy finished. Clear your browser cache.
+- **The site isn't updating**: check that your change was merged into `main` and pushed (section 4), and that the deploy finished.
+  Clear your browser cache.
 - **The build failed (a red X on GitHub)** → usually a missing required field, a mistyped option, or an id that points at a file that doesn't exist. The error names the file. Copy it to Claude:
   > Fix this build error: `paste error message`
 - **`npm run guard` failed** → a project rule was broken in code (a hand-drawn icon, a color outside `tokens.css`, ...). The message says which file and rule.

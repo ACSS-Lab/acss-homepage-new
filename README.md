@@ -46,3 +46,10 @@ nvm use && npm run guard    # project rules (lucide-only icons, colors only in t
 
 Before opening a pull request, `nvm use && npm run build`, `nvm use && npm run check` and `nvm use && npm run guard` must pass.
 When the design or the content model changes, update `DESIGN.md`, `MAINTAINING.md` or the affected `_template.yaml` in the same change.
+
+### Branches
+
+`main` is the deployed site; nobody commits on it directly.
+Content updates go on `dev` and are merged into `main` after a passing build, with no pull request needed.
+Development work (features, design, code) goes on a branch off `dev` and reaches `dev` through a pull request that passes `build`, `check` and `guard`; `dev` is then merged into `main`.
+[MAINTAINING.md](MAINTAINING.md) section 4 has the exact commands.

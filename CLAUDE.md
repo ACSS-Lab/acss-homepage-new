@@ -38,6 +38,10 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
 - Keep the content safety net.
   A new or changed field means updating the schema, the folder's `_template.yaml`, the matching skill and `MAINTAINING.md` in the same commit.
   Never loosen the schema to make a build pass.
+- Never commit on `main`; it is the deployed site.
+  Content-only changes (`src/content/`, `public/images/`) are committed on `dev` and merged into `main` after a passing build, without a pull request.
+  Code and design changes are made on a branch off `dev` and reach `dev` through a pull request; `dev` is merged into `main` afterwards.
+  Check the current branch before the first commit of a task, and switch or say so if it is the wrong one.
 - No secrets in files or in chat.
   Keep HTTPS, security headers, spam protection on forms, and pinned, updated dependencies.
 - No emojis in docs, code comments or commit messages.
