@@ -1,20 +1,23 @@
 ---
 // Position indicator for a carousel: short bars, the current one wider and navy.
 // With `fill`, the current bar fills up over `--autoplay-ms` (set on the
-// carousel root) and the carousel advances when it is full; hovering the root
-// pauses it. scripts/carousel.ts moves `data-current` between the dots.
+// carousel root) and the carousel advances when it is full; a root with
+// data-pause-on-hover pauses it while hovered, and one with data-paused stops
+// it at a static 40%. `compact` is the small variant for the home gallery's
+// glass control pill. scripts/carousel.ts moves `data-current` between the dots.
 import { getUi } from '../../lib/content';
 
 interface Props {
   count: number;
   fill?: boolean;
+  variant?: 'default' | 'compact';
 }
 
-const { count, fill = false } = Astro.props;
+const { count, fill = false, variant = 'default' } = Astro.props;
 const label = (await getUi()).carousel.goTo;
 ---
 
-<div class="dots">
+<div class:list={['dots', variant]}>
   {
     Array.from({ length: count }, (_, i) => (
       <button class:list={['dot', { 'has-fill': fill }]} type="button" aria-label={label.replace('{n}', String(i + 1))} data-carousel-dot data-current={i === 0 ? '' : undefined}>
@@ -74,8 +77,13 @@ const label = (await getUi()).carousel.goTo;
     animation: dotFill var(--autoplay-ms, 5000ms) linear forwards;
   }
 
-  :global([data-carousel]:hover) .has-fill[data-current] > .fill {
+  :global([data-carousel][data-pause-on-hover]:hover) .has-fill[data-current] > .fill {
     animation-play-state: paused;
+  }
+
+  :global([data-carousel][data-paused]) .has-fill[data-current] > .fill {
+    animation: none;
+    width: 40%;
   }
 
   @keyframes dotFill {
@@ -85,6 +93,19 @@ const label = (await getUi()).carousel.goTo;
     to {
       width: 100%;
     }
+  }
+
+  /* Compact: 4px dots on a glass pill; the current one is a 28px bar */
+  .compact .dot {
+    width: 4px;
+    height: 4px;
+    background: var(--ink-faint);
+    transition: none;
+  }
+
+  .compact .dot[data-current] {
+    width: 28px;
+    background: var(--ink-rule);
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -1,0 +1,140 @@
+---
+// The Highlights list: one row per news item (kind, title, meta, month).
+// Rows stretch to share the column's height evenly.
+import Icon from '../ui/Icon.astro';
+import type { NewsItem } from '../../lib/content';
+import { formatPeriod } from '../../lib/format';
+import { link, publicationHref } from '../../lib/url';
+
+interface Props {
+  title: string;
+  items: NewsItem[];
+  more: { label: string; href: string };
+  kinds: Record<NewsItem['kind'], string>;
+  selectedLabel: string;
+}
+
+const { title, items, more, kinds, selectedLabel } = Astro.props;
+
+const resolve = (item: NewsItem) => {
+  if (item.publication) {
+    const p = item.publication;
+    return { title: p.title, meta: item.meta ?? [p.venueShort ?? p.venue, p.selected && selectedLabel].filter(Boolean).join(' · '), href: publicationHref(p.id) };
+  }
+  if (item.project) {
+    const p = item.project;
+    return { title: p.title, meta: item.meta ?? formatPeriod(p.start, p.end), href: link('/research/projects/') };
+  }
+  return { title: item.title ?? '', meta: item.meta ?? '', href: item.link ? link(item.link) : undefined };
+};
+---
+
+<div class="feed">
+  <div class="head">
+    <h2 class="title">{title}</h2>
+    <a class="more" href={link(more.href)}>{more.label}<Icon name="arrow-right" size={13} /></a>
+  </div>
+  <div class="rows">
+    {
+      items.map((item) => {
+        const { title: text, meta, href } = resolve(item);
+        const Row = href ? 'a' : 'div';
+        return (
+          <Row class="row" href={href}>
+            <span class="kind">{kinds[item.kind]}</span>
+            <span class="text">{text}</span>
+            <span class="meta">{meta}</span>
+            <span class="date">{item.date.slice(0, 7).replace('-', '.')}</span>
+          </Row>
+        );
+      })
+    }
+  </div>
+</div>
+
+<style>
+  .feed {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+  }
+
+  .title {
+    margin: 0;
+    font: 600 var(--fs-h3) / 1.3 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font: 500 var(--fs-meta) / 1.4 var(--font-sans);
+    white-space: nowrap;
+  }
+
+  .rows {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    border-bottom: 1px solid var(--gray-300);
+  }
+
+  .row {
+    display: flex;
+    flex: 1;
+    gap: 14px;
+    align-items: center;
+    padding: 0 2px;
+    border-top: 1px solid var(--gray-300);
+    color: var(--ink);
+  }
+
+  a.row:hover {
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  .kind {
+    flex: none;
+    width: 56px;
+    font: 500 var(--fs-caption) / 1.6 var(--font-sans);
+    letter-spacing: 0.06em;
+    color: var(--navy-600);
+  }
+
+  .text {
+    flex: 1;
+    min-width: 0;
+    font: 500 var(--fs-sm) / 1.5 var(--font-sans);
+    text-wrap: pretty;
+  }
+
+  .meta,
+  .date {
+    flex: none;
+    font: 400 var(--fs-caption) / 1.6 var(--font-sans);
+    color: var(--gray-500);
+    text-align: right;
+  }
+
+  .meta {
+    width: 176px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .date {
+    width: 52px;
+  }
+</style>

@@ -54,6 +54,7 @@ const isActive = isCurrent || children.some((child) => isCurrentPage(child.href,
   }
 
   .link {
+    transition: color var(--dur) linear;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -73,6 +74,21 @@ const isActive = isCurrent || children.some((child) => isCurrentPage(child.href,
     background: var(--navy-100);
     color: var(--navy-600);
     font-weight: 600;
+  }
+
+  /* Inside the transparent home header, links are white until it turns solid */
+  :global([data-header='overlay']:not([data-solid])) .link {
+    color: var(--on-dark-strong);
+  }
+
+  :global([data-header='overlay']:not([data-solid])) .link:hover,
+  :global([data-header='overlay']:not([data-solid])) .link:focus-visible {
+    background: var(--on-dark-fill-hover);
+    color: var(--white);
+  }
+
+  :global([data-header='overlay']:not([data-solid])) .caret {
+    color: var(--on-dark-faint);
   }
 
   /* The chevron only fills the middle of its 12px box; pull the empty sides in. */

@@ -1,7 +1,172 @@
 ---
+import HighlightFeed from '../components/home/HighlightFeed.astro';
+import HomeGallery from '../components/home/HomeGallery.astro';
+import NoticeCard from '../components/home/NoticeCard.astro';
+import Button from '../components/ui/Button.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getGallery, getNews, getNotices, getPage } from '../lib/content';
+
+const [page, notices, news, gallery] = await Promise.all([getPage('home'), getNotices(), getNews(), getGallery()]);
+const { hero } = page;
+const headlineLines = hero.headline.split('\n');
 ---
 
-<BaseLayout>
-  <h1>ACSS</h1>
+<BaseLayout headerVariant="overlay" description={hero.lede}>
+  <div class="screen">
+    <section class="hero">
+      <div class="stripes"></div>
+      {hero.backgroundNote && <div class="bg-note">{hero.backgroundNote}</div>}
+      {
+        hero.logoNote && (
+          <div class="logo-slot">
+            <span class="logo-note">{hero.logoNote}</span>
+          </div>
+        )
+      }
+
+      <div class="intro">
+        <h1 class="headline" style="--i: 0">{headlineLines.map((line, i) => (<>{i > 0 && <br />}{line}</>))}</h1>
+        <p class="lede" style="--i: 1">{hero.lede}</p>
+        <div class="cta" style="--i: 2">
+          <Button href={hero.cta.href} variant="on-dark" arrow>{hero.cta.label}</Button>
+        </div>
+      </div>
+
+      <div class="notice">
+        <NoticeCard title={page.notices.title} notices={notices.slice(0, page.notices.count)} />
+      </div>
+    </section>
+
+    <section class="band">
+      <HighlightFeed title={page.highlights.title} items={news.slice(0, page.highlights.count)} more={page.highlights.link} kinds={page.highlights.kinds} selectedLabel={page.highlights.selected} />
+      <HomeGallery title={page.gallery.title} posts={gallery.slice(0, page.gallery.count)} more={page.gallery.link} autoplay={page.gallery.autoplay} intervalMs={page.gallery.intervalMs} labels={page.gallery} />
+    </section>
+  </div>
 </BaseLayout>
+
+<style>
+  /* One desktop screen: hero fills what the bottom band leaves. */
+  .screen {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 1400px;
+    height: 100vh;
+    min-height: 1170px;
+    overflow: hidden;
+  }
+
+  .hero {
+    position: relative;
+    flex: 1;
+    min-height: 560px;
+    background: var(--navy-900);
+  }
+
+  .stripes {
+    position: absolute;
+    inset: 0;
+    background: var(--stripe-dark);
+  }
+
+  .bg-note {
+    position: absolute;
+    top: 96px;
+    right: var(--space-12);
+    z-index: 1;
+    font: 400 var(--fs-caption) / 1.55 var(--font-mono);
+    color: var(--on-dark-muted);
+    text-align: right;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+  }
+
+  .logo-slot {
+    position: absolute;
+    top: 100px;
+    left: var(--space-12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 252px;
+    height: 92px;
+    border-radius: var(--radius-md);
+    background: var(--on-dark-rule);
+    box-shadow: inset 0 0 0 1px var(--on-dark-fill-strong);
+  }
+
+  .logo-note {
+    font: 400 var(--fs-caption) / 1.4 var(--font-mono);
+    color: var(--on-dark-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .intro {
+    position: absolute;
+    bottom: var(--space-12);
+    left: var(--space-12);
+    max-width: 600px;
+  }
+
+  /* Staggered entrance: 100 / 240 / 380ms */
+  .headline,
+  .lede,
+  .cta {
+    opacity: 0;
+    animation: heroRise var(--dur-emph) var(--ease) calc(100ms + var(--i) * 140ms) both;
+  }
+
+  @keyframes heroRise {
+    from {
+      opacity: 0;
+      transform: translateY(26px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .headline {
+    margin: 0;
+    font: 700 var(--fs-display) / 1.2 var(--font-sans);
+    letter-spacing: -0.025em;
+    color: var(--white);
+    text-wrap: pretty;
+  }
+
+  .lede {
+    margin: var(--space-4) 0 0;
+    font: 400 var(--fs-body) / 1.65 var(--font-sans);
+    color: var(--on-dark);
+  }
+
+  .cta {
+    margin-top: 22px;
+  }
+
+  .notice {
+    position: absolute;
+    right: var(--space-12);
+    bottom: var(--space-12);
+  }
+
+  .band {
+    display: grid;
+    flex: none;
+    grid-template-columns: 1fr 512px;
+    gap: var(--space-12);
+    padding: 26px var(--space-12) 28px;
+    background: var(--white);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .headline,
+    .lede,
+    .cta {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>

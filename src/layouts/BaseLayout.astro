@@ -10,10 +10,12 @@ interface Props {
   /** Page name; omit on the home page. */
   title?: string;
   description?: string;
+  /** `overlay`: fixed, transparent header that turns white on scroll (home page). */
+  headerVariant?: 'sticky' | 'overlay';
 }
 
 const site = await getSite();
-const { title, description = site.description } = Astro.props;
+const { title, description = site.description, headerVariant = 'sticky' } = Astro.props;
 const fullTitle = title ? `${title} | ${site.shortName}` : `${site.shortName} | ${site.affiliationShort}`;
 ---
 
@@ -29,7 +31,7 @@ const fullTitle = title ? `${title} | ${site.shortName}` : `${site.shortName} | 
     <meta name="description" content={description} />
   </head>
   <body>
-    <SiteHeader />
+    <SiteHeader variant={headerVariant} />
     <main id="top">
       <slot />
     </main>

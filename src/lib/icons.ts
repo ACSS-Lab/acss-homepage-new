@@ -18,6 +18,7 @@ import House from '@lucide/astro/icons/house';
 import Landmark from '@lucide/astro/icons/landmark';
 import ListFilter from '@lucide/astro/icons/list-filter';
 import Maximize2 from '@lucide/astro/icons/maximize-2';
+import Pause from '@lucide/astro/icons/pause';
 import Play from '@lucide/astro/icons/play';
 import Presentation from '@lucide/astro/icons/presentation';
 import Search from '@lucide/astro/icons/search';
@@ -39,6 +40,7 @@ export const icons = {
   landmark: Landmark,
   'list-filter': ListFilter,
   'maximize-2': Maximize2,
+  pause: Pause,
   play: Play,
   presentation: Presentation,
   search: Search,

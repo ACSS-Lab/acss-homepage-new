@@ -30,7 +30,7 @@ const figureNote = (pub: Publication) => labels.figureNote.replace('{path}', `/i
 
 <section class="container featured">
   <h2 class="heading">{title}</h2>
-  <div class="carousel" data-carousel data-loop style={`--autoplay-ms: ${intervalMs}ms`}>
+  <div class="carousel" data-carousel data-loop data-pause-on-hover style={`--autoplay-ms: ${intervalMs}ms`}>
     <div class="card">
       <div class="track">
         {

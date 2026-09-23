@@ -1,0 +1,54 @@
+# Wording and settings of the home page (/).
+# Notices come from src/content/notices/, the Highlights list from src/content/news/,
+# and the gallery slides from the newest posts in src/content/gallery/.
+
+page: home
+
+hero:
+  # Each line here is a line on the page.
+  headline: |-
+    Uncertainty is unavoidable
+    in the real world.
+  lede: Like humans, autonomous cyber-physical systems must be designed to make reliable decisions in spite of it.
+  cta:
+    label: Join the lab
+    href: /contact/
+  # Notes shown until the real assets exist; delete once they are no longer useful.
+  backgroundNote: |-
+    배경 전체에 GIF 적용 — 연구 시뮬레이션 루프
+    무음 · prefers-reduced-motion 시 정지 프레임
+  logoNote: logo — 새 로고 확정 시 교체
+
+notices:
+  title: Notice
+  count: 3 # how many notices the card shows
+
+highlights:
+  title: Highlights
+  count: 6 # how many news items the list shows (3-6)
+  link:
+    label: Go to Research
+    href: /about/research-areas/
+  # Label on the left of each row, by news kind
+  kinds:
+    paper: PAPER
+    award: AWARD
+    grant: GRANT
+    media: MEDIA
+  # Appended to a paper's venue when the paper is marked selected
+  selected: Selected
+
+gallery:
+  title: Gallery
+  count: 4 # how many of the newest posts rotate in the carousel
+  autoplay: true
+  intervalMs: 3000
+  link:
+    label: See all
+    href: /gallery/
+  # Shown on a slide until the post's cover exists. {path} is where the file should go.
+  coverNote: "photo — {path}"
+  # Accessible names of the carousel buttons
+  previous: Previous photo
+  next: Next photo
+  toggle: Gallery autoplay

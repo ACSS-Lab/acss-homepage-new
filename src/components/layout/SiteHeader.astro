@@ -1,13 +1,21 @@
 ---
-// Sticky site header: brand lockup on the left, the menu from navigation.yaml on the right.
+// Site header: brand lockup on the left, the menu from navigation.yaml on the right.
+//   sticky   white bar that stays at the top while scrolling (every page but home)
+//   overlay  fixed over the hero, transparent, fading to white on scroll (home);
+//            scripts/header-overlay.ts drives --nav-p / data-solid / data-shadow
 import NavItem from './NavItem.astro';
 import { getNavigation, getSite, getUi } from '../../lib/content';
 import { link } from '../../lib/url';
 
+interface Props {
+  variant?: 'sticky' | 'overlay';
+}
+
+const { variant = 'sticky' } = Astro.props;
 const [site, items, ui] = await Promise.all([getSite(), getNavigation(), getUi()]);
 ---
 
-<header class="header">
+<header class:list={['header', variant]} data-header={variant}>
   <div class="bar">
     <a class="brand" href={link('/')}>
       <span class="mark"></span>
@@ -21,16 +29,21 @@ const [site, items, ui] = await Promise.all([getSite(), getNavigation(), getUi()
 </header>
 
 <script>
+  import { initHeaderOverlay } from '../../scripts/header-overlay';
   import { initNav } from '../../scripts/nav';
   initNav();
+  initHeaderOverlay();
 </script>
 
 <style>
   .header {
-    position: sticky;
-    top: 0;
     z-index: var(--z-header);
     background: var(--white);
+  }
+
+  .sticky {
+    position: sticky;
+    top: 0;
     box-shadow: var(--shadow-sm);
   }
 
@@ -74,5 +87,44 @@ const [site, items, ui] = await Promise.all([getSite(), getNavigation(), getUi()
     display: flex;
     align-items: center;
     gap: var(--space-1);
+  }
+
+  /* Overlay: white at --nav-p opacity; text stays white until past the midpoint */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 1400px;
+    background: color-mix(in srgb, var(--white) calc(var(--nav-p, 0) * 100%), transparent);
+    box-shadow: none;
+    transition:
+      background var(--dur) linear,
+      box-shadow var(--dur) linear;
+  }
+
+  .overlay[data-shadow] {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .overlay .brand,
+  .overlay .mark,
+  .overlay .affiliation {
+    transition:
+      color var(--dur) linear,
+      background var(--dur) linear;
+  }
+
+  .overlay:not([data-solid]) .brand {
+    color: var(--white);
+  }
+
+  .overlay:not([data-solid]) .mark {
+    background: var(--white);
+  }
+
+  .overlay:not([data-solid]) .affiliation {
+    border-left-color: var(--on-dark-border-strong);
+    color: var(--on-dark-faint);
   }
 </style>

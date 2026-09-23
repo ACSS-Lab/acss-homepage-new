@@ -27,8 +27,11 @@
   --danger: #E03131;
   --link: var(--navy-600);
 
-  /* Dark ink for small notes over imagery */
+  /* Translucent ink over light imagery: notes, control tracks, idle dots, hover fills */
   --ink-muted: rgba(23, 24, 28, .66);
+  --ink-faint: rgba(23, 24, 28, .28);
+  --ink-rule: rgba(23, 24, 28, .18);
+  --ink-fill: rgba(23, 24, 28, .08);
 
   /* On-dark — translucent whites used on --navy-900 sections */
   --on-dark-strong: rgba(255, 255, 255, .85);

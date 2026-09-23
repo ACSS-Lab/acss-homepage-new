@@ -9,8 +9,13 @@
 //                                   while current, and when it ends the carousel advances
 //                                   (that is the autoplay clock; reduced motion disables the
 //                                   animation and therefore autoplay)
+//     [data-carousel-toggle]        play/pause button; sets data-paused on the root (CSS stops
+//                                   the fill) and swaps its [data-carousel-play|pause] icons.
+//                                   Starts paused under reduced motion.
 //
 // The number of positions is the number of dots rendered by the component.
+
+import { prefersReducedMotion } from './util';
 
 export function initCarousel(root: ParentNode = document): void {
   root.querySelectorAll<HTMLElement>('[data-carousel]').forEach((carousel) => {
@@ -35,6 +40,17 @@ export function initCarousel(root: ParentNode = document): void {
     carousel.addEventListener('animationend', (event) => {
       if ((event.target as HTMLElement).hasAttribute('data-carousel-fill')) go(slide + 1);
     });
+
+    const toggle = carousel.querySelector<HTMLButtonElement>('[data-carousel-toggle]');
+    if (toggle) {
+      const setPaused = (paused: boolean) => {
+        carousel.toggleAttribute('data-paused', paused);
+        toggle.querySelectorAll<HTMLElement>('[data-carousel-play]').forEach((el) => (el.hidden = !paused));
+        toggle.querySelectorAll<HTMLElement>('[data-carousel-pause]').forEach((el) => (el.hidden = paused));
+      };
+      toggle.addEventListener('click', () => setPaused(!carousel.hasAttribute('data-paused')));
+      setPaused(prefersReducedMotion());
+    }
     go(0);
   });
 }

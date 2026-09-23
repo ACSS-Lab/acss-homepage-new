@@ -53,6 +53,9 @@
 --link:    var(--navy-600);
 
 --ink-muted: rgba(23,24,28,.66);  /* small notes over imagery */
+--ink-faint: rgba(23,24,28,.28);  /* idle dots */
+--ink-rule:  rgba(23,24,28,.18);  /* progress-bar track on light imagery */
+--ink-fill:  rgba(23,24,28,.08);  /* hover fill on glass controls */
 
 /* On-dark — translucent whites for text/lines/fills on --navy-900 sections */
 --on-dark-strong: rgba(255,255,255,.85);  /* hover text */
@@ -133,7 +136,7 @@
 - Repeat the same **"headline → title → description → button → content" section formula.** It pads whitespace and buries the key info.
 
 ### Per-page density
-- **Home**: dark hero (large logo) → Notice/News (dense lists, 5 recent each) → Highlights (3 cards, rhythm shift) → Gallery preview.
+- **Home**: one desktop screen (min 1400×1170): a navy hero that fills the space above a white band. Hero: logo slot top-left, headline + lede + CTA bottom-left, a floating Notice card bottom-right. Band: the Highlights feed (dense rows) on the left, a 16:9 gallery carousel (512px) on the right.
 - **Publications**: filter chips + publication **list rows** (title, authors, venue, year). Don't turn these into cards.
 - **Team**: **full card + compact list pairing** (see §4). Interns as summary rows.
 - **About**: text ↔ figure alternating left/right. No uniform grid.
@@ -152,9 +155,10 @@
 **Don't**
 - Wrap standalone info that needs no grouping in a card — scatter it in a grid instead.
 
-### Home Highlights cards
-- 3 cards (Selected Pub 1 + Project 1 + Award 1). **Whole card clickable** + a "See more" text link at the bottom-right.
-- Borderless, `--shadow-sm`; on hover `--shadow-md` + `translateY(-2px)` (200ms). No blue wash on the neutral card — navy only on link/tag.
+### Home: Notice card, Highlights feed, Gallery preview
+- **Notice card**: 520px white `--radius-lg` card with `--shadow-lg` floating over the hero; ruled rows of date (72px, caption gray) / title / optional accent badge.
+- **Highlights feed**: rows that stretch to share the column height: uppercase navy kind label (56px), title, ellipsized meta (176px), month (52px); `--bg` hover. Heading has a "Go to Research" arrow link.
+- **Gallery preview**: 16:9 slides with a `--glass` caption chip (title, then note · tag · month) and a glass control pill bottom-right: 22px chevron buttons, compact dots (4px, current one a 28px bar that fills navy over the interval), and a play/pause toggle. Autoplays every 3s; paused shows a static 40% bar; reduced motion starts paused.
 
 ### Graphic highlights (icons / figures)
 - Icons/illustrations/research figures **only where they carry real symbolic meaning.** No decoration.
@@ -163,6 +167,7 @@
 - Research figures (About) are information, not decoration — always attach caption + alt text.
 
 ### Navigation
+- **Home variant (`overlay`)**: fixed over the hero and transparent; white text and mark. Over the first 160px of scroll it fades to white in 1/20 steps, text turns dark past the midpoint and `--shadow-sm` appears past 75%.
 - Sticky top, `--header-h` tall, white bg + `--shadow-sm`. Brand lockup (navy mark, wordmark, affiliation) left; menu right. Menu entries come from `navigation.yaml`.
 - Current section: `--navy-100` pill, `--navy-600` text, weight 600. Hover: `--gray-100` pill.
 - **Dropdown on mouseover and on keyboard focus.** Full keyboard operation: Tab/Enter, arrows to move through a menu, Esc to close it.

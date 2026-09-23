@@ -1,0 +1,74 @@
+---
+// White card floating on the hero with the newest notices.
+import Badge from '../ui/Badge.astro';
+import type { Notice } from '../../lib/content';
+import { formatDate } from '../../lib/format';
+import { link } from '../../lib/url';
+
+interface Props {
+  title: string;
+  notices: Notice[];
+}
+
+const { title, notices } = Astro.props;
+---
+
+<div class="card">
+  <h2 class="title">{title}</h2>
+  {
+    notices.map((notice) => {
+      const Row = notice.link ? 'a' : 'div';
+      return (
+        <Row class="row" href={notice.link ? link(notice.link) : undefined}>
+          <span class="date">{formatDate(notice.date)}</span>
+          <span class="text">{notice.title}</span>
+          {notice.badge && <Badge tone="accent">{notice.badge}</Badge>}
+        </Row>
+      );
+    })
+  }
+</div>
+
+<style>
+  .card {
+    width: 520px;
+    padding: var(--space-6) 26px var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .title {
+    margin: 0 0 6px;
+    font: 600 var(--fs-h3) / 1.3 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .row {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding: 13px 2px;
+    border-top: 1px solid var(--gray-300);
+    color: var(--ink);
+  }
+
+  a.row:hover {
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  .date {
+    flex: none;
+    width: 72px;
+    font: 400 var(--fs-caption) / 1.5 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .text {
+    flex: 1;
+    font: 500 var(--fs-sm) / 1.5 var(--font-sans);
+    text-wrap: pretty;
+  }
+</style>
