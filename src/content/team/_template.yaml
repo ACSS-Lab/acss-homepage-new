@@ -1,18 +1,22 @@
 # TEMPLATE — copy this file to add a person. Files starting with "_" are ignored by the site.
 #
-# 1. Copy it as firstname-lastname.yaml (lowercase, hyphens). The file name is
-#    the person's id; their photo goes to public/images/team/<id>.jpg (3:4).
-# 2. Set `group` and keep only the fields listed for that group.
+# 1. Copy it as firstname-lastname.yaml (lowercase, hyphens) into the subfolder
+#    for the person's group (see the list below). The file name is the person's
+#    id; their photo goes to public/images/team/<id>.jpg (3:4).
+# 2. Set `group` and keep only the fields listed for that group. The build stops
+#    if the file sits in the wrong subfolder for its `group`.
 #
-# group: member    — role, joined, topics, representative
-# group: intern    — year, term, topics
-# group: alumni    — degree, joined, graduated, note, now
-# group: pi        — title
-# group: visiting  — title, home, period
-# group: staff     — (no extra fields)
+# subfolder          group             extra fields
+# current/           group: member     role, joined, topics, representative
+# undergrad_interns/ group: intern     year, term, topics
+# alumni/            group: alumni     degree, joined, graduated, note, now
+# pi_and_staff/      group: pi         title
+# pi_and_staff/      group: visiting   title, home, period
+# pi_and_staff/      group: staff      (no extra fields)
 #
-# Graduation: change `group: member` to `group: alumni`, replace `role` with
-# `degree`, and add `graduated` (and `now` once known).
+# Graduation: move the file from current/ to alumni/, change `group: member` to
+# `group: alumni`, replace `role` with `degree`, and add `graduated` (and `now`
+# once known).
 
 group: member
 name: Gildong Hong

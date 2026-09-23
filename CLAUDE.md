@@ -48,12 +48,16 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
   > `paste BibTeX/DOI here`
 
 ### 3-2. Add/edit a member (Team)
-- Files: `src/content/team/` — one file per person. **Copy `_template.yaml`**, name it `firstname-lastname.yaml`, and fill it in. The template lists every field with an example.
-- `group` decides where the person appears: `member` (current postdoc/PhD/MS), `intern`, `alumni`, `pi`, `visiting`, `staff`.
+- Files: `src/content/team/` — one file per person, filed in a subfolder by status. **Copy `_template.yaml`** into the right subfolder, name it `firstname-lastname.yaml`, and fill it in. The template lists every field with an example.
+- `group` decides where the person appears, and the subfolder must match it (the build stops otherwise):
+  - `current/` — `member` (current postdoc/PhD/MS)
+  - `undergrad_interns/` — `intern`
+  - `alumni/` — `alumni`
+  - `pi_and_staff/` — `pi`, `visiting`, `staff`
 - Required for a member: name, role (`postdoc`/`phd`/`ms`), joined (`2026-03`), topics (area codes from 3-9; `[]` if none yet).
 - Optional for everyone: Korean name, email, photo, links (homepage / LinkedIn / Google Scholar). **A link or email that is left out is simply not shown.**
 - Photo: put a 3:4 image at `public/images/team/<file name>.jpg`, then add `photo: /images/team/<file name>.jpg`. Until then the card shows a placeholder.
-- **Graduation**: open their file, change `group: member` to `group: alumni`, replace `role` with `degree` (`PhD`/`MS`), add `graduated` (`2026-02`), and `now` (current affiliation) once known.
+- **Graduation**: move their file from `current/` to `alumni/`, change `group: member` to `group: alumni`, replace `role` with `degree` (`PhD`/`MS`), add `graduated` (`2026-02`), and `now` (current affiliation) once known. The file name (and so the photo path) stays the same.
 - Order is automatic (members by role then join date; interns and alumni newest first). To pin someone, add `order: 1`.
 - **Ask Claude**:
   > Add a new PhD student "Hong Gildong" to Team. Email is ..., research topics are ...
@@ -185,7 +189,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 ### Repo map
 - `src/content/` — the actual content (YAML data files). Where the maintainer works most.
   - `site/site.yaml` (lab identity & contact), `site/navigation.yaml` (header menu), `site/ui.yaml` (short shared interface labels), `taxonomy/areas.yaml` (research-area tags).
-  - `pages/` (the wording of each page, one file per page; a page's display settings such as cards per page live there too), `prose/` (long bilingual text in Markdown), `team/` (one file per person), `publications/` (one file per paper), `projects/` (one file per project), `research-areas/` (one file per area, in file-name order), `contact/tracks.yaml` (application tracks). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
+  - `pages/` (the wording of each page, one file per page; a page's display settings such as cards per page live there too), `prose/` (long bilingual text in Markdown), `team/` (one file per person, in subfolders `current/`, `undergrad_interns/`, `alumni/`, `pi_and_staff/`), `publications/` (one file per paper), `projects/` (one file per project), `research-areas/` (one file per area, in file-name order), `contact/tracks.yaml` (application tracks). Every item folder has a `_template.yaml` to copy; files starting with `_` are ignored by the site.
 - `src/content.config.ts` — content rules (schema). Don't loosen it carelessly.
 - `src/lib/content.ts` — the only place that reads content collections; cross-file integrity checks live here.
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.

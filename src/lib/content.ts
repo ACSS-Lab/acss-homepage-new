@@ -140,6 +140,16 @@ export interface Team {
 const ROLE_ORDER = ['postdoc', 'phd', 'ms'] as const;
 const TERM_ORDER = ['spring', 'summer', 'fall', 'winter'] as const;
 
+/** Subfolder of src/content/team/ each `group` must be filed under. */
+const TEAM_FOLDER: Record<TeamData['group'], string> = {
+  pi: 'pi_and_staff',
+  visiting: 'pi_and_staff',
+  staff: 'pi_and_staff',
+  member: 'current',
+  intern: 'undergrad_interns',
+  alumni: 'alumni',
+};
+
 /** Compare by each key in turn; an explicit `order` always wins. */
 const sortPeople = <P extends { order?: number; name: string }>(people: P[], ...keys: ((p: P) => number | string)[]): P[] =>
   [...people].sort((a, b) => {
@@ -155,10 +165,24 @@ const newestFirst = (yearMonth: string) => -Number(yearMonth.replace('-', ''));
 
 export async function getTeam(): Promise<Team> {
   const areas = await getAreaIndex();
-  const people = (await getCollection('team')).map(({ id, data }) => ({ ...data, id }));
+  // Entry ids carry the subfolder (`current/gildong-hong`). The person's id is
+  // the file name alone, so photo paths and anchors don't change when a file
+  // moves between folders (e.g. on graduation).
+  const entries = (await getCollection('team')).map(({ id, data }) => {
+    const slash = id.lastIndexOf('/');
+    return { folder: slash < 0 ? '' : id.slice(0, slash), person: { ...data, id: id.slice(slash + 1) } };
+  });
 
-  for (const person of people) {
-    const file = `src/content/team/${person.id}.yaml`;
+  const seen = new Map<string, string>();
+  for (const { folder, person } of entries) {
+    const file = `src/content/team/${folder ? `${folder}/` : ''}${person.id}.yaml`;
+    const duplicate = seen.get(person.id);
+    if (duplicate) fail(file, `same file name as ${duplicate}. Rename one of them.`);
+    seen.set(person.id, file);
+    const expected = TEAM_FOLDER[person.group];
+    if (folder !== expected) {
+      fail(file, `a file with "group: ${person.group}" belongs in src/content/team/${expected}/. Move it there.`);
+    }
     assertImageExists(file, person.photo);
     if (person.group === 'member') {
       for (const code of person.topics) {
@@ -170,10 +194,11 @@ export async function getTeam(): Promise<Team> {
     }
   }
 
+  const people = entries.map((e) => e.person);
   const inGroup = <G extends TeamData['group']>(group: G) => people.filter((p): p is PersonIn<G> => p.group === group);
 
   const pis = inGroup('pi');
-  if (pis.length !== 1) fail('src/content/team/', `expected exactly one file with "group: pi", found ${pis.length}.`);
+  if (pis.length !== 1) fail(`src/content/team/${TEAM_FOLDER.pi}/`, `expected exactly one file with "group: pi", found ${pis.length}.`);
 
   return {
     pi: pis[0],

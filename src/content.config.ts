@@ -154,7 +154,9 @@ const person = z.object({
 });
 
 const team = defineCollection({
-  loader: folder('team'),
+  // People are filed in subfolders by status (current/, alumni/, ...); the
+  // folder must match `group`, which src/lib/content.ts checks at build time.
+  loader: glob({ pattern: '**/[^_]*.yaml', base: './src/content/team' }),
   schema: z.discriminatedUnion('group', [
     person.extend({
       group: z.literal('pi'),
