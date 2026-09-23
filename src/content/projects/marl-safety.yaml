@@ -1,0 +1,9 @@
+title: Statistical Safety Guarantees for Multi-Agent Learning
+status: done
+agency: Agency for Defense Development
+start: 2021-10
+end: 2024-09
+role: Participating institution
+overview: >-
+  Turned per-agent safety violations into a joint statistical guarantee that survives policy updates, evaluated in simulated formation-keeping missions with partial observability.
+papers: [cdc24]

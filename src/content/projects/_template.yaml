@@ -1,0 +1,18 @@
+# TEMPLATE — copy this file to add a project. Files starting with "_" are ignored by the site.
+# Name the copy with a short id in lowercase-with-hyphens, e.g. uam-safety.yaml.
+# The id is also the cover image name: public/images/projects/uam-safety.jpg (16:9).
+
+title: Title of the Project
+status: ongoing # ongoing | done
+agency: Funding agency
+start: 2026-03 # year-month
+end: 2029-02 # year-month; the planned end for an ongoing project
+role: Lead institution (PI: S. Han) # or: Participating institution
+# cover: /images/projects/uam-safety.jpg   (add once the file exists)
+
+# A short paragraph shown in the project's detail window.
+overview: >-
+  What the project does and what it produced, in plain words.
+
+# Publication ids (file names in src/content/publications/); [] if none yet.
+papers: [tro26]

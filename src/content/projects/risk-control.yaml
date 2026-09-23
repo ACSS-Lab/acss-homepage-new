@@ -1,0 +1,9 @@
+title: Risk-Sensitive Stochastic Optimal Control
+status: done
+agency: National Research Foundation of Korea
+start: 2022-06
+end: 2024-05
+role: "Lead institution (PI: S. Han)"
+overview: >-
+  Extended risk-sensitive control to distributional value functions and characterised the conditions under which the resulting policy stays inside classical robustness margins.
+papers: [auto25]

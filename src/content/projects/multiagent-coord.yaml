@@ -1,0 +1,9 @@
+title: Distributed Coordination of Multi-Agent Systems under Delay
+status: ongoing
+agency: "Samsung Research Funding & Incubation Center"
+start: 2025-06
+end: 2027-05
+role: "Lead institution (PI: S. Han)"
+overview: >-
+  Coordination policies must act before the other agents' observations arrive. The project derives regret bounds for delay-aware online learning and validates them on a ten-robot indoor arena with deliberately throttled communication.
+papers: [l4dc26, cdc24]

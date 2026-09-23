@@ -1,0 +1,9 @@
+title: Safety-Critical Control for Urban Air Mobility
+status: ongoing
+agency: Ministry of Land, Infrastructure and Transport
+start: 2026-03
+end: 2029-02
+role: "Lead institution (PI: S. Han)"
+overview: >-
+  Develops a certification-oriented control stack for urban air mobility vehicles: a risk-bounded trajectory generator, a fault-tolerant flight controller, and an online monitor that detects sensor regimes outside the training distribution. Field trials run with the KAIST outdoor flight facility.
+papers: [tro26, l4dc25, kr26]

@@ -1,0 +1,9 @@
+title: State Estimation under Intermittent Observations
+status: done
+agency: Korea Electric Power Research Institute
+start: 2023-03
+end: 2025-02
+role: "Lead institution (PI: S. Han)"
+overview: >-
+  Built estimators whose gain adapts to the observation-dropout rate without assuming a known dropout process, and deployed them on a substation monitoring testbed where packet loss is bursty.
+papers: [lcss24]

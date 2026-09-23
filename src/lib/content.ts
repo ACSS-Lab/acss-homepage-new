@@ -232,3 +232,27 @@ export async function getResearchAreas(): Promise<ResearchArea[]> {
     return { ...data, id, subs };
   });
 }
+
+// ----------------------------------------------------------------------------
+// projects
+// ----------------------------------------------------------------------------
+
+type ProjectData = CollectionEntry<'projects'>['data'];
+export type Project = Omit<ProjectData, 'papers'> & { id: string; papers: Publication[] };
+
+/** Projects newest first (by start date), with paper ids resolved to publications. */
+export async function getProjects(): Promise<Project[]> {
+  const publications = new Map((await getPublications()).map((p) => [p.id, p]));
+  const entries = (await getCollection('projects')).map(({ id, data }) => ({ ...data, id }));
+
+  return entries
+    .map((project) => {
+      const file = `src/content/projects/${project.id}.yaml`;
+      assertImageExists(file, project.cover);
+      const papers = project.papers.map(
+        (paperId) => publications.get(paperId) ?? fail(file, `paper "${paperId}" has no file in src/content/publications/.`),
+      );
+      return { ...project, papers };
+    })
+    .sort((a, b) => b.start.localeCompare(a.start) || a.title.localeCompare(b.title));
+}

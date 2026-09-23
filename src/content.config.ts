@@ -264,6 +264,26 @@ const tracks = defineCollection({
 });
 
 // ----------------------------------------------------------------------------
+// projects — funded research projects; one file per project, newest first
+// ----------------------------------------------------------------------------
+const projects = defineCollection({
+  loader: folder('projects'),
+  schema: z
+    .object({
+      title: z.string(),
+      status: z.enum(['ongoing', 'done']),
+      agency: z.string(),
+      start: yearMonth,
+      end: yearMonth, // planned end for an ongoing project
+      role: z.string(),
+      cover: imagePath.optional(), // 16:9
+      overview: z.string(),
+      papers: z.array(z.string()).default([]), // publication ids
+    })
+    .refine((p) => p.end >= p.start, { message: '`end` is earlier than `start`.' }),
+});
+
+// ----------------------------------------------------------------------------
 // pages — the wording of each page (titles, section names, button labels).
 // One file per page; `page` must equal the file name.
 // ----------------------------------------------------------------------------
@@ -374,4 +394,4 @@ const prose = defineCollection({
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, ui, areas, team, publications, researchAreas, tracks, pages, prose };
+export const collections = { site, navigation, ui, areas, team, publications, projects, researchAreas, tracks, pages, prose };

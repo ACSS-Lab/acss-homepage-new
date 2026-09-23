@@ -1,0 +1,9 @@
+title: Certificate-Guided Safe Reinforcement Learning
+status: ongoing
+agency: "Institute for Information & Communications Technology Planning (IITP)"
+start: 2024-04
+end: 2027-03
+role: Participating institution
+overview: >-
+  Learns a control policy and a Lyapunov-style certificate jointly so that the sample budget is spent where the certificate is still loose. Outcomes feed the safety layer used by the lab's other application projects.
+papers: [neurips25, auto25]

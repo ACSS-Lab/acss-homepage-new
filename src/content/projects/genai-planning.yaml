@@ -1,0 +1,9 @@
+title: Generative Models for Contact-Rich Robot Manipulation
+status: ongoing
+agency: National Research Foundation of Korea
+start: 2025-09
+end: 2028-08
+role: "Lead institution (PI: S. Han)"
+overview: >-
+  Studies how diffusion-based planners can keep their multimodality while satisfying hard stability and contact constraints. The project builds a shared benchmark for manipulation tasks where the feasible set is non-convex and contact events are frequent.
+papers: [icra26, arxiv25]

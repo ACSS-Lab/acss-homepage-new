@@ -1,0 +1,9 @@
+title: Uncertainty-Aware World Models for Long-Horizon Prediction
+status: done
+agency: National Research Foundation of Korea
+start: 2023-09
+end: 2025-08
+role: "Lead institution (PI: S. Han)"
+overview: >-
+  Separated epistemic and aleatoric uncertainty inside a learned world model so that long-horizon rollouts report calibrated confidence rather than drifting silently. The released codebase is now used as the prediction backbone in two follow-on projects.
+papers: [arxiv25]
