@@ -1,0 +1,177 @@
+---
+// Research-area facet: one collapsible row per family, each listing its codes
+// (chip, full name, count). Families are closed by default. `variant="legend"`
+// is the looser layout used inside the mobile filter bar.
+import AreaChip from '../ui/AreaChip.astro';
+import Icon from '../ui/Icon.astro';
+import type { Area, AreaFamily } from '../../lib/content';
+
+interface Props {
+  families: AreaFamily[];
+  /** Number of items per code; codes with no items are left out. */
+  counts: Map<string, number>;
+  variant?: 'panel' | 'legend';
+  /** Prefix for the accordion panel ids, unique per copy of this list. */
+  idPrefix: string;
+}
+
+const { families, counts, variant = 'panel', idPrefix } = Astro.props;
+const groups = families
+  .map((family) => ({ family, codes: family.codes.filter((c) => counts.has(c.code)) }))
+  .filter((g) => g.codes.length > 0);
+const familyCount = (codes: { code: string }[]) => codes.reduce((sum, c) => sum + (counts.get(c.code) ?? 0), 0);
+---
+
+<div class:list={['list', variant]}>
+  {
+    groups.map(({ family, codes }) => (
+      <div class="family">
+        <button class="head" type="button" aria-expanded="false" aria-controls={`${idPrefix}-${family.id}`} data-accordion>
+          <span class="dot" data-family={family.id} />
+          <span class="label">{family.label}</span>
+          {variant === 'legend' && <span class="family-count">{familyCount(codes)}</span>}
+          <Icon name="chevron-down" size={12} class="caret" />
+        </button>
+        <div class="options" id={`${idPrefix}-${family.id}`} hidden>
+          {codes.map((code) => {
+            const area: Area = { code: code.code, label: code.label, family: family.id };
+            return (
+              <button class="option" type="button" aria-pressed="false" data-facet="area" data-value={code.code}>
+                <AreaChip area={area} />
+                <span class="full">{code.label}</span>
+                <span class="count" data-count>
+                  {counts.get(code.code)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .family {
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    padding: 11px 14px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .legend .head {
+    gap: 10px;
+    padding: 13px 6px;
+  }
+
+  .panel .head:hover {
+    background: var(--gray-100);
+  }
+
+  .dot {
+    display: block;
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .dot[data-family='control'] {
+    background: var(--area-control);
+  }
+  .dot[data-family='uncertainty'] {
+    background: var(--area-uncertainty);
+  }
+  .dot[data-family='learning'] {
+    background: var(--area-learning);
+  }
+  .dot[data-family='modeling'] {
+    background: var(--area-modeling);
+  }
+  .dot[data-family='estimation'] {
+    background: var(--area-estimation);
+  }
+  .dot[data-family='applications'] {
+    background: var(--area-applications);
+  }
+
+  .label {
+    flex: 1;
+    min-width: 0;
+    font: 600 var(--fs-caption) / 1.4 var(--font-sans);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--gray-700);
+  }
+
+  .family-count,
+  .count {
+    flex: none;
+    font: 400 var(--fs-caption) / 1.4 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .caret {
+    flex: none;
+    color: var(--gray-500);
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .head[aria-expanded='true'] .caret {
+    transform: rotate(180deg);
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 6px 10px;
+  }
+
+  .legend .options {
+    padding: 0 0 10px;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 38px;
+    padding: 6px 8px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .legend .option {
+    gap: 10px;
+    min-height: 44px;
+  }
+
+  .option:hover,
+  .option[aria-pressed='true'] {
+    background: var(--gray-100);
+  }
+
+  .full {
+    flex: 1;
+    min-width: 0;
+    font: 400 var(--fs-meta) / 1.4 var(--font-sans);
+    color: var(--gray-700);
+  }
+
+  .option[aria-pressed='true'] .full {
+    color: var(--ink);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+// Two-column list page: a sticky filter sidebar (slot "panel") and the list.
+// Below 1180px the sidebar is hidden and the list's mobile filter bar takes over.
+interface Props {
+  /** Items revealed per scroll step. */
+  pageSize: number;
+}
+
+const { pageSize } = Astro.props;
+---
+
+<section class="container-wide layout" data-filter-root data-page-size={pageSize}>
+  <aside class="panel"><slot name="panel" /></aside>
+  <div class="main"><slot /></div>
+</section>
+
+<script>
+  import { initAccordion } from '../../scripts/accordion';
+  import { initFacetFilter } from '../../scripts/facet-filter';
+  initAccordion();
+  initFacetFilter();
+</script>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: 292px minmax(0, 1fr);
+    gap: 36px;
+    align-items: start;
+  }
+
+  .panel {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-5));
+  }
+
+  .main {
+    min-width: 0;
+  }
+
+  @media (max-width: 1180px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+
+    .panel {
+      display: none;
+    }
+  }
+</style>

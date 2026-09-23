@@ -1,0 +1,176 @@
+---
+// Compact filter bar shown instead of the sidebar below 1180px: search, pill
+// options for the main facet, and a collapsible research-area legend.
+import AreaChip from '../ui/AreaChip.astro';
+import Icon from '../ui/Icon.astro';
+import AreaFamilyList from './AreaFamilyList.astro';
+import ResetButton from './ResetButton.astro';
+import SearchField from './SearchField.astro';
+import { getUi, type Area, type AreaFamily } from '../../lib/content';
+
+interface Props {
+  searchPlaceholder: string;
+  facet: string;
+  options: { value: string; label: string; count: number }[];
+  legendLabel: string;
+  families: AreaFamily[];
+  areaCounts: Map<string, number>;
+  areas: Map<string, Area>;
+}
+
+const { searchPlaceholder, facet, options, legendLabel, families, areaCounts, areas } = Astro.props;
+const ui = (await getUi()).filter;
+const usedAreas = [...areas.values()].filter((a) => areaCounts.has(a.code));
+---
+
+<div class="bar">
+  <div class="search"><SearchField placeholder={searchPlaceholder} size="lg" /></div>
+  <div class="pills">
+    {
+      options.map((option) => (
+        <button class="pill" type="button" aria-pressed="false" data-facet={facet} data-value={option.value}>
+          {option.label}
+          <span class="pill-count" data-count>{option.count}</span>
+        </button>
+      ))
+    }
+  </div>
+  <div class="row">
+    <button class="legend-toggle" type="button" aria-expanded="false" aria-controls="filter-legend" data-accordion>
+      <Icon name="list-filter" size={16} />
+      <span class="legend-label">{legendLabel}</span>
+      <Icon name="chevron-down" size={12} class="caret" />
+    </button>
+    <span class="status">
+      <span class="filtered" data-when-active="area" hidden>
+        <span class="filtered-label">{ui.filteredBy}</span>
+        <span data-facet-active="area">
+          {usedAreas.map((area) => <span data-value={area.code} hidden><AreaChip area={area} /></span>)}
+        </span>
+      </span>
+      <ResetButton />
+    </span>
+  </div>
+  <div class="legend" id="filter-legend" hidden>
+    <AreaFamilyList families={families} counts={areaCounts} variant="legend" idPrefix="legend" />
+  </div>
+</div>
+
+<style>
+  .bar {
+    display: none;
+    margin-top: var(--space-5);
+    padding: var(--space-5) 22px;
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 1180px) {
+    .bar {
+      display: block;
+    }
+  }
+
+  .search {
+    margin-bottom: 14px;
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: 14px;
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 44px;
+    padding: 0 var(--space-4);
+    border: 0;
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    font: 500 var(--fs-sm) / 1 var(--font-sans);
+    color: var(--gray-700);
+    cursor: pointer;
+  }
+
+  .pill:hover {
+    color: var(--ink);
+  }
+
+  .pill-count {
+    font: 400 var(--fs-caption) / 1 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .pill[aria-pressed='true'] {
+    background: var(--navy-600);
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .pill[aria-pressed='true'] .pill-count {
+    color: var(--on-dark);
+    font-weight: 500;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .legend-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--gray-500);
+    cursor: pointer;
+  }
+
+  .legend-toggle:hover {
+    color: var(--ink);
+  }
+
+  .legend-label {
+    font: 500 var(--fs-caption) / 1.4 var(--font-sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .caret {
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .legend-toggle[aria-expanded='true'] .caret {
+    transform: rotate(180deg);
+  }
+
+  .status,
+  .filtered {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .filtered {
+    gap: 7px;
+  }
+
+  .filtered-label {
+    font: 400 var(--fs-caption) / 1.4 var(--font-sans);
+    color: var(--gray-500);
+  }
+
+  .legend {
+    margin-top: 14px;
+    border-top: 1px solid var(--gray-300);
+  }
+</style>

@@ -1,23 +1,41 @@
 ---
+import AreaFamilyList from '../../components/filters/AreaFamilyList.astro';
+import FacetAccordion from '../../components/filters/FacetAccordion.astro';
+import FacetOptions from '../../components/filters/FacetOptions.astro';
+import FilterBarMobile from '../../components/filters/FilterBarMobile.astro';
+import FilterLayout from '../../components/filters/FilterLayout.astro';
+import FilterPanel from '../../components/filters/FilterPanel.astro';
+import LoadMoreSentinel from '../../components/filters/LoadMoreSentinel.astro';
 import HeroTabs from '../../components/layout/HeroTabs.astro';
 import PageHero from '../../components/layout/PageHero.astro';
 import AlumniCard from '../../components/team/AlumniCard.astro';
 import MemberCard from '../../components/team/MemberCard.astro';
+import AreaChip from '../../components/ui/AreaChip.astro';
+import Badge from '../../components/ui/Badge.astro';
 import Button from '../../components/ui/Button.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { DEGREE_ORDER, ROLE_ORDER, getAreaIndex, getNavigation, getPage, getTeam } from '../../lib/content';
+import { DEGREE_ORDER, ROLE_ORDER, getAreaFamilies, getAreaIndex, getNavigation, getPage, getTeam } from '../../lib/content';
 import { sectionTabs } from '../../lib/navigation';
 
-const [page, team, nav, areas] = await Promise.all([getPage('team'), getTeam(), getNavigation(), getAreaIndex()]);
-const { labels } = page;
+const [page, team, nav, areas, families] = await Promise.all([getPage('team'), getTeam(), getNavigation(), getAreaIndex(), getAreaFamilies()]);
+const { labels, filters } = page;
 
 const tabs = sectionTabs(nav, Astro.url.pathname, {
   '/team/#current': team.members.length,
   '/team/#interns': team.interns.length,
   '/team/#alumni': team.alumni.length,
 });
+
+// Current members: role sections; only the first page of cards is visible before scrolling.
 const roleGroups = ROLE_ORDER.map((role) => ({ role, title: page.roles[role], people: team.members.filter((m) => m.role === role) })).filter((g) => g.people.length > 0);
+const roleOptions = roleGroups.map((g) => ({ value: g.role, label: g.title, count: g.people.length }));
+const areaCounts = new Map<string, number>();
+for (const member of team.members) for (const code of member.topics) areaCounts.set(code, (areaCounts.get(code) ?? 0) + 1);
+const usedAreas = [...areas.values()].filter((a) => areaCounts.has(a.code));
+let position = 0;
+
 const degreeGroups = DEGREE_ORDER.map((degree) => ({ degree, title: page.degrees[degree], people: team.alumni.filter((a) => a.degree === degree) })).filter((g) => g.people.length > 0);
 const internTerm = (intern: (typeof team.interns)[number]) => `${intern.year} ${labels.terms[intern.term]}`;
 ---
@@ -28,20 +46,44 @@ const internTerm = (intern: (typeof team.interns)[number]) => `${intern.year} ${
   </PageHero>
 
   <div data-tabs data-default="current">
-    <section class="container panel" data-tab-panel="current">
-      {
-        roleGroups.map((group, g) => (
-          <div class="group rise" style={`--i: ${g}`}>
-            <SectionHeading as="h3" title={group.title} count={group.people.length} />
-            <div class="grid">
-              {group.people.map((member, i) => (
-                <MemberCard member={member} areas={areas} labels={labels} index={i} />
-              ))}
-            </div>
-          </div>
-        ))
-      }
-    </section>
+    <div class="panel" data-tab-panel="current">
+      <FilterLayout pageSize={page.pageSize}>
+        <FilterPanel slot="panel" searchPlaceholder={filters.searchPlaceholder}>
+          <FacetAccordion id="facet-degree" label={filters.degree}>
+            <span slot="active" data-facet-active="role" hidden>
+              {roleOptions.map((o) => <span data-value={o.value} hidden><Badge tone="accent">{o.label}</Badge></span>)}
+            </span>
+            <FacetOptions facet="role" options={roleOptions} />
+          </FacetAccordion>
+          <FacetAccordion id="facet-area" label={filters.topic} open>
+            <span slot="active" data-facet-active="area" hidden>
+              {usedAreas.map((area) => <span data-value={area.code} hidden><AreaChip area={area} /></span>)}
+            </span>
+            <AreaFamilyList families={families} counts={areaCounts} idPrefix="panel" />
+          </FacetAccordion>
+        </FilterPanel>
+
+        <h2 class="panel-title">{filters.title}</h2>
+        <FilterBarMobile searchPlaceholder={filters.searchPlaceholder} facet="role" options={roleOptions} legendLabel={filters.topic} families={families} areaCounts={areaCounts} areas={areas} />
+        <EmptyState hidden>{filters.empty}</EmptyState>
+
+        <div class="groups">
+          {
+            roleGroups.map((group, g) => (
+              <div class="group rise" style={`--i: ${g}`} data-group={group.role}>
+                <SectionHeading as="h3" title={group.title} count={group.people.length} />
+                <div class="grid">
+                  {group.people.map((member, i) => (
+                    <MemberCard member={member} areas={areas} labels={labels} roleLabel={group.title} index={i} hidden={position++ >= page.pageSize} />
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <LoadMoreSentinel />
+      </FilterLayout>
+    </div>
 
     <section class="container panel" data-tab-panel="interns" hidden>
       <div class="interns">
@@ -106,12 +148,12 @@ const internTerm = (intern: (typeof team.interns)[number]) => `${intern.year} ${
     padding-top: var(--space-14);
   }
 
-  .group {
-    margin-top: 34px;
+  .groups {
+    margin-top: 14px;
   }
 
-  .panel > .group:first-child {
-    margin-top: 14px;
+  .group {
+    margin-top: 34px;
   }
 
   .alumni-group {
@@ -190,13 +232,13 @@ const internTerm = (intern: (typeof team.interns)[number]) => `${intern.year} ${
     color: var(--gray-500);
   }
 
-  .join-section {
-    padding-block: var(--space-14) var(--space-24);
-  }
-
   /* The alumni tab has no join banner under it, so it carries the page's bottom padding itself. */
   .panel[data-tab-panel='alumni'] {
     padding-bottom: var(--space-24);
+  }
+
+  .join-section {
+    padding-block: var(--space-14) var(--space-24);
   }
 
   .join {

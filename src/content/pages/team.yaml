@@ -11,6 +11,16 @@ hero:
     page header image — 1920×360
     연구실 사진 또는 시뮬레이션 스틸
 
+pageSize: 4 # member cards loaded at a time while scrolling (2-12)
+
+# Filter sidebar on the "Current members" tab
+filters:
+  title: Current members
+  searchPlaceholder: Search name, topic
+  degree: Degree
+  topic: Area of research interest
+  empty: No members match this topic.
+
 # Section headings on the "Current members" tab, in display order.
 roles:
   postdoc: Postdoctoral Researchers

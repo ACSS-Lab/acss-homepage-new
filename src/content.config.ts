@@ -95,6 +95,7 @@ const ui = defineCollection({
     carousel: z.object({ previous: z.string(), next: z.string() }),
     pagination: z.object({ previous: z.string(), next: z.string(), page: z.string().includes('{n}') }),
     modal: z.object({ close: z.string() }),
+    filter: z.object({ label: z.string(), reset: z.string(), filteredBy: z.string() }),
     lightbox: z.object({ previous: z.string(), next: z.string(), thumb: z.string().includes('{n}') }),
     publicationTypes: z.object({ journal: z.string(), conference: z.string(), preprint: z.string(), patent: z.string() }),
     person: z.object({
@@ -367,6 +368,8 @@ const pages = defineCollection({
       page: z.literal('team'),
       title: z.string(),
       hero,
+      pageSize: z.number().int().min(2).max(12).default(4),
+      filters: z.object({ title: z.string(), searchPlaceholder: z.string(), degree: z.string(), topic: z.string(), empty: z.string() }),
       roles: z.object({ postdoc: z.string(), phd: z.string(), ms: z.string() }),
       degrees: z.object({ PhD: z.string(), MS: z.string() }),
       degreeTitles: z.object({ PhD: z.string(), MS: z.string() }),

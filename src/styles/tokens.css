@@ -124,6 +124,7 @@
   /* Layout */
   --container: 1120px;
   --container-narrow: 720px;
+  --container-wide: 1424px; /* list pages with a filter sidebar */
   --header-h: 68px;
   --scroll-offset: 96px; /* anchor targets clear the sticky header */
 

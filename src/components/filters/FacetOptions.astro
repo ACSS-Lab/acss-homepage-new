@@ -1,0 +1,59 @@
+---
+// One button per option of a facet, with a live count.
+interface Props {
+  facet: string;
+  options: { value: string; label: string; count: number }[];
+}
+
+const { facet, options } = Astro.props;
+---
+
+<div class="options">
+  {
+    options.map((option) => (
+      <button class="option" type="button" aria-pressed="false" data-facet={facet} data-value={option.value}>
+        {option.label}
+        <span class="count" data-count>{option.count}</span>
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 6px 10px;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: 38px;
+    padding: 6px 8px;
+    border: 0;
+    background: transparent;
+    font: 400 var(--fs-meta) / 1.4 var(--font-sans);
+    color: var(--gray-700);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .option:hover {
+    background: var(--gray-100);
+  }
+
+  .option[aria-pressed='true'] {
+    background: var(--gray-100);
+    color: var(--navy-600);
+    font-weight: 600;
+  }
+
+  .count {
+    font: 400 var(--fs-caption) / 1.4 var(--font-sans);
+    color: var(--gray-500);
+  }
+</style>

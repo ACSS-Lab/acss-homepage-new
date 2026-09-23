@@ -197,7 +197,7 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 - `src/components/`, `src/pages/`, `src/layouts/` — screen structure.
 - `src/lib/icons.ts` — icon registry; the only file that imports from `@lucide/astro`. Brand logos lucide lacks (LinkedIn) come from `simple-icons` via `src/components/ui/BrandIcon.astro`, the only file allowed to contain an `<svg>`.
 - `src/lib/navigation.ts` — builds each page banner's tab switcher from `navigation.yaml`.
-- `src/scripts/` — small vanilla-TypeScript behaviors (menus, filters, carousels). No UI framework.
+- `src/scripts/` — small vanilla-TypeScript behaviors (menus, filters, carousels). No UI framework. Each file documents the `data-*` attributes it expects; `facet-filter.ts` (search + facets + load-more) is shared by Team and Publications.
 - `src/styles/tokens.css` — design tokens.
 - `scripts/guard.mjs` — the rule checks behind `npm run guard`.
 - `public/admin/` — web admin (Sveltia CMS) config.

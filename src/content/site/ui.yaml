@@ -10,6 +10,13 @@ language:
   en: EN
   ko: KR
 
+# Filter sidebars (Team, Publications)
+filter:
+  label: Filter
+  reset: All
+  filteredBy: Filtered by
+  # {label} is replaced with the name of the filter group.
+
 # Page-by-page lists
 pagination:
   previous: Previous page

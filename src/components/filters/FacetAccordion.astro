@@ -1,0 +1,65 @@
+---
+// Collapsible facet section in the sidebar: uppercase label, the selected
+// option's badge (slot "active"), a chevron, and the options in the panel.
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  id: string;
+  label: string;
+  open?: boolean;
+}
+
+const { id, label, open = false } = Astro.props;
+---
+
+<div class="facet">
+  <button class="head" type="button" aria-expanded={open ? 'true' : 'false'} aria-controls={id} data-accordion>
+    <span class="label">{label}</span>
+    <slot name="active" />
+    <Icon name="chevron-down" size={12} class="caret" />
+  </button>
+  <div id={id} hidden={!open}>
+    <slot />
+  </div>
+</div>
+
+<style>
+  .facet {
+    border-bottom: 1px solid var(--gray-300);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    padding: 12px 14px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .head:hover {
+    background: var(--gray-100);
+  }
+
+  .label {
+    flex: 1;
+    min-width: 0;
+    font: 600 var(--fs-caption) / 1.4 var(--font-sans);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--gray-700);
+  }
+
+  .caret {
+    flex: none;
+    color: var(--gray-500);
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .head[aria-expanded='true'] .caret {
+    transform: rotate(180deg);
+  }
+</style>

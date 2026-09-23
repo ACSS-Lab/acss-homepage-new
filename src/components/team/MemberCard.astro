@@ -10,14 +10,30 @@ interface Props {
   areas: Map<string, Area>;
   labels: { representative: string; researchInterest: string; joined: string; incoming: string };
   index: number;
+  /** Role label, part of what the search box matches. */
+  roleLabel: string;
+  hidden?: boolean;
 }
 
-const { member, areas, labels, index } = Astro.props;
+const { member, areas, labels, index, roleLabel, hidden = false } = Astro.props;
+const areaLabels = member.topics.map((code) => areas.get(code)?.label ?? code);
+const haystack = [member.name, member.nameKo, member.email, roleLabel, ...areaLabels].filter(Boolean).join(' ').toLowerCase();
 const date = formatMonthYear(member.joined);
 const joinedLine = (isFutureMonth(member.joined) ? labels.incoming : labels.joined).replace('{date}', date);
 ---
 
-<PersonCard class="rise" style={`--i: ${index}`} person={member} subtitle={member.nameKo} aside={joinedLine}>
+<PersonCard
+  class="rise"
+  style={`--i: ${index}`}
+  person={member}
+  subtitle={member.nameKo}
+  aside={joinedLine}
+  hidden={hidden}
+  data-item=""
+  data-facet-role={member.role}
+  data-facet-area={member.topics.join(' ')}
+  data-search={haystack}
+>
   {member.representative && <span class="rep" slot="badge">{labels.representative}</span>}
   <div class="interest">{labels.researchInterest}</div>
   <div class="chips">

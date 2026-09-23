@@ -1,0 +1,48 @@
+---
+// Rounded search box wired to scripts/facet-filter.ts.
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  placeholder: string;
+  /** `lg` (44px) for the mobile bar, `md` (40px) for the sidebar. */
+  size?: 'md' | 'lg';
+}
+
+const { placeholder, size = 'md' } = Astro.props;
+---
+
+<label class:list={['field', size]}>
+  <Icon name="search" size={16} class="icon" />
+  <input type="search" placeholder={placeholder} aria-label={placeholder} data-filter-search />
+</label>
+
+<style>
+  .field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+  }
+
+  .lg {
+    min-height: 44px;
+  }
+
+  .icon {
+    flex: none;
+    color: var(--gray-500);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    font: 400 var(--fs-sm) / 1.4 var(--font-sans);
+    color: var(--ink);
+    outline: none;
+  }
+</style>

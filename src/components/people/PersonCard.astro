@@ -26,6 +26,9 @@ interface Props {
   class?: string;
   /** Custom properties only, e.g. `--i` for the entrance stagger. */
   style?: string;
+  hidden?: boolean;
+  /** Data attributes for behavior scripts (filters, deep links). */
+  [key: `data-${string}`]: string | undefined;
 }
 
 const { person, size = 'md', eyebrow, subtitle, aside, class: className, ...rest } = Astro.props;

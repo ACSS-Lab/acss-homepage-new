@@ -1,0 +1,57 @@
+---
+// Desktop filter sidebar: search box, "Filter / All" header, then the facet
+// sections (default slot) in a scrolling area.
+import ResetButton from './ResetButton.astro';
+import SearchField from './SearchField.astro';
+import { getUi } from '../../lib/content';
+
+interface Props {
+  searchPlaceholder: string;
+}
+
+const { searchPlaceholder } = Astro.props;
+const ui = (await getUi()).filter;
+---
+
+<div class="panel">
+  <div class="search"><SearchField placeholder={searchPlaceholder} /></div>
+  <div class="head">
+    <span class="label">{ui.label}</span>
+    <ResetButton />
+  </div>
+  <div class="facets"><slot /></div>
+</div>
+
+<style>
+  .panel {
+    background: var(--white);
+    box-shadow: var(--shadow-md);
+  }
+
+  .search {
+    padding: 14px;
+    border-bottom: 1px solid var(--gray-300);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--gray-300);
+  }
+
+  .label {
+    font: 500 var(--fs-caption) / 1.4 var(--font-sans);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+
+  .facets {
+    max-height: calc(100vh - 244px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+</style>

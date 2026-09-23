@@ -46,10 +46,18 @@ html:has(dialog[open]) {
 }
 
 /* Centered page column: --container of content plus a gutter on each side. */
-.container {
-  max-width: calc(var(--container) + 2 * var(--space-6));
+.container,
+.container-wide {
   margin-inline: auto;
   padding-inline: var(--space-6);
+}
+
+.container {
+  max-width: calc(var(--container) + 2 * var(--space-6));
+}
+
+.container-wide {
+  max-width: calc(var(--container-wide) + 2 * var(--space-6));
 }
 
 .sr-only {

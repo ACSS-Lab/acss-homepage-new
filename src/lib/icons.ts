@@ -12,6 +12,8 @@ import CircleSlash from '@lucide/astro/icons/circle-slash';
 import Copy from '@lucide/astro/icons/copy';
 import GraduationCap from '@lucide/astro/icons/graduation-cap';
 import House from '@lucide/astro/icons/house';
+import ListFilter from '@lucide/astro/icons/list-filter';
+import Search from '@lucide/astro/icons/search';
 import X from '@lucide/astro/icons/x';
 
 export const icons = {
@@ -24,6 +26,8 @@ export const icons = {
   copy: Copy,
   'graduation-cap': GraduationCap,
   house: House,
+  'list-filter': ListFilter,
+  search: Search,
   x: X,
 } as const;
 

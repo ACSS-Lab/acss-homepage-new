@@ -204,7 +204,10 @@
 - **Link pills**: icon-only `--navy-100` squares (44px tall) that slide open to show their label on hover/focus and fill `--navy-600`. Only links present in the person's data are shown.
 
 ### Filters (Team / Publications)
-- **Chips / segmented control.** Only the selected chip is `--navy-600` + white text; unselected is `--gray-100` + `--gray-700` (minimize blue). Instant client-side updates + shareable via URL query.
+- **Layout**: a `--container-wide` two-column grid (292px sidebar + list, 36px gap). The sidebar sticks below the header; under 1180px it disappears and a compact filter bar at the top of the list takes over.
+- **Sidebar** (`FilterPanel`, white + `--shadow-md`): a rounded `--gray-100` search box; a "Filter / All" header whose reset button is `--navy-600` while nothing is filtered and gray once something is; then facet accordions (uppercase label, the selected option's badge, a chevron that rotates when open). Options are 38px rows with a gray count; the selected one is `--gray-100` with `--navy-600` 600 text. Research areas are grouped by family, each with its color dot.
+- **Mobile bar**: 44px search, 44px pill options (`--navy-600` when selected), a `list-filter` legend toggle, and "Filtered by" + the active chip beside the reset.
+- **Behavior**: search + single-select facets (click again to clear); an option's count is what choosing it would yield given the other filters; results reveal `pageSize` at a time as a skeleton sentinel scrolls into view. Instant client-side updates; URL query sharing is a follow-up.
 
 ### Status tabs + pagination (Projects / Gallery)
 - `UnderlineTabs`: an uppercase label in a 76px rail, then text tabs with a gray count; the active tab is `--ink` 600 on a 2px `--navy-600` underline, idle tabs `--gray-500`.
@@ -274,6 +277,7 @@
 /* Layout */
 --container:1120px;          /* max body width */
 --container-narrow:720px;    /* text-heavy (abstracts/intros) — limit line length */
+--container-wide:1424px;     /* list pages with a filter sidebar (Team, Publications) */
 --header-h:68px;
 --scroll-offset:96px;        /* scroll-margin for anchor targets under the sticky header */
 
