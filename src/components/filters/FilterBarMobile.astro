@@ -1,5 +1,5 @@
 ---
-// Compact filter bar shown instead of the sidebar below 1180px: search, pill
+// Compact filter bar shown instead of the sidebar below lg (1024px): search, pill
 // options for the main facet, and a collapsible research-area legend.
 import AreaChip from '../ui/AreaChip.astro';
 import Icon from '../ui/Icon.astro';
@@ -65,9 +65,19 @@ const usedAreas = [...areas.values()].filter((a) => areaCounts.has(a.code));
     box-shadow: var(--shadow-sm);
   }
 
-  @media (max-width: 1180px) {
+  @media (max-width: 1023px) {
     .bar {
       display: block;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .bar {
+      padding: var(--space-4) var(--gutter);
+    }
+
+    .row {
+      flex-wrap: wrap;
     }
   }
 

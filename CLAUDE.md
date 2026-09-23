@@ -18,6 +18,7 @@ nvm use && npm run dev      # local preview at http://localhost:4321
 nvm use && npm run build    # static build into dist/; runs the schema and cross-file checks
 nvm use && npm run check    # type check (astro check)
 nvm use && npm run guard    # project rules: lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs
+nvm use && npm run responsive  # after a build: every page at 360/768/1024/1440px must not overflow its viewport
 ```
 
 Node 22 or newer is required, and the shell's default Node may be older.
@@ -70,7 +71,7 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
 - Every item folder has a `_template.yaml` that documents each field.
   It is the source of truth for what a field means; files starting with `_` are ignored by the site.
 - `src/components/`, `src/layouts/` and `src/pages/` are the screens.
-  `src/scripts/` holds small vanilla-TypeScript behaviours, `src/lib/icons.ts` is the only file that imports lucide, `src/styles/tokens.css` holds the design tokens, and `scripts/guard.mjs` implements `npm run guard`.
+  `src/scripts/` holds small vanilla-TypeScript behaviours, `src/lib/icons.ts` is the only file that imports lucide, `src/styles/tokens.css` holds the design tokens, `scripts/guard.mjs` implements `npm run guard` and `scripts/check-responsive.mjs` (with `scripts/browser.mjs`, a dependency-free headless Chrome driver) implements `npm run responsive`.
 - `public/images/` holds photos and figures referenced from content.
   Until a file exists, the page shows a striped placeholder naming the expected path.
 - Planned, not set up yet: the web admin (`public/admin/`, Sveltia CMS) and automatic deployment (`.github/workflows/deploy.yml`).
@@ -78,7 +79,7 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
 
 ## Definition of done
 
-In this order: `nvm use && npm run build` passes, `nvm use && npm run check` and `nvm use && npm run guard` pass, accessibility and phone-width layout are checked for visual changes, docs are updated (`MAINTAINING.md`, `DESIGN.md`, `_template.yaml`, skills), then a clear commit message in English.
+In this order: `nvm use && npm run build` passes, `nvm use && npm run check` and `nvm use && npm run guard` pass, for visual changes `nvm use && npm run responsive` passes and the phone-width screenshots and accessibility are checked (skill `checking-responsive`), docs are updated (`MAINTAINING.md`, `DESIGN.md`, `_template.yaml`, skills), then a clear commit message in English.
 
 ## Finishing a task
 

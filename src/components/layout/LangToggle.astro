@@ -83,4 +83,10 @@ const { variant = 'floating', label = labels.label } = Astro.props;
     box-shadow: var(--shadow-sm);
     color: var(--ink);
   }
+  @media (max-width: 767px) {
+    .floating {
+      right: var(--gutter);
+      bottom: var(--gutter);
+    }
+  }
 </style>

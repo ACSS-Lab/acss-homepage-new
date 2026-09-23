@@ -71,4 +71,14 @@ const { label, tabs } = Astro.props;
     font: 400 var(--fs-caption) / 1.4 var(--font-sans);
     color: var(--gray-500);
   }
+  @media (max-width: 639px) {
+    .bar {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-1);
+    }
+
+    .tabs {
+      gap: var(--space-4);
+    }
+  }
 </style>

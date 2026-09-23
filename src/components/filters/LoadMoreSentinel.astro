@@ -46,9 +46,10 @@ const { rootMargin = '200px 0px', variant = 'cards' } = Astro.props;
 </div>
 
 <style>
+  /* Same self-sizing columns as the Team card grid */
   .sentinel {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
     gap: 18px;
     margin-top: 18px;
   }
@@ -122,5 +123,29 @@ const { rootMargin = '200px 0px', variant = 'cards' } = Astro.props;
     aspect-ratio: 4 / 3;
     border-radius: var(--radius-md);
     background: var(--gray-100);
+  }
+  @media (max-width: 767px) {
+    .rows {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-3);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .skeleton {
+      grid-template-columns: 96px 1fr;
+    }
+
+    .photo {
+      min-height: 128px;
+    }
+
+    .row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .thumb {
+      max-width: 260px;
+    }
   }
 </style>

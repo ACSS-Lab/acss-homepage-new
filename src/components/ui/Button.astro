@@ -29,6 +29,14 @@ const { href, variant, arrow = false } = Astro.props;
     border-radius: var(--radius-md);
     font: 600 var(--fs-ui) / 1 var(--font-sans);
     white-space: nowrap;
+    max-width: 100%;
+  }
+
+  /* Touch targets: 44px on coarse pointers without changing the desktop look */
+  @media (pointer: coarse) {
+    .button {
+      min-height: 44px;
+    }
   }
 
   .primary {

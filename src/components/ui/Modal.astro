@@ -28,9 +28,10 @@ const { id, label, backdropClose = false, variant = 'card', maxWidth = 840 } = A
 
 <style>
   .modal {
+    --max-h: 88vh;
     width: 100%;
     max-width: var(--max-width);
-    max-height: 88vh;
+    max-height: var(--max-h);
     padding: 0;
     border: 0;
     border-radius: var(--radius-lg);
@@ -52,15 +53,18 @@ const { id, label, backdropClose = false, variant = 'card', maxWidth = 840 } = A
   }
 
   .card {
-    max-height: 88vh;
+    max-height: var(--max-h);
     overflow-y: auto;
   }
 
+  /* Covers the dynamic viewport (inset: 0) rather than 100vw/100vh, which mobile browser bars break */
   .fullscreen {
-    width: 100vw;
+    inset: 0;
+    width: auto;
     max-width: none;
-    height: 100vh;
+    height: auto;
     max-height: none;
+    margin: 0;
     border-radius: 0;
     background: var(--overlay-dark);
     box-shadow: none;
@@ -102,6 +106,12 @@ const { id, label, backdropClose = false, variant = 'card', maxWidth = 840 } = A
     .modal[open],
     .modal[open]::backdrop {
       animation: none;
+    }
+  }
+  @media (max-width: 767px) {
+    .modal:not(.fullscreen) {
+      --max-h: calc(100dvh - 2 * var(--gutter));
+      max-width: calc(100% - 2 * var(--gutter));
     }
   }
 </style>

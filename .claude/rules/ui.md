@@ -25,5 +25,5 @@ Run `nvm use && npm run guard` before reporting done.
 - Behaviour is small vanilla TypeScript in `src/scripts/`, one file per behaviour, each documenting the `data-*` attributes it expects.
   No UI framework.
 - Read the relevant `DESIGN.md` section before changing a component, and update `DESIGN.md` in the same commit when the design changes.
-- Check accessibility and phone-width layout before reporting done.
-  `DESIGN.md` section 7 has the checklist.
+- Check phone-width layout and accessibility before reporting done: `nvm use && npm run responsive` must pass and the `checking-responsive` skill says what to look at.
+  `DESIGN.md` section 7 has the accessibility checklist.

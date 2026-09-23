@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "guard": "node scripts/guard.mjs",
+    "responsive": "node scripts/check-responsive.mjs",
     "astro": "astro"
   },
   "dependencies": {

@@ -160,4 +160,30 @@ const { tabs } = Astro.props;
       transition: none;
     }
   }
+  /* Small screens: the dropdown anchors to the pill, not the tab, so it stays inside the viewport */
+  @media (max-width: 767px) {
+    .pill {
+      position: relative;
+    }
+
+    .dropdown {
+      position: static;
+    }
+
+    .dropdown::after {
+      content: none;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .pill {
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 100%;
+    }
+
+    .tab {
+      padding: 9px 14px;
+    }
+  }
 </style>

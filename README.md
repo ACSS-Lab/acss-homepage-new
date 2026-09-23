@@ -42,6 +42,7 @@ nvm use && npm run build    # static build into dist/ (includes the content sche
 nvm use && npm run preview  # serve the build output
 nvm use && npm run check    # type check
 nvm use && npm run guard    # project rules (lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs)
+nvm use && npm run responsive  # after a build: every page at 360/768/1024/1440px must fit its viewport
 ```
 
 Before opening a pull request, `nvm use && npm run build`, `nvm use && npm run check` and `nvm use && npm run guard` must pass.

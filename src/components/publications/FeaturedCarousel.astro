@@ -116,9 +116,11 @@ const figureNote = (pub: Publication) => labels.figureNote.replace('{path}', `/i
     padding: var(--space-6);
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 767px) {
     .slide {
       grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-5);
+      padding: var(--space-5);
     }
   }
 

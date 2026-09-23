@@ -166,4 +166,45 @@ const photoNote = labels.photoNote.replace('{path}', `/images/team/${person.id}.
   .lg .links > :global(*) {
     padding-top: var(--space-5);
   }
+  @media (max-width: 767px) {
+    .lg {
+      grid-template-columns: 168px minmax(0, 1fr);
+      padding: var(--space-5);
+    }
+
+    .lg .photo {
+      height: 224px;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .card {
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: var(--space-3);
+      padding: var(--space-4);
+    }
+
+    .photo {
+      align-self: start;
+      min-height: 0;
+      aspect-ratio: 3 / 4;
+    }
+
+    .top {
+      flex-wrap: wrap;
+    }
+
+    .email {
+      overflow-wrap: anywhere;
+    }
+
+    .lg {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lg .photo {
+      width: 168px;
+      height: auto;
+    }
+  }
 </style>

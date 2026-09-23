@@ -206,11 +206,15 @@
 - Bilingual pages render both languages and show one. A floating EN/KR pill (bottom-right, `--shadow-md`) switches them; the active side is `--navy-900` on white. English is the default; the choice is not remembered between pages.
 
 ### Person card
-- Photo (3:4, `--radius-xs`) left; name, gray subtitle, e-mail, group-specific details right; link pills pinned to the card bottom. White surface + `--shadow-sm`, square corners. The PI uses the larger featured layout (`--fs-title` name, eyebrow label).
+- Photo (3:4, `--radius-xs`) left; name, gray subtitle, e-mail, group-specific details right; link pills pinned to the card bottom.
+  White surface + `--shadow-sm`, square corners.
+  The PI uses the larger featured layout (`--fs-title` name, eyebrow label).
+  Below `sm` the photo track narrows to 96px and the PI card stacks its photo above the text.
 - **Link pills**: icon-only `--navy-100` squares (44px tall) that slide open to show their label on hover/focus and fill `--navy-600`. Only links present in the person's data are shown.
 
 ### Filters (Team / Publications)
-- **Layout**: a `--container-wide` two-column grid (292px sidebar + list, 36px gap). The sidebar sticks below the header; under 1180px it disappears and a compact filter bar at the top of the list takes over.
+- **Layout**: a `--container-wide` two-column grid (292px sidebar + list, 36px gap).
+  The sidebar sticks below the header; below `lg` it disappears and a compact filter bar at the top of the list takes over.
 - **Sidebar** (`FilterPanel`, white + `--shadow-md`): a rounded `--gray-100` search box; a "Filter / All" header whose reset button is `--navy-600` while nothing is filtered and gray once something is; then facet accordions (uppercase label, the selected option's badge, a chevron that rotates when open). Options are 38px rows with a gray count; the selected one is `--gray-100` with `--navy-600` 600 text. Research areas are grouped by family, each with its color dot.
 - **Mobile bar**: 44px search, 44px pill options (`--navy-600` when selected), a `list-filter` legend toggle, and "Filtered by" + the active chip beside the reset.
 - **Behavior**: search + single-select facets (click again to clear); an option's count is what choosing it would yield given the other filters; results reveal `pageSize` at a time as a skeleton sentinel scrolls into view (person-card skeletons on Team, a year-row skeleton on Publications). An empty result shows the `EmptyState` card with a large reset button. Instant client-side updates; URL query sharing is a follow-up.
@@ -231,7 +235,8 @@
 
 ### Status tabs + pagination (Projects / Gallery)
 - `UnderlineTabs`: an uppercase label in a 76px rail, then text tabs with a gray count; the active tab is `--ink` 600 on a 2px `--navy-600` underline, idle tabs `--gray-500`.
-- `Pagination`: 44px square buttons (`--radius-sm`, `--gray-300` border), current page `--navy-600` filled, arrows disabled at the ends; sits under a `--gray-300` rule. Page changes replay the cards' `.rise` entrance.
+- `Pagination`: 44px square buttons (`--radius-sm`, `--gray-300` border), current page `--navy-600` filled, arrows disabled at the ends; sits under a `--gray-300` rule and wraps onto a second row when it must.
+  Page changes replay the cards' `.rise` entrance.
 - `EmptyState`: a centered white card with the "nothing here" sentence.
 
 ### Gallery
@@ -239,7 +244,7 @@
 - **Photo viewer**: the `fullscreen` Modal variant on `--overlay-dark`. Header with title, date and translucent tag chips; a 3:2 stage (`--ph-dark` until the photo exists, `object-fit: cover` after) between 52px round arrows; a caption line; and an 84x56 thumbnail strip where the current thumb has a 2px white border and the rest sit at 50% opacity. Left/right arrow keys step through; photos wrap around.
 
 ### Modal window
-- Native `<dialog>` (`Modal`): white `--radius-lg` card, max 840px / 88vh, `--shadow-lg`, over an `--overlay` backdrop; pops in (280ms) with a fading backdrop. Escape, focus trapping and focus return come from the browser; page scroll is locked while open; backdrop click closes when the window opts in. A 40px round `--gray-100` close button (lucide `x`) sits top-right.
+- Native `<dialog>` (`Modal`): white `--radius-lg` card, max 840px / 88vh (below `md`: the viewport minus a `--gutter` on each side), `--shadow-lg`, over an `--overlay` backdrop; pops in (280ms) with a fading backdrop. Escape, focus trapping and focus return come from the browser; page scroll is locked while open; backdrop click closes when the window opts in. A 40px round `--gray-100` close button (lucide `x`) sits top-right.
 - **Project card** (opens the window): white `--radius-lg` card, status `Badge` (`solid` for ongoing), `--fs-lg` title, 16:9 cover (`--radius-md`, zooms 5% on hover while the card lifts 3px with `--shadow-md`), then an uppercase-label / value grid. Two cards per row.
 
 ### Buttons
@@ -322,6 +327,7 @@ Rules of thumb: a filter sidebar collapses at `lg`; two-column card grids and si
 - [ ] Full keyboard operation for dropdowns/filters
 - [ ] No color-only information (pair with text/icons)
 - [ ] Respect `prefers-reduced-motion`
+- [ ] No horizontal overflow at 360, 768, 1024 and 1440px (`npm run responsive`), and touch targets of 44px on phones
 
 ---
 

@@ -20,4 +20,9 @@ const { hidden = false } = Astro.props;
     color: var(--gray-700);
     text-align: center;
   }
+  @media (max-width: 767px) {
+    .empty {
+      padding: var(--space-6) var(--space-4);
+    }
+  }
 </style>
