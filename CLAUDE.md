@@ -14,13 +14,15 @@ Pages read content only through the getters in `src/lib/content.ts`, which also 
 ## Commands
 
 ```bash
-npm run dev      # local preview at http://localhost:4321
-npm run build    # static build into dist/; runs the schema and cross-file checks
-npm run check    # type check (astro check)
-npm run guard    # project rules: lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs
+nvm use && npm run dev      # local preview at http://localhost:4321
+nvm use && npm run build    # static build into dist/; runs the schema and cross-file checks
+nvm use && npm run check    # type check (astro check)
+nvm use && npm run guard    # project rules: lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs
 ```
 
-Node 22 or newer is required; `nvm use` reads `.nvmrc`.
+Node 22 or newer is required, and the shell's default Node may be older.
+Always chain `nvm use && ` in front of every `npm` command, in docs and when you run one; `nvm use` reads `.nvmrc`.
+If `nvm` is not a function in your shell, run `source ~/.nvm/nvm.sh` first.
 When you need the dev server yourself, start it detached with `npx astro dev --background` and manage it with `npx astro dev stop | status | logs`.
 
 ## Rules that always apply
@@ -72,13 +74,13 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
 
 ## Definition of done
 
-In this order: `npm run build` passes, `npm run check` and `npm run guard` pass, accessibility and phone-width layout are checked for visual changes, docs are updated (`MAINTAINING.md`, `DESIGN.md`, `_template.yaml`, skills), then a clear commit message in English.
+In this order: `nvm use && npm run build` passes, `nvm use && npm run check` and `nvm use && npm run guard` pass, accessibility and phone-width layout are checked for visual changes, docs are updated (`MAINTAINING.md`, `DESIGN.md`, `_template.yaml`, skills), then a clear commit message in English.
 
 ## Finishing a task
 
 Before reporting a task as done:
 
-1. Run `npm run build`, `npm run check` and `npm run guard`.
+1. Run `nvm use && npm run build`, `nvm use && npm run check` and `nvm use && npm run guard`.
    Report the results, including failures.
    Do not describe work as verified if a step was skipped.
 2. Answer these two questions in a short paragraph at the end of the reply, even when the answer is "nothing".

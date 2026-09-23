@@ -8,7 +8,7 @@ argument-hint: [notice | news | gallery] [details]
 
 Request, if given: $ARGUMENTS
 
-Pick the collection, copy its `_template.yaml`, name the copy, fill it in, and run `npm run build`.
+Pick the collection, copy its `_template.yaml`, name the copy, fill it in, and run `nvm use && npm run build`.
 Dates are `YYYY-MM-DD`; use today unless the user says otherwise.
 Order on the site is automatic (newest first), so nothing else changes.
 

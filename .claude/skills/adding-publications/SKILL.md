@@ -32,7 +32,7 @@ Field meanings are in `src/content/publications/_template.yaml`; this skill cove
 3. Figure: the row shows a placeholder until `figure.image` is set.
    When the user provides an image, put it at `public/images/publications/<id>.png`, then set `image`, a one-sentence `alt` and the `ratio`.
 4. If the paper should appear on the home page, add a news item with `kind: paper` and `publication: <id>` (see the posting-updates skill).
-5. Run `npm run build`.
+5. Run `nvm use && npm run build`.
    It fails naming the file if a code or reference is wrong.
 
 ## Editing an existing paper

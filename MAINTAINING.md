@@ -151,11 +151,12 @@ Skip this section if web editing is enough. Useful for larger changes or reviewi
 # 1) One time: clone the repo
 git clone <repo URL> && cd acss-homepage
 
-# 2) Install tools (requires Node.js 22 or newer; with nvm: `nvm use` reads .nvmrc)
-npm install
+# 2) Install tools. Requires Node.js 22 or newer: `nvm use` picks it (reads .nvmrc),
+#    so always put it in front of npm commands as shown.
+nvm use && npm install
 
 # 3) Run the preview server → open http://localhost:4321 in a browser
-npm run dev
+nvm use && npm run dev
 
 # 4) Edit content/code and save → the browser reloads automatically
 ```

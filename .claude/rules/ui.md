@@ -10,7 +10,7 @@ paths:
 # UI code rules
 
 `npm run guard` enforces the first three rules.
-Run it before reporting done.
+Run `nvm use && npm run guard` before reporting done.
 
 - Color, spacing, radius, shadow, motion and font values come from the tokens in `src/styles/tokens.css`.
   `DESIGN.md` section 9 lists exactly what must be a token.

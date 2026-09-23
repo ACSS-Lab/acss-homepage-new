@@ -43,4 +43,4 @@ Change only the fields asked for.
 Order is automatic (members by role then join date; interns and alumni newest first).
 Use `order` only when the user asks to pin someone.
 
-Finish with `npm run build`.
+Finish with `nvm use && npm run build`.

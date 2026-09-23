@@ -32,16 +32,17 @@ Content (publications, members, projects, gallery, notices) lives in YAML files 
 
 ## Development
 
-Requires Node.js 22 or newer (`nvm use` reads `.nvmrc`).
+Requires Node.js 22 or newer.
+The default shell may have an older Node, so always run `nvm use` (it reads `.nvmrc`) in the same command, as shown below.
 
 ```bash
-npm install
-npm run dev      # local preview at http://localhost:4321
-npm run build    # static build into dist/ (includes the content schema check)
-npm run preview  # serve the build output
-npm run check    # type check
-npm run guard    # project rules (lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs)
+nvm use && npm install
+nvm use && npm run dev      # local preview at http://localhost:4321
+nvm use && npm run build    # static build into dist/ (includes the content schema check)
+nvm use && npm run preview  # serve the build output
+nvm use && npm run check    # type check
+nvm use && npm run guard    # project rules (lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs)
 ```
 
-Before opening a pull request, `npm run build`, `npm run check` and `npm run guard` must pass.
+Before opening a pull request, `nvm use && npm run build`, `nvm use && npm run check` and `nvm use && npm run guard` must pass.
 When the design or the content model changes, update `DESIGN.md`, `MAINTAINING.md` or the affected `_template.yaml` in the same change.
