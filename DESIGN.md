@@ -189,8 +189,9 @@
 
 ### Team page
 - Three tabs selected by the URL fragment (`#current`, `#interns`, `#alumni`) from the banner's Members dropdown, whose entries carry counts and highlight the tab in view. The header menu links to the same fragments.
-- **Current members**: role sections (dot-and-rule heading with a gray count), two `PersonCard`s per row with join date top-right, an uppercase "Research interest" label and `AreaChip`s (family-colored code chips; full name on hover). A lab representative gets an uppercase `--navy-100` badge next to the name.
-- **Undergraduate interns**: a 280px intro column and a ruled list (name + Korean name / topic / term) instead of cards.
+- **Current members**: role sections (dot-and-rule heading with a gray count), `PersonCard`s two per row while the column fits two 400px cards (one otherwise), with join date top-right, an uppercase "Research interest" label and `AreaChip`s (family-colored code chips; full name on hover).
+  A lab representative gets an uppercase `--navy-100` badge next to the name.
+- **Undergraduate interns**: a 280px intro column (stacked below `lg`) and a ruled list (name + Korean name / topic / term) instead of cards; below `sm` the topic wraps under the name.
 - **Alumni**: degree sections of `PersonCard`s showing years in the lab, degree title, an optional note and "Current affiliation".
 - A `--gray-100` join banner with a primary button closes the page except on the Alumni tab.
 
@@ -247,8 +248,9 @@
 - `EmptyState`: a centered white card with the "nothing here" sentence.
 
 ### Gallery
-- Four 4:3 cover cards per row, borderless: cover (`--radius-sm`, zooms 4.5% on hover while the card lifts 3px), a `--glass` photo-count chip top-right, `--fs-body` 600 title, `--fs-caption` date, neutral tag chips. Tag filter and pagination reuse the Projects parts.
+- Four 4:3 cover cards per row (three below `lg`, two below `md`), borderless: cover (`--radius-sm`, zooms 4.5% on hover while the card lifts 3px), a `--glass` photo-count chip top-right, `--fs-body` 600 title, `--fs-caption` date, neutral tag chips. Tag filter and pagination reuse the Projects parts.
 - **Photo viewer**: the `fullscreen` Modal variant on `--overlay-dark`. Header with title, date and translucent tag chips; a 3:2 stage (`--ph-dark` until the photo exists, `object-fit: cover` after) between 52px round arrows; a caption line; and an 84x56 thumbnail strip where the current thumb has a 2px white border and the rest sit at 50% opacity. Left/right arrow keys step through; photos wrap around.
+  On phones the arrows overlay the photo and the frame fills the width at 3:2.
 
 ### Modal window
 - Native `<dialog>` (`Modal`): white `--radius-lg` card, max 840px / 88vh (below `md`: the viewport minus a `--gutter` on each side), `--shadow-lg`, over an `--overlay` backdrop; pops in (280ms) with a fading backdrop. Escape, focus trapping and focus return come from the browser; page scroll is locked while open; backdrop click closes when the window opts in. A 40px round `--gray-100` close button (lucide `x`) sits top-right.

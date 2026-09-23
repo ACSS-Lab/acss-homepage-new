@@ -61,7 +61,7 @@ const piSubtitle = [pi.nameKo, pi.title].filter(Boolean).join(' · ');
 
 <style>
   .page {
-    padding-bottom: var(--space-24);
+    padding-bottom: var(--space-section);
   }
 
   .section {
@@ -77,9 +77,10 @@ const piSubtitle = [pi.nameKo, pi.title].filter(Boolean).join(' · ');
     margin: 0 auto;
   }
 
+  /* Two cards per row when there is room for two 400px cards, else one */
   .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
     gap: 18px;
     margin-top: 18px;
   }
@@ -94,5 +95,10 @@ const piSubtitle = [pi.nameKo, pi.title].filter(Boolean).join(' · ');
     margin-top: 2px;
     font: 400 var(--fs-sm) / 1.6 var(--font-sans);
     color: var(--gray-700);
+  }
+  @media (max-width: 767px) {
+    .section {
+      padding-top: var(--space-10);
+    }
   }
 </style>

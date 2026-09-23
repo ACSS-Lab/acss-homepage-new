@@ -233,6 +233,15 @@ const note = (n: number) => labels.photoNote.replace('{path}', `/images/gallery/
     overflow-x: auto;
   }
 
+  /* Centered while the strip fits, scrollable from the first thumb once it overflows */
+  .thumb:first-child {
+    margin-left: auto;
+  }
+
+  .thumb:last-child {
+    margin-right: auto;
+  }
+
   .thumb {
     flex: none;
     width: 84px;
@@ -260,5 +269,45 @@ const note = (n: number) => labels.photoNote.replace('{path}', `/images/gallery/
   .thumb[aria-current='true'] {
     border-color: var(--white);
     opacity: 1;
+  }
+  /* Phones: arrows overlay the photo instead of flanking it */
+  @media (max-width: 767px) {
+    .head {
+      padding: var(--space-4) var(--gutter) var(--space-3);
+    }
+
+    .stage {
+      position: relative;
+      padding: 0 var(--gutter);
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 1;
+      width: 44px;
+      height: 44px;
+      transform: translateY(-50%);
+    }
+
+    .stage > .arrow:first-of-type {
+      left: var(--space-5);
+    }
+
+    .stage > .arrow:last-of-type {
+      right: var(--space-5);
+    }
+
+    .frame {
+      width: 100%;
+      height: auto;
+      max-height: none;
+      aspect-ratio: 3 / 2;
+      padding: var(--space-4);
+    }
+
+    .thumbs {
+      padding: var(--space-4) var(--gutter) var(--space-5);
+    }
   }
 </style>

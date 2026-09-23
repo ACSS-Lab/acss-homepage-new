@@ -160,9 +160,10 @@ const internTerm = (intern: (typeof team.interns)[number]) => `${intern.year} ${
     margin-top: 30px;
   }
 
+  /* Two cards per row when the column is wide enough for two 400px cards, else one */
   .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
     gap: 18px;
     margin-top: 18px;
   }
@@ -234,11 +235,11 @@ const internTerm = (intern: (typeof team.interns)[number]) => `${intern.year} ${
 
   /* The alumni tab has no join banner under it, so it carries the page's bottom padding itself. */
   .panel[data-tab-panel='alumni'] {
-    padding-bottom: var(--space-24);
+    padding-bottom: var(--space-section);
   }
 
   .join-section {
-    padding-block: var(--space-14) var(--space-24);
+    padding-block: var(--space-14) var(--space-section);
   }
 
   .join {
@@ -260,5 +261,51 @@ const internTerm = (intern: (typeof team.interns)[number]) => `${intern.year} ${
     margin: var(--space-2) 0 0;
     font: 400 var(--fs-body) / 1.6 var(--font-sans);
     color: var(--gray-700);
+  }
+  @media (max-width: 1023px) {
+    .interns {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-6);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .panel {
+      padding-top: var(--space-10);
+    }
+
+    .join {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-5);
+      padding: var(--space-6) var(--space-5);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .intern {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'name term'
+        'topics topics';
+      gap: var(--space-1) var(--space-4);
+    }
+
+    .intern-name {
+      grid-area: name;
+    }
+
+    .intern-topics {
+      grid-area: topics;
+    }
+
+    .intern-term {
+      grid-area: term;
+    }
+
+    .alumni-head {
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
   }
 </style>

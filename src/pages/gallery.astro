@@ -52,7 +52,7 @@ const tabs = [
   }
 
   .list {
-    padding-block: var(--space-10) var(--space-24);
+    padding-block: var(--space-10) var(--space-section);
   }
 
   .grid {
@@ -60,5 +60,17 @@ const tabs = [
     grid-template-columns: repeat(4, 1fr);
     gap: 26px 22px;
     margin-top: 28px;
+  }
+  @media (max-width: 1023px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-5) var(--space-4);
+    }
   }
 </style>

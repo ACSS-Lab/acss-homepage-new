@@ -116,7 +116,7 @@ let position = 0;
   }
 
   .list {
-    padding-block: var(--space-14) var(--space-24);
+    padding-block: var(--space-14) var(--space-section);
   }
 
   .head {
@@ -148,5 +148,17 @@ let position = 0;
 
   .groups {
     margin-top: var(--space-6);
+  }
+  @media (max-width: 767px) {
+    .head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+
+    .footnote {
+      max-width: none;
+      text-align: left;
+    }
   }
 </style>
