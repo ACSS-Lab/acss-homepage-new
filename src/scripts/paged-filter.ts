@@ -2,7 +2,7 @@
 //
 //   [data-paged data-per-page="4"]           root
 //     [data-filter-chip data-value="all"]    chips; aria-pressed marks the active one; "all" matches everything
-//     [data-item data-filter="ongoing"]      list items, in display order
+//     [data-item data-filter="a b"]          list items, in display order; space-separated values
 //     [data-filter-empty]                    shown when nothing matches
 //     [data-pagination]                      hidden when nothing matches
 //       [data-page="0"]                      one button per page, rendered for the largest possible count
@@ -26,7 +26,7 @@ export function initPagedFilter(root: ParentNode = document): void {
     let page = 0;
 
     const render = () => {
-      const matched = items.filter((item) => filter === 'all' || item.dataset.filter === filter);
+      const matched = items.filter((item) => filter === 'all' || (item.dataset.filter ?? '').split(/\s+/).includes(filter));
       const pages = Math.max(1, Math.ceil(matched.length / perPage));
       page = Math.min(page, pages - 1);
       const first = page * perPage;

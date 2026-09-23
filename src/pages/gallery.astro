@@ -1,0 +1,64 @@
+---
+import AlbumCard from '../components/gallery/AlbumCard.astro';
+import GalleryLightbox from '../components/gallery/GalleryLightbox.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import EmptyState from '../components/ui/EmptyState.astro';
+import Pagination from '../components/ui/Pagination.astro';
+import UnderlineTabs from '../components/ui/UnderlineTabs.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { galleryTags, getGallery, getPage } from '../lib/content';
+
+const [page, posts] = await Promise.all([getPage('gallery'), getGallery()]);
+const { filter, labels } = page;
+
+const photoTotal = posts.reduce((sum, post) => sum + post.photos.length, 0);
+const countLine = page.hero.countLine.replace('{posts}', String(posts.length)).replace('{photos}', String(photoTotal));
+const tabs = [
+  { value: 'all', label: filter.all, count: posts.length },
+  ...galleryTags(posts).map((tag) => ({ value: tag, label: tag, count: posts.filter((p) => p.tags.includes(tag)).length })),
+];
+---
+
+<BaseLayout title={page.title}>
+  <PageHero title={page.hero.title} note={page.hero.note}>
+    <p class="count">{countLine}</p>
+  </PageHero>
+
+  <section class="container list" data-paged data-per-page={page.perPage}>
+    <UnderlineTabs label={filter.label} tabs={tabs} />
+
+    <div class="grid">
+      {posts.map((post, i) => <AlbumCard post={post} labels={labels} showTags={page.showTags} index={i} />)}
+    </div>
+
+    <EmptyState hidden>{filter.empty}</EmptyState>
+    <Pagination pages={Math.ceil(posts.length / page.perPage)} />
+  </section>
+
+  {posts.map((post) => <GalleryLightbox post={post} labels={labels} />)}
+</BaseLayout>
+
+<script>
+  import { initPagedFilter } from '../scripts/paged-filter';
+  initPagedFilter();
+</script>
+
+<style>
+  .count {
+    margin: 22px 0 0;
+    font: 400 var(--fs-caption) / 1.5 var(--font-sans);
+    color: var(--on-dark-muted);
+    text-align: center;
+  }
+
+  .list {
+    padding-block: var(--space-10) var(--space-24);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px 22px;
+    margin-top: 28px;
+  }
+</style>

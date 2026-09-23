@@ -7,10 +7,11 @@
     "./.astro/collections/navigation.schema.json": "src/content/site/navigation.yaml",
     "./.astro/collections/ui.schema.json": "src/content/site/ui.yaml",
     "./.astro/collections/areas.schema.json": "src/content/taxonomy/areas.yaml",
-    "./.astro/collections/team.schema.json": "src/content/team/*.yaml",
+    "./.astro/collections/team.schema.json": "src/content/team/**/*.yaml",
     "./.astro/collections/publications.schema.json": "src/content/publications/*.yaml",
     "./.astro/collections/researchAreas.schema.json": "src/content/research-areas/*.yaml",
     "./.astro/collections/projects.schema.json": "src/content/projects/*.yaml",
+    "./.astro/collections/gallery.schema.json": "src/content/gallery/*.yaml",
     "./.astro/collections/tracks.schema.json": "src/content/contact/tracks.yaml",
     "./.astro/collections/pages.schema.json": "src/content/pages/*.yaml"
   }

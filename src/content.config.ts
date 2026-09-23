@@ -30,6 +30,12 @@ const href = z
 /** Year and month, written `2026-03`. */
 const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Write the date as year-month, e.g. 2026-03');
 
+/** Calendar date written `2026-03-06`. YAML reads it as a date; it is kept as that string. */
+const isoDate = z
+  .union([z.date(), z.string()])
+  .transform((d) => (d instanceof Date ? d.toISOString().slice(0, 10) : d))
+  .pipe(z.string().regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, 'Write the date as year-month-day, e.g. 2026-03-06'));
+
 /** Path of a file under public/, e.g. `/images/team/gildong-hong.jpg`. */
 const imagePath = z.string().regex(/^\/images\/.+\.(jpe?g|png|webp|avif|gif)$/i, 'Image path must look like /images/<folder>/<file>.jpg');
 
@@ -89,6 +95,7 @@ const ui = defineCollection({
     carousel: z.object({ previous: z.string(), next: z.string() }),
     pagination: z.object({ previous: z.string(), next: z.string(), page: z.string().includes('{n}') }),
     modal: z.object({ close: z.string() }),
+    lightbox: z.object({ previous: z.string(), next: z.string(), thumb: z.string().includes('{n}') }),
     publicationTypes: z.object({ journal: z.string(), conference: z.string(), preprint: z.string(), patent: z.string() }),
     person: z.object({
       email: z.string(),
@@ -289,6 +296,25 @@ const projects = defineCollection({
 });
 
 // ----------------------------------------------------------------------------
+// gallery — photo posts; one file per post, newest first
+// ----------------------------------------------------------------------------
+const gallery = defineCollection({
+  loader: folder('gallery'),
+  schema: z
+    .object({
+      title: z.string(),
+      date: isoDate,
+      tags: z.array(z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'Tags are lowercase words joined with hyphens')).min(1),
+      photos: z.array(imagePath).default([]), // viewing order; the first is the cover unless `cover` is set
+      cover: imagePath.optional(),
+      placeholderCount: z.number().int().min(1).optional(), // only until the photos are uploaded
+    })
+    .refine((g) => g.photos.length > 0 || g.placeholderCount, {
+      message: 'List the `photos`, or set `placeholderCount` until they are uploaded.',
+    }),
+});
+
+// ----------------------------------------------------------------------------
 // pages — the wording of each page (titles, section names, button labels).
 // One file per page; `page` must equal the file name.
 // ----------------------------------------------------------------------------
@@ -355,6 +381,20 @@ const pages = defineCollection({
       }),
     }),
     z.object({
+      page: z.literal('gallery'),
+      title: z.string(),
+      hero: z.object({ title: z.string(), note: z.string().optional(), countLine: z.string() }),
+      perPage: z.number().int().min(4).max(16).default(8),
+      showTags: z.boolean().default(true),
+      filter: z.object({ label: z.string(), all: z.string(), empty: z.string() }),
+      labels: z.object({
+        photoCount: z.string().includes('{n}'),
+        coverNote: z.string().includes('{path}'),
+        photoNote: z.string().includes('{path}'),
+        caption: z.string(),
+      }),
+    }),
+    z.object({
       page: z.literal('contact'),
       title: z.string(),
       join: z.object({
@@ -416,4 +456,4 @@ const prose = defineCollection({
 // ============================================================================
 // Register collections — a folder not listed here is ignored by Astro.
 // ============================================================================
-export const collections = { site, navigation, ui, areas, team, publications, projects, researchAreas, tracks, pages, prose };
+export const collections = { site, navigation, ui, areas, team, publications, projects, researchAreas, gallery, tracks, pages, prose };

@@ -63,6 +63,8 @@
 --on-dark-border: rgba(255,255,255,.16);
 --on-dark-fill:   rgba(255,255,255,.09);  /* pill/segmented-control background */
 --on-dark-fill-hover: rgba(255,255,255,.1);
+--on-dark-fill-strong: rgba(255,255,255,.2);   /* button hover on dark */
+--on-dark-border-strong: rgba(255,255,255,.22);
 
 /* Textures */
 --ph:          repeating-linear-gradient(135deg,#EDEFF2 0 9px,#E4E8EC 9px 18px);  /* image placeholder */
@@ -70,6 +72,8 @@
 --stripe-dark: repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 14px,rgba(255,255,255,.015) 14px 28px);  /* dark hero overlay */
 --scrim-hero:  linear-gradient(180deg,rgba(10,27,61,.72) 0%,rgba(10,27,61,.88) 55%,rgba(10,27,61,.97) 100%);  /* tall hero: keeps text readable over a background image */
 --overlay:         rgba(10,27,61,.72);  /* page dimmed behind a modal */
+--overlay-dark:    rgba(6,14,32,.92);   /* full-screen photo viewer */
+--glass:           rgba(255,255,255,.9); /* frosted chip over imagery */
 --scrim-card:      linear-gradient(to top,rgba(10,27,61,.88) 0%,rgba(10,27,61,.42) 46%,rgba(10,27,61,.06) 100%);  /* image card, selected */
 --scrim-card-idle: linear-gradient(to top,rgba(10,27,61,.9) 0%,rgba(10,27,61,.58) 52%,rgba(10,27,61,.3) 100%);    /* image card, idle */
 ```
@@ -195,6 +199,10 @@
 - `UnderlineTabs`: an uppercase label in a 76px rail, then text tabs with a gray count; the active tab is `--ink` 600 on a 2px `--navy-600` underline, idle tabs `--gray-500`.
 - `Pagination`: 44px square buttons (`--radius-sm`, `--gray-300` border), current page `--navy-600` filled, arrows disabled at the ends; sits under a `--gray-300` rule. Page changes replay the cards' `.rise` entrance.
 - `EmptyState`: a centered white card with the "nothing here" sentence.
+
+### Gallery
+- Four 4:3 cover cards per row, borderless: cover (`--radius-sm`, zooms 4.5% on hover while the card lifts 3px), a `--glass` photo-count chip top-right, `--fs-body` 600 title, `--fs-caption` date, neutral tag chips. Tag filter and pagination reuse the Projects parts.
+- **Photo viewer**: the `fullscreen` Modal variant on `--overlay-dark`. Header with title, date and translucent tag chips; a 3:2 stage (`--ph-dark` until the photo exists, `object-fit: cover` after) between 52px round arrows; a caption line; and an 84x56 thumbnail strip where the current thumb has a 2px white border and the rest sit at 50% opacity. Left/right arrow keys step through; photos wrap around.
 
 ### Modal window
 - Native `<dialog>` (`Modal`): white `--radius-lg` card, max 840px / 88vh, `--shadow-lg`, over an `--overlay` backdrop; pops in (280ms) with a fading backdrop. Escape, focus trapping and focus return come from the browser; page scroll is locked while open; backdrop click closes when the window opts in. A 40px round `--gray-100` close button (lucide `x`) sits top-right.

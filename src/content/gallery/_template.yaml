@@ -1,0 +1,17 @@
+# TEMPLATE — copy this file to add a gallery post. Files starting with "_" are ignored by the site.
+# Name the copy with a short id in lowercase-with-hyphens, e.g. welcome-2026.yaml.
+# Photos go to public/images/gallery/<id>/ and are listed below in viewing order.
+
+title: 2026 New Member Welcome
+date: 2026-03-06 # year-month-day; posts are shown newest first
+tags: [new-member, lab-life] # lowercase-with-hyphens; the tag filter is built from these
+
+# The photos, in order. The first one is the cover unless `cover` is set.
+photos:
+  - /images/gallery/welcome-2026/01.jpg
+  - /images/gallery/welcome-2026/02.jpg
+# cover: /images/gallery/welcome-2026/03.jpg   # optional; 4:3 crop
+
+# Only while the photos are not uploaded yet: how many there will be. Delete
+# this line once `photos` is filled in.
+# placeholderCount: 7

@@ -1,0 +1,30 @@
+# Wording of the Gallery page (/gallery/).
+# The posts themselves are in src/content/gallery/.
+
+page: gallery
+title: Gallery # browser tab title
+
+hero:
+  title: Gallery
+  # {posts} and {photos} are replaced with the counts.
+  countLine: "{posts} posts · {photos} photos"
+
+perPage: 8 # posts per page (4-16)
+showTags: true # show tag chips on the cards
+
+filter:
+  label: Tag
+  all: All
+  empty: No posts match this tag.
+
+labels:
+  # {n} is replaced with the number of photos.
+  photoCount: "{n}+"
+  # Shown on a card until its cover is added. {path} is where the file should go.
+  coverNote: "cover — {path} · 4:3 cover"
+  # Shown in the viewer for a photo that is not uploaded yet.
+  photoNote: |-
+    photo — {path}
+    original aspect preserved · fitted to the 3:2 viewing frame without letterboxing
+  # Caption under each photo in the viewer. {title}, {n} and {total} are replaced.
+  caption: "{title} · {n} / {total}"

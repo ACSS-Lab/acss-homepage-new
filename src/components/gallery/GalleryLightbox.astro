@@ -1,0 +1,264 @@
+---
+// Full-screen photo viewer for one gallery post (scripts/lightbox.ts).
+import Icon from '../ui/Icon.astro';
+import Modal from '../ui/Modal.astro';
+import { getUi, type GalleryPost } from '../../lib/content';
+import { formatDate } from '../../lib/format';
+import { link } from '../../lib/url';
+
+interface Props {
+  post: GalleryPost;
+  labels: { photoNote: string; caption: string };
+}
+
+const { post, labels } = Astro.props;
+const ui = await getUi();
+const total = post.photos.length;
+const pad = (n: number) => String(n).padStart(2, '0');
+const caption = (n: number) => labels.caption.replace('{title}', post.title).replace('{n}', pad(n)).replace('{total}', pad(total));
+const note = (n: number) => labels.photoNote.replace('{path}', `/images/gallery/${post.id}/${pad(n)}.jpg`);
+---
+
+<Modal id={`gallery-${post.id}`} label={post.title} variant="fullscreen">
+  <div class="viewer" data-lightbox>
+    <div class="head">
+      <div class="head-text">
+        <div class="title">{post.title}</div>
+        <div class="meta">
+          <span class="date">{formatDate(post.date)}</span>
+          {post.tags.map((tag) => <span class="tag">{tag}</span>)}
+        </div>
+      </div>
+      <button class="close" type="button" aria-label={ui.modal.close} data-modal-close>
+        <Icon name="x" size={20} />
+      </button>
+    </div>
+
+    <div class="stage">
+      <button class="arrow" type="button" aria-label={ui.lightbox.previous} data-lightbox-prev>
+        <Icon name="chevron-left" size={22} />
+      </button>
+      <div class="shots">
+        {
+          post.photos.map((photo) => (
+            <div class="shot" data-shot={photo.n - 1} hidden={photo.n !== 1}>
+              <div class="frame">
+                {photo.src ? <img src={link(photo.src)} alt={caption(photo.n)} loading="lazy" decoding="async" /> : <span class="note">{note(photo.n)}</span>}
+              </div>
+              <div class="caption">{caption(photo.n)}</div>
+            </div>
+          ))
+        }
+      </div>
+      <button class="arrow" type="button" aria-label={ui.lightbox.next} data-lightbox-next>
+        <Icon name="chevron-right" size={22} />
+      </button>
+    </div>
+
+    <div class="thumbs">
+      {
+        post.photos.map((photo) => (
+          <button class="thumb" type="button" aria-label={ui.lightbox.thumb.replace('{n}', String(photo.n))} aria-current={photo.n === 1 ? 'true' : undefined} data-thumb={photo.n - 1}>
+            {photo.src && <img src={link(photo.src)} alt="" loading="lazy" decoding="async" />}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</Modal>
+
+<script>
+  import { initLightbox } from '../../scripts/lightbox';
+  initLightbox();
+</script>
+
+<style>
+  .viewer {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    color: var(--white);
+  }
+
+  .head {
+    display: flex;
+    flex: none;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: 22px 28px 16px;
+  }
+
+  .head-text {
+    min-width: 0;
+  }
+
+  .title {
+    font: 600 var(--fs-h3) / 1.35 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 7px;
+  }
+
+  .date {
+    font: 400 var(--fs-caption) / 1.5 var(--font-sans);
+    color: var(--on-dark-faint);
+  }
+
+  .tag {
+    padding: 5px 8px;
+    border-radius: var(--radius-full);
+    background: var(--on-dark-rule);
+    font: 500 var(--fs-caption) / 1 var(--font-sans);
+    color: var(--on-dark-strong);
+  }
+
+  .close,
+  .arrow {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: var(--radius-full);
+    color: var(--white);
+    cursor: pointer;
+  }
+
+  .close {
+    width: 44px;
+    height: 44px;
+    background: var(--on-dark-fill-hover);
+  }
+
+  .close:hover {
+    background: var(--on-dark-fill-strong);
+  }
+
+  .stage {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    min-height: 0;
+    padding: 0 28px;
+  }
+
+  .arrow {
+    width: 52px;
+    height: 52px;
+    border: 1px solid var(--on-dark-border-strong);
+    background: var(--on-dark-fill);
+  }
+
+  .arrow:hover {
+    background: var(--on-dark-fill-strong);
+  }
+
+  .shots {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    max-width: 1020px;
+    height: 100%;
+  }
+
+  .shot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .frame {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    height: 62vh;
+    max-height: calc(100% - 40px);
+    aspect-ratio: 3 / 2;
+    padding: var(--space-6);
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--ph-dark);
+    text-align: center;
+  }
+
+  .frame > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .frame:has(> img) {
+    padding: 0;
+  }
+
+  .note {
+    font: 400 var(--fs-caption) / 1.7 var(--font-sans);
+    color: var(--on-dark-faint);
+    white-space: pre-line;
+  }
+
+  .caption {
+    font: 400 var(--fs-meta) / 1.6 var(--font-sans);
+    color: var(--on-dark);
+    text-align: center;
+    text-wrap: pretty;
+  }
+
+  .thumbs {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 20px 28px 26px;
+    overflow-x: auto;
+  }
+
+  .thumb {
+    flex: none;
+    width: 84px;
+    height: 56px;
+    padding: 0;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    background: var(--ph-dark);
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  .thumb > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .thumb:hover {
+    opacity: 0.9;
+  }
+
+  .thumb[aria-current='true'] {
+    border-color: var(--white);
+    opacity: 1;
+  }
+</style>

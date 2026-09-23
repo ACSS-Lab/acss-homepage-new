@@ -39,6 +39,8 @@
   --on-dark-border: rgba(255, 255, 255, .16);
   --on-dark-fill: rgba(255, 255, 255, .09);
   --on-dark-fill-hover: rgba(255, 255, 255, .1);
+  --on-dark-fill-strong: rgba(255, 255, 255, .2);
+  --on-dark-border-strong: rgba(255, 255, 255, .22);
 
   /* Textures — striped image placeholder (light/dark) and the dark-section overlay */
   --ph: repeating-linear-gradient(135deg, #EDEFF2 0 9px, #E4E8EC 9px 18px);
@@ -49,6 +51,9 @@
 
   /* Dimmed page behind a modal window */
   --overlay: rgba(10, 27, 61, .72);
+  --overlay-dark: rgba(6, 14, 32, .92); /* full-screen photo viewer */
+  /* Frosted white chip over imagery */
+  --glass: rgba(255, 255, 255, .9);
 
   /* Bottom-up navy scrims that keep a title readable over a card image (selected / idle) */
   --scrim-card: linear-gradient(to top, rgba(10, 27, 61, .88) 0%, rgba(10, 27, 61, .42) 46%, rgba(10, 27, 61, .06) 100%);

@@ -21,6 +21,13 @@ pagination:
 modal:
   close: Close
 
+# Photo viewer
+lightbox:
+  previous: Previous image
+  next: Next image
+  # {n} is replaced with the photo number.
+  thumb: Photo {n}
+
 # Publication types, as shown on chips
 publicationTypes:
   journal: Journal

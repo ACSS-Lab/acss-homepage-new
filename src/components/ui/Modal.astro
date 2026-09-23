@@ -8,12 +8,14 @@ interface Props {
   label: string;
   /** Clicking the dimmed backdrop closes the window. */
   backdropClose?: boolean;
+  /** `fullscreen`: covers the viewport on a dark ground (photo viewer). */
+  variant?: 'card' | 'fullscreen';
 }
 
-const { id, label, backdropClose = false } = Astro.props;
+const { id, label, backdropClose = false, variant = 'card' } = Astro.props;
 ---
 
-<dialog class="modal" id={id} aria-label={label} data-backdrop-close={backdropClose ? '' : undefined}>
+<dialog class:list={['modal', variant]} id={id} aria-label={label} data-backdrop-close={backdropClose ? '' : undefined}>
   <div class="card"><slot /></div>
 </dialog>
 
@@ -50,6 +52,28 @@ const { id, label, backdropClose = false } = Astro.props;
   .card {
     max-height: 88vh;
     overflow-y: auto;
+  }
+
+  .fullscreen {
+    width: 100vw;
+    max-width: none;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+    background: var(--overlay-dark);
+    box-shadow: none;
+  }
+
+  .fullscreen::backdrop {
+    background: transparent;
+  }
+
+  .fullscreen > .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: none;
+    overflow: hidden;
   }
 
   @keyframes fadeIn {

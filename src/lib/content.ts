@@ -281,3 +281,38 @@ export async function getProjects(): Promise<Project[]> {
     })
     .sort((a, b) => b.start.localeCompare(a.start) || a.title.localeCompare(b.title));
 }
+
+// ----------------------------------------------------------------------------
+// gallery
+// ----------------------------------------------------------------------------
+
+export interface GalleryPhoto {
+  /** Image path, or undefined for a photo that is not uploaded yet. */
+  src?: string;
+  /** 1-based position in the post. */
+  n: number;
+}
+
+type GalleryData = CollectionEntry<'gallery'>['data'];
+export type GalleryPost = Omit<GalleryData, 'photos'> & { id: string; photos: GalleryPhoto[]; cover?: string };
+
+/** Gallery posts newest first, each with its photo list (placeholders when not uploaded yet). */
+export async function getGallery(): Promise<GalleryPost[]> {
+  const entries = (await getCollection('gallery')).map(({ id, data }) => ({ ...data, id }));
+
+  return entries
+    .map((post) => {
+      const file = `src/content/gallery/${post.id}.yaml`;
+      post.photos.forEach((photo) => assertImageExists(file, photo));
+      assertImageExists(file, post.cover);
+      const photos: GalleryPhoto[] =
+        post.photos.length > 0
+          ? post.photos.map((src, i) => ({ src, n: i + 1 }))
+          : Array.from({ length: post.placeholderCount ?? 0 }, (_, i) => ({ n: i + 1 }));
+      return { ...post, photos, cover: post.cover ?? post.photos[0] };
+    })
+    .sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
+}
+
+/** Every tag used by at least one post, in first-seen order (newest post first). */
+export const galleryTags = (posts: GalleryPost[]): string[] => [...new Set(posts.flatMap((p) => p.tags))];
