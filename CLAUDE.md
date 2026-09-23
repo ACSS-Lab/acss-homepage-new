@@ -219,6 +219,6 @@ npm run guard    # project rules: lucide-only icons, colors only in tokens.css, 
 - `src/styles/tokens.css` — design tokens.
 - `scripts/guard.mjs` — the rule checks behind `npm run guard`.
 - `public/images/` — photos and figures referenced from content (`/images/team/<id>.jpg`, `/images/publications/<id>.png`, ...). Until a file exists, the page shows a striped placeholder saying where it should go.
-- `draft/` — the design drafts the pages were ported from. Kept for side-by-side comparison until the port is signed off, then removed.
+- The design drafts the pages were ported from were removed after the port; they remain in git history at the tag `draft-reference`.
 - `public/admin/` — web admin (Sveltia CMS) config. **Planned, not set up yet.**
 - `.github/workflows/deploy.yml` — automatic deployment. **Planned, not set up yet.**
