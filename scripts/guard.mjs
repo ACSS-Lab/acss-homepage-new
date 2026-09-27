@@ -10,10 +10,12 @@
 //   - Media files live in src/assets/images: lowercase names, jpg/png/webp/avif/mp4,
 //     within the size caps below, and each one referenced from content.
 //   - The `template: true` marker that hides a _template.yaml from the web admin stays there.
+//   - Every YAML file under src/content parses, templates included (the web admin reads them all).
 
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parse as parseYaml } from 'yaml';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const CODE = /\.(astro|ts|css|mjs)$/;
@@ -123,6 +125,17 @@ for (const path of walk(join(root, 'src'))) {
         if (rule.pattern.test(line)) violations.push({ rule: rule.name, where: `${file}:${index + 1}`, line: line.trim() });
       }
     });
+}
+
+// Every YAML file under src/content must parse. The build skips the _template.yaml files, but the
+// web admin reads every file in a collection folder and a broken template blocks the whole list.
+for (const path of walk(join(root, 'src/content'))) {
+  if (!/\.ya?ml$/.test(path)) continue;
+  try {
+    parseYaml(readFileSync(path, 'utf8'));
+  } catch (error) {
+    violations.push({ rule: 'YAML file does not parse. Quote a value that contains ": " or starts with a special character.', where: relative(root, path), line: String(error.message).split('\n')[0] });
+  }
 }
 
 // Media files: names, formats, sizes and the old location.

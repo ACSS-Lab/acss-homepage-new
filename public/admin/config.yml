@@ -80,7 +80,7 @@ collections:
       - { label: Year, field: year }
       - { label: Type, field: type }
     fields:
-      - { name: template, widget: hidden, required: false }
+      - { name: template, widget: hidden }
       - { name: title, label: Title, widget: string }
       - name: authors
         label: Authors
@@ -89,18 +89,18 @@ collections:
         field: { name: author, label: Author, widget: string }
         hint: In published order, initial plus surname (S. Han); mark equal first authors with * and the corresponding author with †.
       - { name: venue, label: Venue, widget: string, hint: 'Full name; for a patent the number, for a preprint the arXiv id.' }
-      - { name: venueShort, label: Venue (short), widget: string, required: false, hint: Short name used on compact lists and on the venue link. }
+      - { name: venueShort, label: Venue (short), widget: string, required: false, hint: 'Short name used on compact lists and on the venue link.' }
       - { name: type, label: Type, widget: select, options: [journal, conference, preprint, patent] }
       - { name: year, label: Year, widget: number, value_type: int, min: 1900, max: 2100 }
-      - { name: month, label: Month, widget: number, value_type: int, min: 1, max: 12, hint: 1-12; orders papers within a year. }
-      - { name: selected, label: Selected, widget: boolean, default: false, hint: Features the paper in the Selected publications carousel. }
+      - { name: month, label: Month, widget: number, value_type: int, min: 1, max: 12, hint: '1-12; orders papers within a year.' }
+      - { name: selected, label: Selected, widget: boolean, default: false, hint: 'Features the paper in the Selected publications carousel.' }
       - name: areas
         label: Areas
         widget: list
         min: 1
         field: { name: code, label: Area code, widget: string, pattern: ['^[A-Za-z][A-Za-z0-9]*$', 'Codes are letters and digits only, e.g. StochCtrl'] }
         hint: Area codes from src/content/taxonomy/areas.yaml, e.g. StochCtrl, RL (at least one; the build stops on an unknown code).
-      - { name: summary, label: Summary, widget: text, hint: One or two sentences shown when the row is expanded, in plain words. }
+      - { name: summary, label: Summary, widget: text, hint: 'One or two sentences shown when the row is expanded, in plain words.' }
       - name: links
         label: Links
         widget: list
@@ -110,13 +110,13 @@ collections:
         fields:
           - { name: type, label: Type, widget: select, options: [project, venue, paper, slides, video, code] }
           - { name: url, label: URL, widget: string, pattern: ['^(https?://|/|#|mailto:)', 'Link must start with "/", "#", "http(s)://" or "mailto:"'] }
-          - { name: label, label: Label, widget: string, required: false, hint: Replaces the default chip text. }
+          - { name: label, label: Label, widget: string, required: false, hint: 'Replaces the default chip text.' }
       - name: figure
         label: Figure
         widget: object
         hint: Until an image is set the row shows a striped placeholder.
         fields:
-          - { name: ratio, label: Ratio, widget: string, default: '4/3', pattern: ['^\d+/\d+$', 'Write the ratio as width/height, e.g. 4/3'], hint: Shape of the figure as width/height. }
+          - { name: ratio, label: Ratio, widget: string, default: '4/3', pattern: ['^\d+/\d+$', 'Write the ratio as width/height, e.g. 4/3'], hint: 'Shape of the figure as width/height.' }
           - name: image
             label: Image
             widget: file
@@ -125,7 +125,7 @@ collections:
             public_folder: /images/publications
             accept: image/jpeg,image/png,image/webp,image/avif,image/heic,video/mp4
             hint: Name the file <id>.jpg or <id>.png before uploading (it is stored as <id>.webp), or a short silent <id>.mp4 loop up to 15 MB.
-          - { name: alt, label: Alt text, widget: string, required: false, hint: One sentence describing what the figure shows; required once an image is set. }
+          - { name: alt, label: Alt text, widget: string, required: false, hint: 'One sentence describing what the figure shows; required once an image is set.' }
 
   - name: projects
     label: Projects
@@ -152,12 +152,12 @@ collections:
       - { label: Ongoing, field: status, pattern: '^ongoing$' }
       - { label: Done, field: status, pattern: '^done$' }
     fields:
-      - { name: template, widget: hidden, required: false }
+      - { name: template, widget: hidden }
       - { name: title, label: Title, widget: string }
       - { name: status, label: Status, widget: select, options: [ongoing, done], default: ongoing }
       - { name: agency, label: Funding agency, widget: string }
-      - { name: start, label: Start, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2026-03'], hint: Year-month, e.g. 2026-03. }
-      - { name: end, label: End, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2029-02'], hint: Year-month; the planned end for an ongoing project. }
+      - { name: start, label: Start, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2026-03'], hint: 'Year-month, e.g. 2026-03.' }
+      - { name: end, label: End, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2029-02'], hint: 'Year-month; the planned end for an ongoing project.' }
       - { name: role, label: Role, widget: string, hint: 'For example "Lead institution (PI: S. Han)" or "Participating institution".' }
       - name: cover
         label: Cover
@@ -167,7 +167,7 @@ collections:
         public_folder: /images/projects
         accept: image/jpeg,image/png,image/webp,image/avif,image/heic,video/mp4
         hint: A 16:9 image named <id>.jpg (it is stored as <id>.webp), or a short silent <id>.mp4 loop up to 15 MB.
-      - { name: overview, label: Overview, widget: text, hint: A short paragraph shown in the project's detail window. }
+      - { name: overview, label: Overview, widget: text, hint: 'A short paragraph shown in the project''s detail window.' }
       - name: papers
         label: Papers
         widget: relation
@@ -198,7 +198,7 @@ collections:
     summary: '{{title}}'
     thumbnail: image
     fields:
-      - { name: template, widget: hidden, required: false }
+      - { name: template, widget: hidden }
       - { name: title, label: Title, widget: string }
       - name: image
         label: Card image
@@ -280,14 +280,14 @@ collections:
           - { label: Postdoc, value: postdoc }
           - { label: Ph.D. student, value: phd }
           - { label: M.S. student, value: ms }
-      - { name: joined, label: Joined, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2026-03'], hint: Year-month, e.g. 2026-03; a future date is shown as "Incoming". }
+      - { name: joined, label: Joined, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2026-03'], hint: 'Year-month, e.g. 2026-03; a future date is shown as "Incoming".' }
       - name: topics
         label: Topics
         widget: list
         required: false
         field: { name: code, label: Area code, widget: string, pattern: ['^[A-Za-z][A-Za-z0-9]*$', 'Codes are letters and digits only, e.g. StochCtrl'] }
         hint: Area codes from src/content/taxonomy/areas.yaml, e.g. StochCtrl, RL; leave empty if none yet.
-      - { name: representative, label: Lab representative, widget: boolean, default: false, hint: Shows the "Lab Representative" badge. }
+      - { name: representative, label: Lab representative, widget: boolean, default: false, hint: 'Shows the "Lab Representative" badge.' }
       - { name: email, label: E-mail, widget: string, type: email, required: false }
       - name: photo
         label: Photo
@@ -306,7 +306,7 @@ collections:
           - { name: homepage, label: Homepage, widget: string, type: url, required: false }
           - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
           - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
-      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: 'Rarely needed; lower numbers are listed first within the same group.' }
 
   - name: interns
     label: Undergraduate interns
@@ -356,7 +356,7 @@ collections:
           - { name: homepage, label: Homepage, widget: string, type: url, required: false }
           - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
           - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
-      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: 'Rarely needed; lower numbers are listed first within the same group.' }
 
   - name: alumni
     label: Alumni
@@ -383,8 +383,8 @@ collections:
       - { name: name, label: Name, widget: string }
       - { name: nameKo, label: Korean name, widget: string, required: false }
       - { name: degree, label: Degree, widget: select, options: [PhD, MS] }
-      - { name: joined, label: Joined, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2024-02'], hint: Year-month, e.g. 2024-02. }
-      - { name: graduated, label: Graduated, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2026-02'], hint: Year-month, e.g. 2026-02; not earlier than Joined. }
+      - { name: joined, label: Joined, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2024-02'], hint: 'Year-month, e.g. 2024-02.' }
+      - { name: graduated, label: Graduated, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2026-02'], hint: 'Year-month, e.g. 2026-02; not earlier than Joined.' }
       - { name: note, label: Note, widget: string, required: false, hint: 'For example "Research Assistant (Feb 2026 - Jun 2026)".' }
       - { name: now, label: Current affiliation, widget: string, required: false }
       - { name: email, label: E-mail, widget: string, type: email, required: false }
@@ -405,7 +405,7 @@ collections:
           - { name: homepage, label: Homepage, widget: string, type: url, required: false }
           - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
           - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
-      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: 'Rarely needed; lower numbers are listed first within the same group.' }
 
   - name: pi
     label: Principal investigator
@@ -444,7 +444,7 @@ collections:
           - { name: homepage, label: Homepage, widget: string, type: url, required: false }
           - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
           - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
-      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: 'Rarely needed; lower numbers are listed first within the same group.' }
 
   - name: visiting
     label: Visiting scholars
@@ -487,7 +487,7 @@ collections:
           - { name: homepage, label: Homepage, widget: string, type: url, required: false }
           - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
           - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
-      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: 'Rarely needed; lower numbers are listed first within the same group.' }
 
   - name: staff
     label: Staff
@@ -527,7 +527,7 @@ collections:
           - { name: homepage, label: Homepage, widget: string, type: url, required: false }
           - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
           - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
-      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: 'Rarely needed; lower numbers are listed first within the same group.' }
 
   - divider: true
 
@@ -555,12 +555,12 @@ collections:
     view_filters:
       - { label: Pinned, field: pinned, pattern: true }
     fields:
-      - { name: template, widget: hidden, required: false }
+      - { name: template, widget: hidden }
       - { name: title, label: Title, widget: string }
       - { name: date, label: Date, widget: datetime, type: date, format: YYYY-MM-DD, default: '{{now}}' }
-      - { name: pinned, label: Pinned, widget: boolean, default: false, hint: Pinned notices stay at the top. }
+      - { name: pinned, label: Pinned, widget: boolean, default: false, hint: 'Pinned notices stay at the top.' }
       - { name: badge, label: Badge, widget: string, required: false, hint: 'Short label shown on the right, e.g. "Recruiting".' }
-      - { name: link, label: Link, widget: string, required: false, pattern: ['^(https?://|/|#|mailto:)', 'Link must start with "/", "#", "http(s)://" or "mailto:"'], hint: Where the notice leads, e.g. /contact/ or an https:// URL. }
+      - { name: link, label: Link, widget: string, required: false, pattern: ['^(https?://|/|#|mailto:)', 'Link must start with "/", "#", "http(s)://" or "mailto:"'], hint: 'Where the notice leads, e.g. /contact/ or an https:// URL.' }
 
   - name: news
     label: News
@@ -585,12 +585,12 @@ collections:
     view_groups:
       - { label: Kind, field: kind }
     fields:
-      - { name: template, widget: hidden, required: false }
+      - { name: template, widget: hidden }
       - { name: kind, label: Kind, widget: select, options: [paper, award, grant, media] }
-      - { name: date, label: Date, widget: datetime, type: date, format: YYYY-MM-DD, default: '{{now}}', hint: Shown as year.month. }
-      - { name: title, label: Title, widget: string, required: false, hint: Fill exactly one of Title, Publication or Project. }
-      - { name: meta, label: Meta, widget: string, required: false, hint: Short text on the right (who, where, when); only with a Title. }
-      - { name: link, label: Link, widget: string, required: false, pattern: ['^(https?://|/|#|mailto:)', 'Link must start with "/", "#", "http(s)://" or "mailto:"'], hint: Only with a Title. }
+      - { name: date, label: Date, widget: datetime, type: date, format: YYYY-MM-DD, default: '{{now}}', hint: 'Shown as year.month.' }
+      - { name: title, label: Title, widget: string, required: false, hint: 'Fill exactly one of Title, Publication or Project.' }
+      - { name: meta, label: Meta, widget: string, required: false, hint: 'Short text on the right (who, where, when); only with a Title.' }
+      - { name: link, label: Link, widget: string, required: false, pattern: ['^(https?://|/|#|mailto:)', 'Link must start with "/", "#", "http(s)://" or "mailto:"'], hint: 'Only with a Title.' }
       - name: publication
         label: Publication
         widget: relation
@@ -631,7 +631,7 @@ collections:
       fields: [date, title]
       default: { field: date, direction: descending }
     fields:
-      - { name: template, widget: hidden, required: false }
+      - { name: template, widget: hidden }
       - { name: title, label: Title, widget: string }
       - { name: date, label: Date, widget: datetime, type: date, format: YYYY-MM-DD, default: '{{now}}' }
       - name: tags
@@ -657,4 +657,4 @@ collections:
         public_folder: '/images/gallery/{{slug}}'
         accept: image/jpeg,image/png,image/webp,image/avif,image/heic
         hint: Optional 4:3 photo used as the cover instead of the first photo.
-      - { name: placeholderCount, label: Placeholder count, widget: number, value_type: int, min: 1, required: false, hint: Only while the photos are not uploaded yet; how many there will be. Remove it once Photos is filled in. }
+      - { name: placeholderCount, label: Placeholder count, widget: number, value_type: int, min: 1, required: false, hint: 'Only while the photos are not uploaded yet; how many there will be. Remove it once Photos is filled in.' }

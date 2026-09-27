@@ -43,11 +43,13 @@ Pages, site settings, taxonomy, tracks and prose are not in the admin.
 - A team collection sets `group` as a hidden field with the group as `default`, and `folder` to the matching subfolder.
 - Cross-field rules the admin cannot check (for example "image needs alt") go into a `hint`; the build enforces them.
 - Never put a token, key or URL with a secret into the file; it is public.
+- In a one-line `{ ... }` field, quote the `hint` (a comma would start a new key) and any value with `: ` in it; a hidden field takes only `default`, never `required`.
+- Every file in a collection folder must be valid YAML, `_template.yaml` included; the admin reads them all and `npm run guard` parses them.
 
 ## Verify
 
 1. `nvm use && npm run build && nvm use && npm run guard`.
-2. `nvm use && npm run preview`, then in Chrome open `http://localhost:4321/admin/`: the login screen must show no red config error.
+2. `nvm use && npm run preview`, then in Chrome open `http://localhost:4321/admin/`: the login screen must show no red config error, and the browser console no "is not defined in the Sveltia CMS configuration schema" warning.
    A headless check of that screen: `node scripts/browser.mjs <probe>` with a probe that reads `document.body.innerText`.
 3. Ask the user to click **Work with Local Repository**, open the changed collection, and confirm the field shows and a saved entry builds.
 4. Run `nvm use && npm run guard` again after the user's test and revert any test entries (`git checkout -- src/content && git clean -fd src/content src/assets/images`).

@@ -11,6 +11,7 @@ paths:
   Every item folder has one; it documents every field and is the source of truth for field meanings.
   Keep it in step with the schema.
   The templates inside item folders start with `template: true`, which hides them from the web admin; a copy made by hand must drop that line (`npm run guard` checks).
+  A template must be valid YAML like any other file (quote a value containing `: `); the web admin reads every file in the folder and `npm run guard` parses them.
 - A file's name is its id, and ids are permanent.
   Publications are linked as `#pub-<id>` and referenced by projects, research areas and news; a team member's photo path is derived from the id.
   Never rename an existing file.
