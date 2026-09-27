@@ -54,7 +54,7 @@ const sections = await Promise.all(
               <div data-lang="ko" lang="ko"><section.prose.ko /></div>
 
               <Fragment slot="figure">
-                <Figure class="figure" src={section.figure.image} alt={section.figure.alt} note={section.figure.note} />
+                <Figure class="figure" src={section.figure.image} alt={section.figure.alt} note={section.figure.note} preset="visionFigure" />
                 {section.figure.caption && <p class="caption">{section.figure.caption}</p>}
               </Fragment>
             </EditorialRow>

@@ -32,9 +32,9 @@ const captionMeta = (post: GalleryPost) =>
   <div class="viewport" data-carousel data-loop style={`--autoplay-ms: ${intervalMs}ms`}>
     <div class="track">
       {
-        posts.map((post) => (
+        posts.map((post, i) => (
           <div class="slide">
-            <Figure class="cover" src={post.cover} alt="" />
+            <Figure class="cover" src={post.cover} alt="" preset="homeGallery" priority={i === 0} />
             <div class="caption">
               <span class="caption-title">{post.title}</span>
               <span class="caption-meta">{captionMeta(post)}</span>

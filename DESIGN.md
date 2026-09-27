@@ -87,6 +87,8 @@
 >
 > **Image placeholders**: until a real photo/figure exists, its slot shows the `--ph` stripes (`--ph-dark` on dark surfaces) with a short mono note describing the intended image. The slot keeps its final aspect ratio so the layout doesn't shift when the asset arrives.
 >
+> **Media**: every photo, figure and loop renders through `Figure`, which emits an image as WebP at the widths of its named preset (`MEDIA_SLOTS` in `src/lib/media.ts`) with a matching `sizes`, so each box downloads only the variant it needs. A `.mp4` (publication figures, project covers, the home hero) is a muted loop with no sound that plays while in view; under `prefers-reduced-motion` it stays on its poster (the same-named `.jpg`) and shows controls. No GIF anywhere.
+>
 > **Feel in practice**: most screens (publication lists, member lists) are white bg + black text + gray meta, with navy dotted in only on links, selected states, and primary buttons. The home hero and footer use `--navy-900` dark sections as "brand moments."
 
 ---
@@ -182,6 +184,7 @@ Card grids that share a column with a sidebar (Team, PI & Staffs) do not use a b
 - **Icons come from [lucide](https://lucide.dev/icons) only** — one consistent 2px-stroke set, colored with `currentColor`. Never hand-draw an SVG or use a text glyph (▾, →) as an icon. Brand logos lucide doesn't ship (LinkedIn) are the single exception and come from the pinned `simple-icons` package.
 - **Never use emojis unless explicitly requested.**
 - Research figures (About) are information, not decoration — always attach caption + alt text.
+- When a box that holds a `Figure` changes size, update its preset in `MEDIA_SLOTS` (`src/lib/media.ts`) in the same commit; the `sizes` there describe the rendered widths listed in this section.
 
 ### Navigation
 - **Home variant (`overlay`)**: fixed over the hero and transparent; white text and mark. Over the first 160px of scroll it fades to white in 1/20 steps, text turns dark past the midpoint and `--shadow-sm` appears past 75%.
@@ -353,6 +356,7 @@ Touch targets are 44px (`Button` grows to 44px on coarse pointers).
 - [ ] Full keyboard operation for dropdowns/filters
 - [ ] No color-only information (pair with text/icons)
 - [ ] Respect `prefers-reduced-motion`
+- [ ] Video loops are muted, have no sound track, and stay still under `prefers-reduced-motion`
 - [ ] No horizontal overflow at 360, 768, 1024 and 1440px (`npm run responsive`), and touch targets of 44px on phones
 
 ---
@@ -360,7 +364,7 @@ Touch targets are 44px (`Button` grows to 44px on coarse pointers).
 ## 8. Logo (slated for redesign)
 
 - The logo is being redesigned (confirmed). No logo file is in the repo yet: the header uses a plain navy mark and the home hero shows a placeholder slot until the new one ships.
-- Store assets in `public/images/logo/` as SVG (preferred) + PNG. Separate light/dark (navy/white) and horizontal/symbol variants.
+- Store assets in `src/assets/images/logo/` as SVG (preferred) + PNG. Separate light/dark (navy/white) and horizontal/symbol variants.
 - The large hero logo and the left "logo-image button" reuse the same symbol asset.
 
 ---

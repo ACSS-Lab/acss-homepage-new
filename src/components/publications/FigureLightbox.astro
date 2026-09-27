@@ -1,10 +1,10 @@
 ---
 // Window showing a paper's figure at its own aspect ratio, with the venue/date and title above.
+import Figure from '../ui/Figure.astro';
 import Icon from '../ui/Icon.astro';
 import Modal from '../ui/Modal.astro';
 import { getUi, type Publication } from '../../lib/content';
 import { formatMonthName } from '../../lib/format';
-import { link } from '../../lib/url';
 
 interface Props {
   publication: Publication;
@@ -29,7 +29,7 @@ const note = labels.figureNote.replace('{path}', `/images/publications/${pub.id}
       </button>
     </div>
     <div class="box" style={`--ratio: ${pub.figure.ratio}`}>
-      {pub.figure.image ? <img src={link(pub.figure.image)} alt={pub.figure.alt ?? ''} loading="lazy" decoding="async" /> : <span class="note">{note}</span>}
+      {pub.figure.image ? <Figure class="fig" src={pub.figure.image} alt={pub.figure.alt ?? ''} preset="pubLightbox" fit="contain" controls /> : <span class="note">{note}</span>}
     </div>
   </div>
 </Modal>
@@ -96,14 +96,13 @@ const note = labels.figureNote.replace('{path}', `/images/publications/${pub.id}
     background: var(--ph);
   }
 
-  .box:has(> img) {
+  .box:has(> .fig) {
     padding: 0;
   }
 
-  .box > img {
+  .fig {
     width: 100%;
     height: 100%;
-    object-fit: contain;
   }
 
   .note {

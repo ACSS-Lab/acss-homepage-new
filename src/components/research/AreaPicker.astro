@@ -1,8 +1,8 @@
 ---
 // Row of image cards, one per research area. The pressed card's detail panel is
 // shown below (see AreaDetail and scripts/area-picker.ts). The first area starts selected.
+import Figure from '../ui/Figure.astro';
 import type { ResearchArea } from '../../lib/content';
-import { link } from '../../lib/url';
 
 interface Props {
   areas: ResearchArea[];
@@ -18,7 +18,7 @@ const { areas, imageNote } = Astro.props;
     areas.map((area, i) => (
       <button class="card" type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-area-tab={area.id}>
         {area.image ? (
-          <img class="image" src={link(area.image)} alt="" loading="lazy" decoding="async" />
+          <Figure class="image" src={area.image} alt="" preset="areaCard" />
         ) : (
           <span class="image placeholder" />
         )}
@@ -79,7 +79,6 @@ const { areas, imageNote } = Astro.props;
   .image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
     opacity: 0.72;
   }
 

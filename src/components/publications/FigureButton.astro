@@ -3,6 +3,7 @@
 // shows a maximize badge on hover.
 import Figure from '../ui/Figure.astro';
 import Icon from '../ui/Icon.astro';
+import type { MediaSlot } from '../../lib/media';
 
 interface Props {
   dialogId: string;
@@ -10,14 +11,16 @@ interface Props {
   src?: string;
   alt: string;
   note: string;
+  /** Size of the thumbnail's box (lib/media.ts). */
+  preset: MediaSlot;
   class?: string;
 }
 
-const { dialogId, label, src, alt, note, class: className } = Astro.props;
+const { dialogId, label, src, alt, note, preset, class: className } = Astro.props;
 ---
 
 <button class:list={['fig-btn', className]} type="button" aria-label={label} data-modal-open={dialogId}>
-  <Figure class="fig" src={src} alt={alt} note={note} />
+  <Figure class="fig" src={src} alt={alt} note={note} preset={preset} />
   <span class="badge"><Icon name="maximize-2" size={14} /></span>
 </button>
 

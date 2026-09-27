@@ -1,45 +1,83 @@
 ---
-// An image slot. Shows the image when `src` is set; until then, the striped
-// placeholder with a note saying which image belongs here. The caller sizes the
+// A media slot. Shows the image, or the silent video loop, behind a content
+// path (`/images/...`, see lib/media.ts); until the file exists, the striped
+// placeholder with a note saying which file belongs here. The caller sizes the
 // box (width/height or aspect-ratio, border-radius) through `class`, and may set
 // `--figure-pad` to change the placeholder's inner padding.
-import { link } from '../../lib/url';
+//
+// An image is emitted as WebP at the widths of its `preset`, with the matching
+// `sizes`, so the browser downloads the variant its box needs. A video carries
+// no `autoplay`: scripts/media.ts plays it while it is in view, and leaves it on
+// its poster under prefers-reduced-motion.
+import { Image, getImage } from 'astro:assets';
+import { MEDIA_SLOTS, findMedia, type MediaSlot } from '../../lib/media';
 
 interface Props {
+  /** Content path such as `/images/team/gildong-hong.jpg`; unset while the file does not exist. */
   src?: string;
   alt: string;
+  /** The box this figure fills; picks the srcset widths and `sizes` (lib/media.ts). */
+  preset: MediaSlot;
   /** Placeholder text, e.g. where to put the file. */
   note?: string;
   /** `dark` for placeholders on navy surfaces. */
   tone?: 'light' | 'dark';
+  /** `contain` shows the whole image inside the box instead of filling it. */
+  fit?: 'cover' | 'contain';
+  /** Above the fold: load first, not lazily. */
+  priority?: boolean;
+  /** Video only: the browser's controls. Never inside a button. */
+  controls?: boolean;
+  /** Video only: `auto` for a loop that must start at once (hero). */
+  preload?: 'metadata' | 'auto';
   class?: string;
 }
 
-const { src, alt, note, tone = 'light', class: className, ...rest } = Astro.props;
+const { src, alt, preset, note, tone = 'light', fit = 'cover', priority = false, controls = false, preload = 'metadata', class: className, ...rest } = Astro.props;
+const { sizes, widths } = MEDIA_SLOTS[preset];
+const media = src ? findMedia(src) : undefined;
+// The poster is emitted at the largest width the slot can show.
+const poster = media?.kind === 'video' && media.poster ? (await getImage({ src: media.poster, width: widths[widths.length - 1], format: 'webp' })).src : undefined;
 ---
 
 {
-  src ? (
-    <div class:list={['figure', className]} {...rest}>
-      <img src={link(src)} alt={alt} loading="lazy" decoding="async" />
-    </div>
+  media ? (
+    <span class:list={['figure', fit, className]} {...rest}>
+      {media.kind === 'image' ? (
+        <Image src={media.image} alt={alt} widths={[...widths]} sizes={sizes} width={widths[0]} format="webp" class="media" priority={priority} />
+      ) : (
+        <video class="media" muted loop playsinline preload={preload} poster={poster} controls={controls} aria-label={alt || undefined} data-autoplay>
+          <source src={media.src} type="video/mp4" />
+        </video>
+      )}
+    </span>
   ) : (
-    <div class:list={['figure', 'placeholder', tone, className]} role="img" aria-label={alt} {...rest}>
+    <span class:list={['figure', 'placeholder', tone, className]} role="img" aria-label={alt} {...rest}>
       {note && <span class="note">{note}</span>}
-    </div>
+    </span>
   )
 }
 
+<script>
+  import { initMedia } from '../../scripts/media';
+  initMedia();
+</script>
+
 <style>
   .figure {
+    display: block;
     overflow: hidden;
   }
 
-  img {
+  .media {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .contain .media {
+    object-fit: contain;
   }
 
   .placeholder {

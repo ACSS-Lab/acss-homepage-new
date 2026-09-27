@@ -45,7 +45,7 @@ const detailsId = `pub-${pub.id}-details`;
       </span>
     </button>
     <div class="figure-slot">
-      <FigureButton dialogId={`figure-${pub.id}`} label={labels.openFigure.replace('{title}', pub.title)} src={pub.figure.image} alt={pub.figure.alt ?? ''} note={figureNote} />
+      <FigureButton dialogId={`figure-${pub.id}`} label={labels.openFigure.replace('{title}', pub.title)} src={pub.figure.image} alt={pub.figure.alt ?? ''} note={figureNote} preset="pubThumb" />
     </div>
   </div>
   <div class="details" id={detailsId} hidden>

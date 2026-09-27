@@ -19,6 +19,8 @@ Run `nvm use && npm run guard` before reporting done.
   Never hand-write an `<svg>` or use a glyph character as an icon.
   The one exception is `src/components/ui/BrandIcon.astro`, which holds brand logos lucide lacks.
 - No CDN scripts or stylesheets.
+- Images and video render only through `src/components/ui/Figure.astro`, with a `preset` from `MEDIA_SLOTS` in `src/lib/media.ts`.
+  Never write `<img>`, `<video>` or `<picture>` in another component, and never read a field of an `ImageMetadata` (that ships the original file).
 - No visible text, item list or setting in code.
   Labels come from `src/content/pages/<page>.yaml` or `src/content/site/ui.yaml`; items come from their collections through `src/lib/content.ts`.
   Pages never call `getCollection` or `getEntry` directly.

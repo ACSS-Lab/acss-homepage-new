@@ -1,10 +1,10 @@
 ---
 // Full-screen photo viewer for one gallery post (scripts/lightbox.ts).
+import Figure from '../ui/Figure.astro';
 import Icon from '../ui/Icon.astro';
 import Modal from '../ui/Modal.astro';
 import { getUi, type GalleryPost } from '../../lib/content';
 import { formatDate } from '../../lib/format';
-import { link } from '../../lib/url';
 
 interface Props {
   post: GalleryPost;
@@ -43,7 +43,7 @@ const note = (n: number) => labels.photoNote.replace('{path}', `/images/gallery/
           post.photos.map((photo) => (
             <div class="shot" data-shot={photo.n - 1} hidden={photo.n !== 1}>
               <div class="frame">
-                {photo.src ? <img src={link(photo.src)} alt={caption(photo.n)} loading="lazy" decoding="async" /> : <span class="note">{note(photo.n)}</span>}
+                {photo.src ? <Figure class="photo" src={photo.src} alt={caption(photo.n)} preset="galleryStage" /> : <span class="note">{note(photo.n)}</span>}
               </div>
               <div class="caption">{caption(photo.n)}</div>
             </div>
@@ -59,7 +59,7 @@ const note = (n: number) => labels.photoNote.replace('{path}', `/images/gallery/
       {
         post.photos.map((photo) => (
           <button class="thumb" type="button" aria-label={ui.lightbox.thumb.replace('{n}', String(photo.n))} aria-current={photo.n === 1 ? 'true' : undefined} data-thumb={photo.n - 1}>
-            {photo.src && <img src={link(photo.src)} alt="" loading="lazy" decoding="async" />}
+            {photo.src && <Figure class="thumb-photo" src={photo.src} alt="" preset="galleryThumb" />}
           </button>
         ))
       }
@@ -200,13 +200,12 @@ const note = (n: number) => labels.photoNote.replace('{path}', `/images/gallery/
     text-align: center;
   }
 
-  .frame > img {
+  .photo {
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 
-  .frame:has(> img) {
+  .frame:has(> .photo) {
     padding: 0;
   }
 
@@ -255,11 +254,9 @@ const note = (n: number) => labels.photoNote.replace('{path}', `/images/gallery/
     cursor: pointer;
   }
 
-  .thumb > img {
-    display: block;
+  .thumb-photo {
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 
   .thumb:hover {

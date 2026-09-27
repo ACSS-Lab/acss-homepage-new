@@ -36,7 +36,7 @@ const figureNote = (pub: Publication) => labels.figureNote.replace('{path}', `/i
         {
           publications.map((pub) => (
             <div class="slide">
-              <FigureButton class="figure" dialogId={`figure-${pub.id}`} label={labels.openFigure.replace('{title}', pub.title)} src={pub.figure.image} alt={pub.figure.alt ?? ''} note={figureNote(pub)} />
+              <FigureButton class="figure" dialogId={`figure-${pub.id}`} label={labels.openFigure.replace('{title}', pub.title)} src={pub.figure.image} alt={pub.figure.alt ?? ''} note={figureNote(pub)} preset="pubFeatured" />
               <div class="text">
                 <div class="meta">
                   <Badge tone="accent">{labels.selectedBadge}</Badge>

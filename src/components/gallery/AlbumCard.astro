@@ -19,7 +19,7 @@ const coverNote = labels.coverNote.replace('{path}', `/images/gallery/${post.id}
 
 <button class="card rise" type="button" style={`--i: ${index}`} data-item data-filter={post.tags.join(' ')} data-modal-open={`gallery-${post.id}`}>
   <span class="cover-frame">
-    <Figure class="cover" src={post.cover} alt="" note={coverNote} />
+    <Figure class="cover" src={post.cover} alt="" note={coverNote} preset="albumCover" />
     <span class="count">{labels.photoCount.replace('{n}', String(post.photos.length))}</span>
   </span>
   <span class="title">{post.title}</span>
