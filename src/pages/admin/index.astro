@@ -1,0 +1,30 @@
+---
+// The web admin (Sveltia CMS) at /admin/. The CMS draws its own UI, so this page has no
+// site layout, styles or fonts; its settings are public/admin/config.yml, served next to
+// it as /admin/config.yml. The package is bundled from npm, so nothing loads from a CDN.
+//
+// Test it with `npm run build && npm run preview`, never with `astro dev`: the dev server
+// reloads the page on every content save, which breaks the "Work with Local Repository" mode.
+import { getSite } from '../../lib/content';
+
+const site = await getSite();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link href="/admin/config.yml" type="application/yaml" rel="cms-config-url" />
+    <title>{site.shortName} Admin</title>
+  </head>
+  <body>
+    <script>
+      import CMS from '@sveltia/cms';
+
+      CMS.init();
+    </script>
+  </body>
+</html>

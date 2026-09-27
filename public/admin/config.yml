@@ -1,0 +1,660 @@
+# Web admin (Sveltia CMS) for the ACSS website: https://acss.kaist.ac.kr/admin/
+# Mirrors the schema in src/content.config.ts field by field. A field change is made in the schema,
+# the folder's _template.yaml, the matching skill, MAINTAINING.md and here in the same commit
+# (skill updating-admin-config). Not covered here, edit the files directly: pages/, site/,
+# contact/tracks.yaml, taxonomy/areas.yaml, prose/.
+# The page that loads this file is src/pages/admin/index.astro.
+
+backend:
+  name: github
+  repo: ACSS-Lab/acss-homepage-new
+  branch: dev
+  auth_methods: [token]
+  commit_messages:
+    create: 'content: add {{collection}} "{{slug}}" via the admin'
+    update: 'content: update {{collection}} "{{slug}}" via the admin'
+    delete: 'content: remove {{collection}} "{{slug}}" via the admin'
+    uploadMedia: 'content: add {{path}} via the admin'
+    deleteMedia: 'content: remove {{path}} via the admin'
+
+site_url: https://acss.kaist.ac.kr
+show_preview_links: false
+editor:
+  preview: false
+
+# Media: files live in src/assets/images/<folder>/ and content writes /images/<folder>/<file>.
+# Photos are converted to WebP and shrunk to 2048 px in the browser before they are committed;
+# npm run guard still caps the committed file at 3 MB (15 MB for the two .mp4 slots).
+media_folder: src/assets/images
+public_folder: /images
+media_libraries:
+  default:
+    config:
+      max_file_size: 15728640
+      slugify_filename: true
+      transformations:
+        jpeg: { format: webp, quality: 85, width: 2048, height: 2048 }
+        png: { format: webp, quality: 90, width: 2048, height: 2048 }
+        heic: { format: webp, quality: 85, width: 2048, height: 2048 }
+        webp: { format: webp, quality: 85, width: 2048, height: 2048 }
+
+# File names (ids) are lowercase ASCII; they are permanent and other files refer to them.
+slug:
+  encoding: ascii
+  clean_accents: true
+  lowercase: true
+
+output:
+  omit_empty_optional_fields: true
+
+collections:
+  # ---------------------------------------------------------------------------- research
+  - name: publications
+    label: Publications
+    label_singular: Publication
+    icon: article
+    description: One entry per paper. The id (file name) is permanent and is how projects, research areas and news refer to it.
+    folder: src/content/publications
+    format: yaml
+    extension: yaml
+    identifier_field: title
+    # `template: true` marks a _template.yaml; the field is declared so the filter is valid but never written.
+    filter: { field: template, value: null }
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: Short id from the venue and two-digit year, e.g. tro26 or neurips25 (lowercase letters and digits only).
+      pattern: ['^[a-z0-9]+$', 'Use lowercase letters and digits only, e.g. tro26']
+    summary: '{{title}} ({{year}})'
+    thumbnail: figure.image
+    sortable_fields:
+      fields: [year, month, title, type]
+      default: { field: year, direction: descending }
+    view_filters:
+      - { label: Selected, field: selected, pattern: true }
+      - { label: Journal, field: type, pattern: '^journal$' }
+      - { label: Conference, field: type, pattern: '^conference$' }
+      - { label: Preprint, field: type, pattern: '^preprint$' }
+      - { label: Patent, field: type, pattern: '^patent$' }
+    view_groups:
+      - { label: Year, field: year }
+      - { label: Type, field: type }
+    fields:
+      - { name: template, widget: hidden, required: false }
+      - { name: title, label: Title, widget: string }
+      - name: authors
+        label: Authors
+        widget: list
+        min: 1
+        field: { name: author, label: Author, widget: string }
+        hint: In published order, initial plus surname (S. Han); mark equal first authors with * and the corresponding author with †.
+      - { name: venue, label: Venue, widget: string, hint: 'Full name; for a patent the number, for a preprint the arXiv id.' }
+      - { name: venueShort, label: Venue (short), widget: string, required: false, hint: Short name used on compact lists and on the venue link. }
+      - { name: type, label: Type, widget: select, options: [journal, conference, preprint, patent] }
+      - { name: year, label: Year, widget: number, value_type: int, min: 1900, max: 2100 }
+      - { name: month, label: Month, widget: number, value_type: int, min: 1, max: 12, hint: 1-12; orders papers within a year. }
+      - { name: selected, label: Selected, widget: boolean, default: false, hint: Features the paper in the Selected publications carousel. }
+      - name: areas
+        label: Areas
+        widget: list
+        min: 1
+        field: { name: code, label: Area code, widget: string, pattern: ['^[A-Za-z][A-Za-z0-9]*$', 'Codes are letters and digits only, e.g. StochCtrl'] }
+        hint: Area codes from src/content/taxonomy/areas.yaml, e.g. StochCtrl, RL (at least one; the build stops on an unknown code).
+      - { name: summary, label: Summary, widget: text, hint: One or two sentences shown when the row is expanded, in plain words. }
+      - name: links
+        label: Links
+        widget: list
+        required: false
+        summary: '{{fields.type}}: {{fields.url}}'
+        hint: Only the links listed here are shown, always in the order project, venue, paper, slides, video, code.
+        fields:
+          - { name: type, label: Type, widget: select, options: [project, venue, paper, slides, video, code] }
+          - { name: url, label: URL, widget: string, pattern: ['^(https?://|/|#|mailto:)', 'Link must start with "/", "#", "http(s)://" or "mailto:"'] }
+          - { name: label, label: Label, widget: string, required: false, hint: Replaces the default chip text. }
+      - name: figure
+        label: Figure
+        widget: object
+        hint: Until an image is set the row shows a striped placeholder.
+        fields:
+          - { name: ratio, label: Ratio, widget: string, default: '4/3', pattern: ['^\d+/\d+$', 'Write the ratio as width/height, e.g. 4/3'], hint: Shape of the figure as width/height. }
+          - name: image
+            label: Image
+            widget: file
+            required: false
+            media_folder: /src/assets/images/publications
+            public_folder: /images/publications
+            accept: image/jpeg,image/png,image/webp,image/avif,image/heic,video/mp4
+            hint: Name the file <id>.jpg or <id>.png before uploading (it is stored as <id>.webp), or a short silent <id>.mp4 loop up to 15 MB.
+          - { name: alt, label: Alt text, widget: string, required: false, hint: One sentence describing what the figure shows; required once an image is set. }
+
+  - name: projects
+    label: Projects
+    label_singular: Project
+    icon: work
+    description: Funded research projects, newest start date first on the site.
+    folder: src/content/projects
+    format: yaml
+    extension: yaml
+    identifier_field: title
+    # `template: true` marks a _template.yaml; the field is declared so the filter is valid but never written.
+    filter: { field: template, value: null }
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: Short id in lowercase-with-hyphens, e.g. uam-safety; also the cover file name.
+      pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Use lowercase letters, digits and hyphens, e.g. uam-safety']
+    summary: '{{title}} ({{start}} to {{end}})'
+    thumbnail: cover
+    sortable_fields:
+      fields: [start, end, title, status]
+      default: { field: start, direction: descending }
+    view_filters:
+      - { label: Ongoing, field: status, pattern: '^ongoing$' }
+      - { label: Done, field: status, pattern: '^done$' }
+    fields:
+      - { name: template, widget: hidden, required: false }
+      - { name: title, label: Title, widget: string }
+      - { name: status, label: Status, widget: select, options: [ongoing, done], default: ongoing }
+      - { name: agency, label: Funding agency, widget: string }
+      - { name: start, label: Start, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2026-03'], hint: Year-month, e.g. 2026-03. }
+      - { name: end, label: End, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2029-02'], hint: Year-month; the planned end for an ongoing project. }
+      - { name: role, label: Role, widget: string, hint: 'For example "Lead institution (PI: S. Han)" or "Participating institution".' }
+      - name: cover
+        label: Cover
+        widget: file
+        required: false
+        media_folder: /src/assets/images/projects
+        public_folder: /images/projects
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic,video/mp4
+        hint: A 16:9 image named <id>.jpg (it is stored as <id>.webp), or a short silent <id>.mp4 loop up to 15 MB.
+      - { name: overview, label: Overview, widget: text, hint: A short paragraph shown in the project's detail window. }
+      - name: papers
+        label: Papers
+        widget: relation
+        required: false
+        multiple: true
+        collection: publications
+        value_field: '{{slug}}'
+        display_fields: ['{{title}} ({{year}})']
+        search_fields: [title, venueShort]
+        hint: Publications whose title, venue and year are pulled in automatically.
+
+  - name: research_areas
+    label: Research areas
+    label_singular: Research area
+    icon: hub
+    description: Cards on the Research Areas page, shown in file-name order (keep the number prefix).
+    folder: src/content/research-areas
+    format: yaml
+    extension: yaml
+    identifier_field: title
+    # `template: true` marks a _template.yaml; the field is declared so the filter is valid but never written.
+    filter: { field: template, value: null }
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: Number prefix plus a short name, e.g. 04-my-area; the number sets the order on the page.
+      pattern: ['^\d{2}-[a-z0-9]+(-[a-z0-9]+)*$', 'Use a two-digit prefix and lowercase-with-hyphens, e.g. 04-my-area']
+    summary: '{{title}}'
+    thumbnail: image
+    fields:
+      - { name: template, widget: hidden, required: false }
+      - { name: title, label: Title, widget: string }
+      - name: image
+        label: Card image
+        widget: image
+        required: false
+        media_folder: /src/assets/images/research
+        public_folder: /images/research
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic
+        hint: Roughly 3:2, named after the file, e.g. 04-my-area.jpg; shown behind the card title.
+      - name: subs
+        label: Sub-topics
+        widget: list
+        min: 1
+        summary: '{{fields.title}}'
+        fields:
+          - { name: title, label: Title, widget: string }
+          - name: problem
+            label: Problem
+            widget: object
+            fields:
+              - { name: en, label: English, widget: text }
+              - { name: ko, label: Korean, widget: text }
+          - name: goal
+            label: Goal
+            widget: object
+            fields:
+              - { name: en, label: English, widget: text }
+              - { name: ko, label: Korean, widget: text }
+          - name: applications
+            label: Applications
+            widget: list
+            min: 1
+            field: { name: application, label: Application, widget: string }
+          - name: papers
+            label: Papers
+            widget: relation
+            required: false
+            multiple: true
+            collection: publications
+            value_field: '{{slug}}'
+            display_fields: ['{{title}} ({{year}})']
+            search_fields: [title, venueShort]
+            hint: Related publications; leave empty to hide the "Related Papers" row.
+
+  - divider: true
+
+  # ---------------------------------------------------------------------------- team
+  # One collection per subfolder; `group` is fixed per collection and must match the folder.
+  # The shared person fields (name, nameKo, email, photo, links, order) repeat in each one.
+  - name: members
+    label: Members
+    label_singular: Member
+    icon: group
+    folder: src/content/team/current
+    format: yaml
+    extension: yaml
+    identifier_field: name
+    description: Current postdocs and students. Graduation (moving a file to alumni) is done outside the admin.
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: firstname-lastname in lowercase, e.g. gildong-hong; the photo is named after it.
+      pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Use lowercase letters, digits and hyphens, e.g. gildong-hong']
+    summary: '{{name}} ({{role}}, joined {{joined}})'
+    thumbnail: photo
+    sortable_fields:
+      fields: [name, role, joined]
+      default: { field: joined, direction: descending }
+    view_groups:
+      - { label: Role, field: role }
+    fields:
+      - { name: group, widget: hidden, default: member }
+      - { name: name, label: Name, widget: string }
+      - { name: nameKo, label: Korean name, widget: string, required: false }
+      - name: role
+        label: Role
+        widget: select
+        options:
+          - { label: Postdoc, value: postdoc }
+          - { label: Ph.D. student, value: phd }
+          - { label: M.S. student, value: ms }
+      - { name: joined, label: Joined, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2026-03'], hint: Year-month, e.g. 2026-03; a future date is shown as "Incoming". }
+      - name: topics
+        label: Topics
+        widget: list
+        required: false
+        field: { name: code, label: Area code, widget: string, pattern: ['^[A-Za-z][A-Za-z0-9]*$', 'Codes are letters and digits only, e.g. StochCtrl'] }
+        hint: Area codes from src/content/taxonomy/areas.yaml, e.g. StochCtrl, RL; leave empty if none yet.
+      - { name: representative, label: Lab representative, widget: boolean, default: false, hint: Shows the "Lab Representative" badge. }
+      - { name: email, label: E-mail, widget: string, type: email, required: false }
+      - name: photo
+        label: Photo
+        widget: image
+        required: false
+        media_folder: /src/assets/images/team
+        public_folder: /images/team
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic
+        hint: A 3:4 portrait named <id>.jpg before uploading (it is stored as <id>.webp); leave empty until it exists.
+      - name: links
+        label: Links
+        widget: object
+        required: false
+        hint: A link that is left out is simply not shown.
+        fields:
+          - { name: homepage, label: Homepage, widget: string, type: url, required: false }
+          - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
+          - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+
+  - name: interns
+    label: Undergraduate interns
+    label_singular: Intern
+    icon: school
+    folder: src/content/team/undergrad_interns
+    format: yaml
+    extension: yaml
+    identifier_field: name
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: firstname-lastname in lowercase, e.g. gildong-hong.
+      pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Use lowercase letters, digits and hyphens, e.g. gildong-hong']
+    summary: '{{name}} ({{year}} {{term}})'
+    thumbnail: photo
+    sortable_fields:
+      fields: [year, name]
+      default: { field: year, direction: descending }
+    fields:
+      - { name: group, widget: hidden, default: intern }
+      - { name: name, label: Name, widget: string }
+      - { name: nameKo, label: Korean name, widget: string, required: false }
+      - { name: year, label: Year, widget: number, value_type: int, min: 2000, max: 2100 }
+      - { name: term, label: Term, widget: select, options: [spring, summer, fall, winter] }
+      - name: topics
+        label: Topics
+        widget: list
+        min: 1
+        field: { name: topic, label: Topic, widget: string }
+        hint: One line per topic on what they worked on (free text).
+      - { name: email, label: E-mail, widget: string, type: email, required: false }
+      - name: photo
+        label: Photo
+        widget: image
+        required: false
+        media_folder: /src/assets/images/team
+        public_folder: /images/team
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic
+        hint: A 3:4 portrait named <id>.jpg before uploading (it is stored as <id>.webp); leave empty until it exists.
+      - name: links
+        label: Links
+        widget: object
+        required: false
+        hint: A link that is left out is simply not shown.
+        fields:
+          - { name: homepage, label: Homepage, widget: string, type: url, required: false }
+          - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
+          - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+
+  - name: alumni
+    label: Alumni
+    label_singular: Alumnus
+    icon: history_edu
+    folder: src/content/team/alumni
+    format: yaml
+    extension: yaml
+    identifier_field: name
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: firstname-lastname in lowercase, e.g. gildong-hong; a graduating member keeps the file name.
+      pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Use lowercase letters, digits and hyphens, e.g. gildong-hong']
+    summary: '{{name}} ({{degree}}, {{graduated}})'
+    thumbnail: photo
+    sortable_fields:
+      fields: [graduated, name, degree]
+      default: { field: graduated, direction: descending }
+    view_groups:
+      - { label: Degree, field: degree }
+    fields:
+      - { name: group, widget: hidden, default: alumni }
+      - { name: name, label: Name, widget: string }
+      - { name: nameKo, label: Korean name, widget: string, required: false }
+      - { name: degree, label: Degree, widget: select, options: [PhD, MS] }
+      - { name: joined, label: Joined, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2024-02'], hint: Year-month, e.g. 2024-02. }
+      - { name: graduated, label: Graduated, widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Write the date as year-month, e.g. 2026-02'], hint: Year-month, e.g. 2026-02; not earlier than Joined. }
+      - { name: note, label: Note, widget: string, required: false, hint: 'For example "Research Assistant (Feb 2026 - Jun 2026)".' }
+      - { name: now, label: Current affiliation, widget: string, required: false }
+      - { name: email, label: E-mail, widget: string, type: email, required: false }
+      - name: photo
+        label: Photo
+        widget: image
+        required: false
+        media_folder: /src/assets/images/team
+        public_folder: /images/team
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic
+        hint: A 3:4 portrait named <id>.jpg before uploading (it is stored as <id>.webp); leave empty until it exists.
+      - name: links
+        label: Links
+        widget: object
+        required: false
+        hint: A link that is left out is simply not shown.
+        fields:
+          - { name: homepage, label: Homepage, widget: string, type: url, required: false }
+          - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
+          - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+
+  - name: pi
+    label: Principal investigator
+    label_singular: Principal investigator
+    icon: person
+    folder: src/content/team/pi_and_staff
+    format: yaml
+    extension: yaml
+    identifier_field: name
+    description: Exactly one entry; edit it, never add or remove.
+    create: false
+    delete: false
+    filter: { field: group, value: pi }
+    summary: '{{name}}'
+    thumbnail: photo
+    fields:
+      - { name: group, widget: hidden, default: pi }
+      - { name: name, label: Name, widget: string }
+      - { name: nameKo, label: Korean name, widget: string, required: false }
+      - { name: title, label: Title, widget: string, hint: 'For example "Assistant Professor, School of EE, KAIST".' }
+      - { name: email, label: E-mail, widget: string, type: email, required: false }
+      - name: photo
+        label: Photo
+        widget: image
+        required: false
+        media_folder: /src/assets/images/team
+        public_folder: /images/team
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic
+        hint: A 3:4 portrait named <id>.jpg before uploading (it is stored as <id>.webp); leave empty until it exists.
+      - name: links
+        label: Links
+        widget: object
+        required: false
+        hint: A link that is left out is simply not shown.
+        fields:
+          - { name: homepage, label: Homepage, widget: string, type: url, required: false }
+          - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
+          - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+
+  - name: visiting
+    label: Visiting scholars
+    label_singular: Visiting scholar
+    icon: flight
+    folder: src/content/team/pi_and_staff
+    format: yaml
+    extension: yaml
+    identifier_field: name
+    filter: { field: group, value: visiting }
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: firstname-lastname in lowercase, e.g. gildong-hong.
+      pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Use lowercase letters, digits and hyphens, e.g. gildong-hong']
+    summary: '{{name}} ({{home}})'
+    thumbnail: photo
+    fields:
+      - { name: group, widget: hidden, default: visiting }
+      - { name: name, label: Name, widget: string }
+      - { name: nameKo, label: Korean name, widget: string, required: false }
+      - { name: title, label: Title, widget: string, hint: 'For example "Assistant Professor of Aerospace".' }
+      - { name: home, label: Home institution, widget: string }
+      - { name: period, label: Period, widget: string, required: false, hint: 'For example "2026 Spring".' }
+      - { name: email, label: E-mail, widget: string, type: email, required: false }
+      - name: photo
+        label: Photo
+        widget: image
+        required: false
+        media_folder: /src/assets/images/team
+        public_folder: /images/team
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic
+        hint: A 3:4 portrait named <id>.jpg before uploading (it is stored as <id>.webp); leave empty until it exists.
+      - name: links
+        label: Links
+        widget: object
+        required: false
+        hint: A link that is left out is simply not shown.
+        fields:
+          - { name: homepage, label: Homepage, widget: string, type: url, required: false }
+          - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
+          - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+
+  - name: staff
+    label: Staff
+    label_singular: Staff member
+    icon: badge
+    folder: src/content/team/pi_and_staff
+    format: yaml
+    extension: yaml
+    identifier_field: name
+    filter: { field: group, value: staff }
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: firstname-lastname in lowercase, e.g. gildong-hong.
+      pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Use lowercase letters, digits and hyphens, e.g. gildong-hong']
+    summary: '{{name}}'
+    thumbnail: photo
+    fields:
+      - { name: group, widget: hidden, default: staff }
+      - { name: name, label: Name, widget: string }
+      - { name: nameKo, label: Korean name, widget: string, required: false }
+      - { name: email, label: E-mail, widget: string, type: email, required: false }
+      - name: photo
+        label: Photo
+        widget: image
+        required: false
+        media_folder: /src/assets/images/team
+        public_folder: /images/team
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic
+        hint: A 3:4 portrait named <id>.jpg before uploading (it is stored as <id>.webp); leave empty until it exists.
+      - name: links
+        label: Links
+        widget: object
+        required: false
+        hint: A link that is left out is simply not shown.
+        fields:
+          - { name: homepage, label: Homepage, widget: string, type: url, required: false }
+          - { name: linkedin, label: LinkedIn, widget: string, type: url, required: false }
+          - { name: scholar, label: Google Scholar, widget: string, type: url, required: false }
+      - { name: order, label: Order, widget: number, value_type: int, required: false, hint: Rarely needed; lower numbers are listed first within the same group. }
+
+  - divider: true
+
+  # ---------------------------------------------------------------------------- updates
+  - name: notices
+    label: Notices
+    label_singular: Notice
+    icon: campaign
+    description: Announcements such as recruiting; the home page shows the newest, pinned first.
+    folder: src/content/notices
+    format: yaml
+    extension: yaml
+    identifier_field: title
+    # `template: true` marks a _template.yaml; the field is declared so the filter is valid but never written.
+    filter: { field: template, value: null }
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: Short id such as 2026-fall-admissions.
+      pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Use lowercase letters, digits and hyphens, e.g. 2026-fall-admissions']
+    summary: '{{date}} {{title}}'
+    sortable_fields:
+      fields: [date, title, pinned]
+      default: { field: date, direction: descending }
+    view_filters:
+      - { label: Pinned, field: pinned, pattern: true }
+    fields:
+      - { name: template, widget: hidden, required: false }
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, type: date, format: YYYY-MM-DD, default: '{{now}}' }
+      - { name: pinned, label: Pinned, widget: boolean, default: false, hint: Pinned notices stay at the top. }
+      - { name: badge, label: Badge, widget: string, required: false, hint: 'Short label shown on the right, e.g. "Recruiting".' }
+      - { name: link, label: Link, widget: string, required: false, pattern: ['^(https?://|/|#|mailto:)', 'Link must start with "/", "#", "http(s)://" or "mailto:"'], hint: Where the notice leads, e.g. /contact/ or an https:// URL. }
+
+  - name: news
+    label: News
+    label_singular: News item
+    icon: newspaper
+    description: The home page's Highlights feed; write the item, or point at a publication or project.
+    folder: src/content/news
+    format: yaml
+    extension: yaml
+    identifier_field: title
+    # `template: true` marks a _template.yaml; the field is declared so the filter is valid but never written.
+    filter: { field: template, value: null }
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: Short id such as 2026-icra-best-paper (year, then venue or topic).
+      pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Use lowercase letters, digits and hyphens, e.g. 2026-icra-best-paper']
+    summary: '{{date}} {{kind}}: {{title}}'
+    sortable_fields:
+      fields: [date, kind]
+      default: { field: date, direction: descending }
+    view_groups:
+      - { label: Kind, field: kind }
+    fields:
+      - { name: template, widget: hidden, required: false }
+      - { name: kind, label: Kind, widget: select, options: [paper, award, grant, media] }
+      - { name: date, label: Date, widget: datetime, type: date, format: YYYY-MM-DD, default: '{{now}}', hint: Shown as year.month. }
+      - { name: title, label: Title, widget: string, required: false, hint: Fill exactly one of Title, Publication or Project. }
+      - { name: meta, label: Meta, widget: string, required: false, hint: Short text on the right (who, where, when); only with a Title. }
+      - { name: link, label: Link, widget: string, required: false, pattern: ['^(https?://|/|#|mailto:)', 'Link must start with "/", "#", "http(s)://" or "mailto:"'], hint: Only with a Title. }
+      - name: publication
+        label: Publication
+        widget: relation
+        required: false
+        collection: publications
+        value_field: '{{slug}}'
+        display_fields: ['{{title}} ({{year}})']
+        search_fields: [title, venueShort]
+        hint: Its title and link are used instead of a Title.
+      - name: project
+        label: Project
+        widget: relation
+        required: false
+        collection: projects
+        value_field: '{{slug}}'
+        display_fields: ['{{title}}']
+        search_fields: [title, agency]
+        hint: Its title and link are used instead of a Title.
+
+  - name: gallery
+    label: Gallery
+    label_singular: Gallery post
+    icon: photo_library
+    description: Photo posts, newest first. Photos are stored in src/assets/images/gallery/<id>/.
+    folder: src/content/gallery
+    format: yaml
+    extension: yaml
+    identifier_field: title
+    # `template: true` marks a _template.yaml; the field is declared so the filter is valid but never written.
+    filter: { field: template, value: null }
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: Short id such as welcome-2026; also the photo folder name.
+      pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Use lowercase letters, digits and hyphens, e.g. welcome-2026']
+    summary: '{{date}} {{title}}'
+    sortable_fields:
+      fields: [date, title]
+      default: { field: date, direction: descending }
+    fields:
+      - { name: template, widget: hidden, required: false }
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, type: date, format: YYYY-MM-DD, default: '{{now}}' }
+      - name: tags
+        label: Tags
+        widget: list
+        min: 1
+        field: { name: tag, label: Tag, widget: string, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Tags are lowercase words joined with hyphens, e.g. new-member'] }
+        hint: Reuse existing tags (conference, lab-life, new-member, ...); the tag filter is built from them.
+      - name: photos
+        label: Photos
+        widget: image
+        required: false
+        multiple: true
+        media_folder: '/src/assets/images/gallery/{{slug}}'
+        public_folder: '/images/gallery/{{slug}}'
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic
+        hint: In viewing order, named 01.jpg, 02.jpg, ... before uploading; the first is the cover unless Cover is set.
+      - name: cover
+        label: Cover
+        widget: image
+        required: false
+        media_folder: '/src/assets/images/gallery/{{slug}}'
+        public_folder: '/images/gallery/{{slug}}'
+        accept: image/jpeg,image/png,image/webp,image/avif,image/heic
+        hint: Optional 4:3 photo used as the cover instead of the first photo.
+      - { name: placeholderCount, label: Placeholder count, widget: number, value_type: int, min: 1, required: false, hint: Only while the photos are not uploaded yet; how many there will be. Remove it once Photos is filled in. }
