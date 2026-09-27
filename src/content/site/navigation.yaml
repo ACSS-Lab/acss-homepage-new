@@ -24,14 +24,14 @@ items:
         href: /research/publications/
 
   - label: Team
-    href: /team/
+    href: /team/professor/
     children:
       - label: PI & Staffs
         href: /team/professor/
-      - label: Current members
+      - label: Current Members
         href: /team/#current
         group: Members
-      - label: Undergraduate interns
+      - label: Undergraduate Interns
         href: /team/#interns
         group: Members
       - label: Alumni

@@ -5,7 +5,8 @@
 //   [data-tabs data-default="current"]   root
 //     [data-tab-panel="current"]         panels; all but the selected one are `hidden`
 //     [data-hide-on-tab="alumni"]        anything hidden while that tab is selected
-//   [data-tab-links] a[href$="#current"] links anywhere on the page get aria-current="true"
+//   [data-tab-links] a[href$="#current"] links anywhere on the page (banner tabs, header menu)
+//                                        get aria-current="true" when they point at the shown tab
 //
 // Panels carry no id, so the browser does not scroll to them.
 
@@ -22,7 +23,7 @@ export function initTabs(root: ParentNode = document): void {
       tabs.querySelectorAll<HTMLElement>('[data-hide-on-tab]').forEach((el) => (el.hidden = el.dataset.hideOnTab === tab));
       document.querySelectorAll<HTMLAnchorElement>('[data-tab-links] a').forEach((link) => {
         const target = link.hash.slice(1);
-        if (names.includes(target)) link.setAttribute('aria-current', target === tab ? 'true' : 'false');
+        if (link.pathname === location.pathname && names.includes(target)) link.setAttribute('aria-current', target === tab ? 'true' : 'false');
       });
     };
 

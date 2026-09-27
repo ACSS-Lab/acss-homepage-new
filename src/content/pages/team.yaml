@@ -13,15 +13,15 @@ hero:
 
 pageSize: 4 # member cards loaded at a time while scrolling (2-12)
 
-# Filter sidebar on the "Current members" tab
+# Filter sidebar on the "Current Members" tab
 filters:
-  title: Current members
+  title: Current Members
   searchPlaceholder: Search name, topic
   degree: Degree
   topic: Area of research interest
   empty: No members match this topic.
 
-# Section headings on the "Current members" tab, in display order.
+# Section headings on the "Current Members" tab, in display order.
 roles:
   postdoc: Postdoctoral Researchers
   phd: Ph.D. Students
@@ -50,7 +50,7 @@ labels:
     winter: Winter
 
 interns:
-  title: Undergraduate interns
+  title: Undergraduate Interns
   note: Interns join for a semester or a break. Photos and full details are omitted here.
 
 alumni:

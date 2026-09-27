@@ -188,6 +188,7 @@ Card grids that share a column with a sidebar (Team, PI & Staffs) do not use a b
 - Sticky top, `--header-h` tall, white bg + `--shadow-sm`. Brand lockup (navy mark, wordmark, affiliation) left; menu right. Menu entries come from `navigation.yaml`.
 - Below `md` the menu sits behind a 44px `menu` button and opens as a **right-hand drawer**: a native `<dialog>` (top layer, `--overlay` backdrop, page scroll locked), `min(320px, 85vw)` wide and full height, sliding in over `--dur-slow`. A 44px `x` button tops it, then one full-width 44px row per entry with dropdown children inline and indented. Escape, the backdrop, a menu link, or widening past `md` closes it and focus returns to the button.
 - Current section: `--navy-100` pill, `--navy-600` text, weight 600. Hover: `--gray-100` pill.
+  The pill also marks a dropdown whose child is the current page or a section of it, and that child gets a `--gray-100` row in the menu; section children (`/team/#alumni`) are marked at runtime by `tabs.ts` through `data-tab-links`.
 - **Dropdown on mouseover and on keyboard focus.** Full keyboard operation: Tab/Enter, arrows to move through a menu, Esc to close it.
 
 ### Page banner + section tabs
@@ -202,10 +203,10 @@ Card grids that share a column with a sidebar (Team, PI & Staffs) do not use a b
 - The selected area's text appears below: each sub-topic is a two-column grid (132px gray label, content) with lettered headings, neutral chips for application areas, and related-paper tiles (`--gray-100`, hover `--navy-100`) that deep-link to the paper. Sub-topics rise in each time a card is picked.
 
 ### Team page
-- Three tabs selected by the URL fragment (`#current`, `#interns`, `#alumni`) from the banner's Members dropdown, whose entries carry counts and highlight the tab in view. The header menu links to the same fragments.
-- **Current members**: role sections (dot-and-rule heading with a gray count), `PersonCard`s two per row while the column fits two 400px cards (one otherwise), with join date top-right, an uppercase "Research interest" label and `AreaChip`s (family-colored code chips; full name on hover).
+- Three tabs selected by the URL fragment (`#current`, `#interns`, `#alumni`) from the banner's Members dropdown, whose entries carry counts and highlight the tab in view. The header menu links to the same fragments and highlights the one in view; the Team entry itself opens PI & Staffs.
+- **Current Members**: role sections (dot-and-rule heading with a gray count), `PersonCard`s two per row while the column fits two 400px cards (one otherwise), with join date top-right, an uppercase "Research interest" label and `AreaChip`s (family-colored code chips; full name on hover).
   A lab representative gets an uppercase `--navy-100` badge next to the name.
-- **Undergraduate interns**: a 280px intro column (stacked below `lg`) and a ruled list (name + Korean name / topic / term) instead of cards; below `sm` the topic wraps under the name.
+- **Undergraduate Interns**: a 280px intro column (stacked below `lg`) and a ruled list (name + Korean name / topic / term) instead of cards; below `sm` the topic wraps under the name.
 - **Alumni**: degree sections of `PersonCard`s showing years in the lab, degree title, an optional note and "Current affiliation".
 - A `--gray-100` join banner with a primary button closes the page except on the Alumni tab.
 
@@ -221,7 +222,7 @@ Card grids that share a column with a sidebar (Team, PI & Staffs) do not use a b
 ### Editorial row (long-form text)
 - Three columns: a 180px label rail, prose capped at `--container-narrow`, and a 268px figure (3:4, `--radius-lg`) with a caption.
   A `--gray-300` rule on top separates rows.
-  Below `lg` the label and prose share the left column with a 220px figure beside them; below `md` label, prose and figure stack.
+  Below `lg` the label and prose share the left column with a 220px figure beside them; below `md` label, prose and figure stack, the figure centred at up to 320px.
   The template for any future long-form page.
 
 ### Language switch
@@ -231,7 +232,7 @@ Card grids that share a column with a sidebar (Team, PI & Staffs) do not use a b
 - Photo (3:4, `--radius-xs`) left; name, gray subtitle, e-mail, group-specific details right; link pills pinned to the card bottom.
   White surface + `--shadow-sm`, square corners.
   The PI uses the larger featured layout (`--fs-title` name, eyebrow label).
-  Below `sm` the photo track narrows to 96px and the PI card stacks its photo above the text.
+  Below `sm` the photo track narrows to 96px and the PI card stacks its 168px photo, centred, above the text.
 - **Link pills**: icon-only `--navy-100` squares (44px tall) that slide open to show their label on hover/focus and fill `--navy-600`. Only links present in the person's data are shown.
 
 ### Filters (Team / Publications)
@@ -253,7 +254,7 @@ Card grids that share a column with a sidebar (Team, PI & Staffs) do not use a b
 
 ### Publication list
 - Year-grouped rows under an "All publications" heading with the author-marker footnote right-aligned. Each year is a sticky `--fs-h1` label with a paper count in a 104px gutter; rows sit on `--gray-300` rules and tint `--gray-100` on hover.
-- A row: meta line (type `Badge`, venue, month/year, "Selected" accent badge, a 28px round chevron that turns navy and flips when open), `--fs-body` 600 title, authors, `AreaChip`s in taxonomy order; a 176px 4:3 figure on the right. Clicking the text expands the summary and the link chips (36px `--gray-100` pills with a lucide icon per link type, `--navy-600` on hover).
+- A row: meta line (type `Badge`, venue, month/year, "Selected" accent badge, a 28px round chevron that turns navy and flips when open), `--fs-body` 600 title, authors, `AreaChip`s in taxonomy order; a 176px 4:3 figure on the right (below `sm` it moves under the text, centred at up to 260px). Clicking the text expands the summary and the link chips (36px `--gray-100` pills with a lucide icon per link type, `--navy-600` on hover).
 
 ### Status tabs + pagination (Projects / Gallery)
 - `UnderlineTabs`: an uppercase label in a 76px rail, then text tabs with a gray count; the active tab is `--ink` 600 on a 2px `--navy-600` underline, idle tabs `--gray-500`.

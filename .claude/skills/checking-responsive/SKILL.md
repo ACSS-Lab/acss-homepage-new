@@ -38,6 +38,7 @@ nvm use && node scripts/browser.mjs my-probe.mjs
 A probe exports `default async (page) => {}` and uses `page.goto(url, { width, height })`, `page.click(selector)`, `page.key('Escape')`, `page.resize(width)`, `page.eval(expression)`, `page.screenshot(path)` and `page.media([...])`.
 Start a preview server first with `nvm use && npm run preview` and point `goto` at it; the server that `npm run responsive` starts is not reusable.
 Write probes into the scratchpad, not the repo.
+Between two URLs that differ only in the fragment (`/team/` then `/team/#interns`), go to `about:blank` first; a same-document hash change never fires `load`, so `page.goto` would wait forever.
 
 Things to probe when the change touched them:
 

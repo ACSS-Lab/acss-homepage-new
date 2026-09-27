@@ -13,6 +13,9 @@ export const pathOf = (href: string): string => link(href.split('#')[0]);
 /** Link that opens the publications page scrolled to one paper. */
 export const publicationHref = (id: string): string => link(`/research/publications/#pub-${id}`);
 
+/** Whether `href` leads to the page being rendered, whatever section it points at ("/team/#alumni" matches "/team/"). */
+export const isSamePage = (href: string, pathname: string): boolean => href.startsWith('/') && pathOf(href) === pathname;
+
 /** Whether `href` points at the page being rendered. Links to a section of a page ("/team/#alumni") never match. */
 export const isCurrentPage = (href: string, pathname: string): boolean =>
   href.startsWith('/') && !href.includes('#') && link(href) === pathname;

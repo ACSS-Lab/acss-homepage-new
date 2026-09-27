@@ -2,10 +2,11 @@
 // One top-level entry of the header menu: a plain link, or a link with a
 // dropdown when the item has children. The dropdown opens on hover and on
 // keyboard focus with CSS alone; scripts/nav.ts (loaded by SiteHeader) adds Escape
-// and arrow keys.
+// and arrow keys. Children that point at a section of a page ("/team/#alumni")
+// are highlighted at runtime by scripts/tabs.ts through data-tab-links.
 import Icon from '../ui/Icon.astro';
 import type { NavItem } from '../../lib/content';
-import { isCurrentPage, link } from '../../lib/url';
+import { isCurrentPage, isSamePage, link } from '../../lib/url';
 
 interface Props {
   item: NavItem;
@@ -15,7 +16,7 @@ const { item } = Astro.props;
 const { pathname } = Astro.url;
 const children = item.children ?? [];
 const isCurrent = isCurrentPage(item.href, pathname);
-const isActive = isCurrent || children.some((child) => isCurrentPage(child.href, pathname));
+const isActive = isCurrent || children.some((child) => isSamePage(child.href, pathname));
 ---
 
 {
@@ -34,7 +35,7 @@ const isActive = isCurrent || children.some((child) => isCurrentPage(child.href,
         {item.label}
         <Icon name="chevron-down" size={12} class="caret" />
       </a>
-      <div class="menu" data-nav-menu>
+      <div class="menu" data-nav-menu data-tab-links>
         {children.map((child) => {
           const current = isCurrentPage(child.href, pathname);
           return (
@@ -149,7 +150,8 @@ const isActive = isCurrent || children.some((child) => isCurrentPage(child.href,
     color: var(--navy-600);
   }
 
-  .menu-link.is-active {
+  .menu-link.is-active,
+  .menu-link[aria-current='true'] {
     background: var(--gray-100);
     color: var(--navy-600);
     font-weight: 600;
