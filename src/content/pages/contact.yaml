@@ -6,7 +6,7 @@ page: contact
 title: Contact # browser tab title and page heading
 
 join:
-  title: Admission & internship
+  title: Admission & Internship
   lead: Thank you for your interest in our lab.
   # {adminEmail} is replaced with the admin address from site.yaml. Line breaks are kept.
   body: |-
@@ -22,7 +22,7 @@ join:
     closedNote: There is no open {label} position at the moment. Please keep an eye out for future openings.
 
 visit:
-  title: Contact & visit
+  title: Contact & Visit
   admin:
     name: ACSS admins
     badge: Lab administration

@@ -2,7 +2,7 @@
 # Mirrors the schema in src/content.config.ts field by field. A field change is made in the schema,
 # the folder's _template.yaml, the matching skill, MAINTAINING.md and here in the same commit
 # (skill updating-admin-config). Not covered here, edit the files directly: pages/, site/,
-# contact/tracks.yaml, taxonomy/areas.yaml, prose/.
+# taxonomy/areas.yaml, prose/.
 # The page that loads this file is src/pages/admin/index.astro.
 
 backend:
@@ -658,3 +658,32 @@ collections:
         accept: image/jpeg,image/png,image/webp,image/avif,image/heic
         hint: Optional 4:3 photo used as the cover instead of the first photo.
       - { name: placeholderCount, label: Placeholder count, widget: number, value_type: int, min: 1, required: false, hint: 'Only while the photos are not uploaded yet; how many there will be. Remove it once Photos is filled in.' }
+
+  - divider: true
+
+  # ---------------------------------------------------------------------------- settings files
+  - name: contact
+    label: Contact page
+    icon: mail
+    description: The application tracks on the Contact page; switch Open on or off to start or stop recruiting.
+    files:
+      - name: tracks
+        label: Admissions and internship tracks
+        file: src/content/contact/tracks.yaml
+        fields:
+          - name: tracks
+            label: Tracks
+            widget: list
+            min: 1
+            summary: '{{fields.label}}'
+            hint: The cards in display order; the rest of the page's wording is edited in src/content/pages/contact.yaml.
+            fields:
+              - { name: label, label: Label, widget: string, hint: 'The card title, e.g. Ph.D.' }
+              - { name: open, label: Open, widget: boolean, hint: 'On shows the checklist and the e-mail link with the open badge; off shows the closed badge only.' }
+              - { name: subject, label: E-mail subject, widget: string, hint: 'Pre-filled subject of the application e-mail, e.g. "[ACSS] PhD application - Your Name".' }
+              - name: items
+                label: Checklist
+                widget: list
+                min: 1
+                field: { name: item, label: Item, widget: string }
+                hint: What the applicant must include, one line each.

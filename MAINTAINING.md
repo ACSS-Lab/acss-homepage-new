@@ -18,7 +18,7 @@
   1. Log into the **web admin (`/admin/`)** in Chrome or Edge and edit with forms.
      Use it for papers, projects, research areas, team members, notices, news and gallery posts (section 2-1).
   2. Edit the files directly (on GitHub's website, on your laptop, or by asking Claude).
-     This is the way for page wording, site settings, research-area tags, application tracks, the Vision text and graduation.
+     This is the way for page wording, site settings, research-area tags, the Vision text and graduation.
 - A save in the admin is a commit on the `dev` branch.
   The live site changes when `dev` is merged into `main` (section 4).
 
@@ -51,7 +51,7 @@ Every page's headings and labels are in `pages/<page>.yaml`; the header menu in 
 ### 2-1. The web admin
 
 - Open `https://acss.kaist.ac.kr/admin/` in Chrome or Edge.
-  It covers publications, projects, research areas, the team, notices, news and the gallery; everything else is edited in the files (section 3).
+  It covers publications, projects, research areas, the team, notices, news, the gallery and the open or closed switch of the application tracks; everything else is edited in the files (section 3).
 - Signing in needs a GitHub **personal access token**; the PI and the lab admin each hold one.
   Make it on GitHub: profile picture, Settings, Developer settings, Personal access tokens, Fine-grained tokens, Generate new token.
   Resource owner `ACSS-Lab`, only the repository `acss-homepage-new`, Repository permissions: Contents set to Read and write, expiration one year at most.
@@ -156,7 +156,8 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
   > Change the lab email to ... in the site config.
 
 ### 3-12. Open or close recruiting (Contact page)
-- **Application tracks** — `src/content/contact/tracks.yaml`: the Postdoc / Ph.D. / M.S. / intern cards. To start or stop recruiting for a track, change only its `open: true` / `open: false`. `items` is the checklist applicants see; `subject` pre-fills the e-mail subject.
+- **Application tracks** — in the admin: Contact page, Admissions and internship tracks, switch **Open** on or off for the track and save.
+  In the file `src/content/contact/tracks.yaml` it is the same switch, `open: true` / `open: false`; `items` is the checklist applicants see and `subject` pre-fills the e-mail subject.
 - The rest of the page's wording is in `src/content/pages/contact.yaml`. Its `collaboration` block is a finished but hidden section: set `enabled: true` to show it.
 - **Ask Claude**:
   > Close the Ph.D. track on the Contact page.
