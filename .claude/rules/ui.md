@@ -9,7 +9,7 @@ paths:
 
 # UI code rules
 
-`npm run guard` enforces the first three rules.
+`npm run guard` enforces the first four rules.
 Run `nvm use && npm run guard` before reporting done.
 
 - Color, spacing, radius, shadow, motion and font values come from the tokens in `src/styles/tokens.css`.
@@ -20,7 +20,7 @@ Run `nvm use && npm run guard` before reporting done.
   The one exception is `src/components/ui/BrandIcon.astro`, which holds brand logos lucide lacks.
 - No CDN scripts or stylesheets.
 - Images and video render only through `src/components/ui/Figure.astro`, with a `preset` from `MEDIA_SLOTS` in `src/lib/media.ts`.
-  Never write `<img>`, `<video>` or `<picture>` in another component, and never read a field of an `ImageMetadata` (that ships the original file).
+  Never write `<img>`, `<video>` or `<picture>` in another component, never import `astro:assets` elsewhere, and never read a field of an `ImageMetadata` (that ships the original file).
 - No visible text, item list or setting in code.
   Labels come from `src/content/pages/<page>.yaml` or `src/content/site/ui.yaml`; items come from their collections through `src/lib/content.ts`.
   Pages never call `getCollection` or `getEntry` directly.

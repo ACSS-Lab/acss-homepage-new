@@ -6,14 +6,24 @@
 //   - Inline `style` may only pass CSS custom properties.
 //   - Content is read through src/lib/content.ts only.
 //   - No third-party CDNs.
+//   - Media renders through src/components/ui/Figure.astro only; no GIF anywhere.
+//   - Media files live in src/assets/images: lowercase names, jpg/png/webp/avif/mp4,
+//     within the size caps below, and each one referenced from content.
 
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const CODE = /\.(astro|ts|css|mjs)$/;
 const CONTENT = /\.(ya?ml|md|json)$/;
+
+// Media files (src/assets/images). Astro resizes images at build time, so these caps
+// protect the repository and the build, not the visitor.
+const MEDIA_DIR = 'src/assets/images';
+const MEDIA_NAME = /^[a-z0-9][a-z0-9/_-]*\.(jpe?g|png|webp|avif|mp4)$/;
+const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
+const MAX_VIDEO_BYTES = 15 * 1024 * 1024;
 
 /** @type {{ name: string, files: RegExp, pattern: RegExp, except?: string[] }[]} */
 const rules = [
@@ -67,6 +77,23 @@ const rules = [
     pattern: /\bget(?:Collection|Entry|Entries)\(/,
     except: ['src/lib/content.ts'],
   },
+  {
+    name: 'Raw media element. Render images and video through <Figure /> (src/components/ui/Figure.astro).',
+    files: /\.astro$/,
+    pattern: /<(?:img|video|picture)[\s>]/,
+    except: ['src/components/ui/Figure.astro'],
+  },
+  {
+    name: 'astro:assets imported outside Figure. Media goes through <Figure /> and src/lib/media.ts.',
+    files: CODE,
+    pattern: /from\s+['"]astro:assets/,
+    except: ['src/components/ui/Figure.astro'],
+  },
+  {
+    name: 'GIF referenced. GIF is not used; convert it to a short MP4 loop (MAINTAINING.md).',
+    files: /\.(astro|ts|css|mjs|ya?ml|md|json)$/,
+    pattern: /\.gif\b/i,
+  },
 ];
 
 function* walk(dir) {
@@ -90,6 +117,43 @@ for (const path of walk(join(root, 'src'))) {
         if (rule.pattern.test(line)) violations.push({ rule: rule.name, where: `${file}:${index + 1}`, line: line.trim() });
       }
     });
+}
+
+// Media files: names, formats, sizes and the old location.
+const mediaFiles = existsSync(join(root, MEDIA_DIR)) ? [...walk(join(root, MEDIA_DIR))].filter((path) => !path.endsWith('.gitkeep')) : [];
+for (const path of mediaFiles) {
+  const file = relative(root, path);
+  const name = relative(join(root, MEDIA_DIR), path);
+  const size = statSync(path).size;
+  if (!MEDIA_NAME.test(name)) {
+    violations.push({ rule: 'Media file name. Lowercase letters, digits, "-" and "_" only, ending in .jpg, .jpeg, .png, .webp, .avif or .mp4.', where: file, line: '' });
+    continue;
+  }
+  const cap = name.endsWith('.mp4') ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+  if (size > cap) {
+    violations.push({ rule: `Media file too large. Images up to ${MAX_IMAGE_BYTES / 1024 / 1024} MB, videos up to ${MAX_VIDEO_BYTES / 1024 / 1024} MB (MAINTAINING.md says how to shrink them).`, where: file, line: `${(size / 1024 / 1024).toFixed(1)} MB` });
+  }
+}
+if (existsSync(join(root, 'public/images'))) {
+  for (const path of walk(join(root, 'public/images'))) {
+    violations.push({ rule: `File under public/images. Media lives in ${MEDIA_DIR}/ and is written as /images/... in content.`, where: relative(root, path), line: '' });
+  }
+}
+
+// Every media file must be referenced from content (a same-named .jpg next to a referenced .mp4 is its poster).
+// An unreferenced file would still ship in dist/ as is, since Astro only cleans up originals it transformed.
+const contentText = [...walk(join(root, 'src/content'))]
+  .filter((path) => CONTENT.test(path))
+  .map((path) => readFileSync(path, 'utf8').replace(/(^|\s)#.*$/gm, ''))
+  .join('\n');
+const referenced = (name) => contentText.includes(`/images/${name}`);
+for (const path of mediaFiles) {
+  const name = relative(join(root, MEDIA_DIR), path);
+  if (!MEDIA_NAME.test(name)) continue;
+  const poster = name.endsWith('.jpg') && referenced(name.replace(/\.jpg$/, '.mp4'));
+  if (!referenced(name) && !poster) {
+    violations.push({ rule: 'Media file not referenced by any content file. Remove it or point a field at /images/... (it would ship unused).', where: relative(root, path), line: '' });
+  }
 }
 
 if (violations.length === 0) {

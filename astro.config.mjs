@@ -7,6 +7,8 @@ export default defineConfig({
   site: 'https://acss.kaist.ac.kr',
   // Every route ends with a slash (`/team/`) so static hosts serve it without a redirect.
   trailingSlash: 'always',
+  // No `image` options on purpose: components/ui/Figure.astro passes explicit `widths` and `sizes`,
+  // and `image.layout` would add responsive attributes and styles on top of them.
   // Show Markdown text exactly as written (no automatic curly quotes or dashes).
   markdown: { smartypants: false },
   // Section roots open their first page.

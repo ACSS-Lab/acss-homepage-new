@@ -17,7 +17,7 @@ Pages read content only through the getters in `src/lib/content.ts`, which also 
 nvm use && npm run dev      # local preview at http://localhost:4321
 nvm use && npm run build    # static build into dist/; runs the schema and cross-file checks
 nvm use && npm run check    # type check (astro check)
-nvm use && npm run guard    # project rules: lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs
+nvm use && npm run guard    # project rules: lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs, media through Figure and within the file rules
 nvm use && npm run responsive  # after a build: every page at 360/768/1024/1440px must not overflow its viewport
 ```
 
@@ -36,6 +36,11 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
 - Design tokens only, lucide icons only.
   `npm run guard` enforces this.
   Read the relevant section of `DESIGN.md` before changing anything visual; section 9 defines exactly what must be a token.
+- Media through `Figure` only, no GIF.
+  Images and video render through `src/components/ui/Figure.astro` with a preset from `src/lib/media.ts`; never a raw `<img>` or `<video>`.
+  Files live in `src/assets/images/` (lowercase names, jpg/png/webp/avif, images up to 3 MB) and each must be referenced from content.
+  Animated content is a short silent `.mp4` (up to 15 MB), allowed only for publication figures, project covers and the home hero background.
+  `npm run guard` enforces all of this.
 - Keep the content safety net.
   A new or changed field means updating the schema, the folder's `_template.yaml`, the matching skill and `MAINTAINING.md` in the same commit.
   Never loosen the schema to make a build pass.
