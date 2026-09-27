@@ -418,7 +418,8 @@ const pages = defineCollection({
         headline: z.string(),
         lede: z.string(),
         cta,
-        backgroundNote: z.string().optional(),
+        background: mediaPath.optional(), // image or silent .mp4 loop behind the hero; a same-named .jpg is the poster
+        backgroundNote: z.string().optional(), // shown until `background` is set
         logoNote: z.string().optional(),
       }),
       notices: z.object({ title: z.string(), count: z.number().int().min(1).max(5).default(3) }),

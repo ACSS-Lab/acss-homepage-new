@@ -50,6 +50,7 @@ export async function getPage<P extends PageData['page']>(page: P): Promise<Extr
   const entry = await getEntry('pages', page);
   if (!entry) fail(file, 'file is missing or empty.');
   if (entry.data.page !== page) fail(file, `"page: ${entry.data.page}" must match the file name ("page: ${page}").`);
+  if (entry.data.page === 'home') resolveMedia(file, entry.data.hero.background);
   if (entry.data.page === 'vision') {
     for (const section of entry.data.sections) resolveMedia(file, section.figure.image);
   }

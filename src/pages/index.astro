@@ -3,6 +3,7 @@ import HighlightFeed from '../components/home/HighlightFeed.astro';
 import HomeGallery from '../components/home/HomeGallery.astro';
 import NoticeCard from '../components/home/NoticeCard.astro';
 import Button from '../components/ui/Button.astro';
+import Figure from '../components/ui/Figure.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getGallery, getNews, getNotices, getPage } from '../lib/content';
 
@@ -14,8 +15,19 @@ const headlineLines = hero.headline.split('\n');
 <BaseLayout headerVariant="overlay" description={hero.lede}>
   <div class="screen">
     <section class="hero">
-      <div class="stripes"></div>
-      {hero.backgroundNote && <div class="bg-note">{hero.backgroundNote}</div>}
+      {
+        hero.background ? (
+          <>
+            <Figure class="bg" src={hero.background} alt="" preset="homeHero" priority preload="auto" />
+            <div class="scrim" />
+          </>
+        ) : (
+          <>
+            <div class="stripes" />
+            {hero.backgroundNote && <div class="bg-note">{hero.backgroundNote}</div>}
+          </>
+        )
+      }
       {
         hero.logoNote && (
           <div class="logo-slot">
@@ -63,10 +75,20 @@ const headlineLines = hero.headline.split('\n');
     background: var(--navy-900);
   }
 
-  .stripes {
+  /* Background layers: the media (or the stripes until it exists) and, over media, the scrim that keeps the text readable */
+  .stripes,
+  .bg,
+  .scrim {
     position: absolute;
     inset: 0;
+  }
+
+  .stripes {
     background: var(--stripe-dark);
+  }
+
+  .scrim {
+    background: var(--scrim-hero);
   }
 
   .bg-note {
@@ -184,11 +206,13 @@ const headlineLines = hero.headline.split('\n');
       padding: calc(var(--header-h) + var(--space-8)) var(--space-12) var(--space-12);
     }
 
-    .stripes {
+    .stripes,
+    .bg,
+    .scrim {
       pointer-events: none;
     }
 
-    /* In flow, but still positioned so they paint above the stripes layer */
+    /* In flow, but still positioned so they paint above the background layers */
     .logo-slot,
     .intro,
     .notice {

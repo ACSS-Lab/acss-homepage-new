@@ -132,6 +132,7 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - **Long text** (the paragraphs on Our Vision) is Markdown, one file per language: `src/content/prose/<page>/<section>/en.md` and `ko.md`. Write paragraphs separated by a blank line; `**bold**` and `*italic*` work. Both languages are required — the build stops if one is missing.
 - Bilingual fields in YAML are written as `en:` / `ko:` pairs. In a headline, `*word*` sets the word in italics.
 - Short labels shared by many pages ("E-mail", "Homepage", screen-reader labels) are in `src/content/site/ui.yaml`.
+- **Home hero background** (`pages/home.yaml`, `hero.background`): put an image or a short silent `.mp4` loop at `src/assets/images/home/hero.jpg` or `hero.mp4` and set `background: /images/home/hero.mp4`. With a loop, a same-named `hero.jpg` next to it is shown until it plays. Until `background` is set, `backgroundNote` is shown instead.
 
 ### 3-11. Edit the Research Areas page
 - Files: `src/content/research-areas/` — one file per area, shown in **file-name order** (keep the number prefix: `01-...`, `02-...`). Copy `_template.yaml` to add one. The page lays the cards out three to a row.

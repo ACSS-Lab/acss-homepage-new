@@ -3,8 +3,9 @@
 // A `<video data-autoplay>` carries no `autoplay` attribute. This script plays it
 // while it is in view and pauses it out of view, so hidden lightbox shots and
 // off-screen slides cost nothing. Under prefers-reduced-motion the video stays
-// on its poster (or first frame) and, unless it sits inside a button, gets the
-// browser's controls so it can still be played by hand.
+// on its poster (or first frame) and gets the browser's controls so it can
+// still be played by hand, unless it sits inside a button or is decorative
+// (`data-autoplay="decorative"`: a background loop with nothing to show).
 
 import { prefersReducedMotion } from './util';
 
@@ -14,7 +15,7 @@ export function initMedia(): void {
 
   if (prefersReducedMotion()) {
     videos.forEach((video) => {
-      if (!video.closest('button')) video.controls = true;
+      if (!video.closest('button') && video.dataset.autoplay !== 'decorative') video.controls = true;
     });
     return;
   }

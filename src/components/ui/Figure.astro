@@ -27,6 +27,7 @@ interface Props {
   /** Above the fold: load first, not lazily. */
   priority?: boolean;
   /** Video only: the browser's controls. Never inside a button. */
+  // A video with an empty alt is decorative (a background): it never gets controls.
   controls?: boolean;
   /** Video only: `auto` for a loop that must start at once (hero). */
   preload?: 'metadata' | 'auto';
@@ -46,7 +47,7 @@ const poster = media?.kind === 'video' && media.poster ? (await getImage({ src: 
       {media.kind === 'image' ? (
         <Image src={media.image} alt={alt} widths={[...widths]} sizes={sizes} width={widths[0]} format="webp" class="media" priority={priority} />
       ) : (
-        <video class="media" muted loop playsinline preload={preload} poster={poster} controls={controls} aria-label={alt || undefined} data-autoplay>
+        <video class="media" muted loop playsinline preload={preload} poster={poster} controls={controls} aria-label={alt || undefined} data-autoplay={alt ? '' : 'decorative'}>
           <source src={media.src} type="video/mp4" />
         </video>
       )}

@@ -13,6 +13,9 @@ hero:
   cta:
     label: Join the lab
     href: /contact/
+  # Optional: an image or a short silent .mp4 loop behind the hero. Put the file at
+  # src/assets/images/home/; a same-named hero.jpg next to hero.mp4 is shown until the loop plays.
+  # background: /images/home/hero.mp4
   # Notes shown until the real assets exist; delete once they are no longer useful.
   backgroundNote: |-
     배경 전체에 GIF 적용 — 연구 시뮬레이션 루프

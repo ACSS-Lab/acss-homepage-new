@@ -140,6 +140,7 @@
 ### Per-page density
 - **Home**: at `xl` and above one desktop screen (min height 1170px): a navy hero that fills the space above a white band.
   Hero: logo slot top-left, headline + lede + CTA bottom-left, a floating Notice card bottom-right.
+  Behind it an optional full-bleed image or silent loop (`hero.background`, the one place a loop may fill a screen) under `--scrim-hero`; until one exists, `--stripe-dark` and a mono note describing it.
   Band: the Highlights feed (dense rows) on the left, a 16:9 gallery carousel (512px) on the right.
   Below `xl` the screen unstacks: hero (headline, lede, CTA), the notice card full width, then Highlights and the gallery one under the other; below `md` the feed drops its meta column.
 - **Publications**: filter chips + publication **list rows** (title, authors, venue, year). Don't turn these into cards.
