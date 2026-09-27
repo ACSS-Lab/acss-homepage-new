@@ -659,31 +659,32 @@ collections:
         hint: Optional 4:3 photo used as the cover instead of the first photo.
       - { name: placeholderCount, label: Placeholder count, widget: number, value_type: int, min: 1, required: false, hint: 'Only while the photos are not uploaded yet; how many there will be. Remove it once Photos is filled in.' }
 
-  - divider: true
-
-  # ---------------------------------------------------------------------------- settings files
-  - name: contact
-    label: Contact page
+  - name: tracks
+    label: Application tracks
+    label_singular: Application track
     icon: mail
-    description: The application tracks on the Contact page; switch Open on or off to start or stop recruiting.
-    files:
-      - name: tracks
-        label: Admissions and internship tracks
-        file: src/content/contact/tracks.yaml
-        fields:
-          - name: tracks
-            label: Tracks
-            widget: list
-            min: 1
-            summary: '{{fields.label}}'
-            hint: The cards in display order; the rest of the page's wording is edited in src/content/pages/contact.yaml.
-            fields:
-              - { name: label, label: Label, widget: string, hint: 'The card title, e.g. Ph.D.' }
-              - { name: open, label: Open, widget: boolean, hint: 'On shows the checklist and the e-mail link with the open badge; off shows the closed badge only.' }
-              - { name: subject, label: E-mail subject, widget: string, hint: 'Pre-filled subject of the application e-mail, e.g. "[ACSS] PhD application - Your Name".' }
-              - name: items
-                label: Checklist
-                widget: list
-                min: 1
-                field: { name: item, label: Item, widget: string }
-                hint: What the applicant must include, one line each.
+    description: The cards under Admissions and internship on the Contact page, in file-name order; switch Open on or off to start or stop recruiting.
+    folder: src/content/contact/tracks
+    format: yaml
+    extension: yaml
+    identifier_field: label
+    filter: { field: template, value: null }
+    slug:
+      template: '{{slug}}'
+      editable: [create]
+      hint: Number prefix plus a short name, e.g. 05-visiting; the number sets the order on the page.
+      pattern: ['^\d{2}-[a-z0-9]+(-[a-z0-9]+)*$', 'Use a two-digit prefix and lowercase-with-hyphens, e.g. 05-visiting']
+    summary: '{{label}}'
+    sortable_fields:
+      fields: [label]
+    fields:
+      - { name: template, widget: hidden }
+      - { name: label, label: Label, widget: string, hint: 'The card title, e.g. Ph.D.' }
+      - { name: open, label: Open, widget: boolean, hint: 'On shows the checklist and the e-mail link with the open badge; off shows the closed badge only.' }
+      - { name: subject, label: E-mail subject, widget: string, hint: 'Pre-filled subject of the application e-mail, e.g. "[ACSS] PhD application - Your Name".' }
+      - name: items
+        label: Checklist
+        widget: list
+        min: 1
+        field: { name: item, label: Item, widget: string }
+        hint: What the applicant must include, one line each.

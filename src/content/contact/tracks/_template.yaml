@@ -1,0 +1,12 @@
+# TEMPLATE — copy this file to add an application track card to the Contact page. Files starting with "_" are ignored by the site.
+# Cards are shown in file-name order, so keep the number prefix: 05-visiting.yaml.
+# To open or close recruiting for a track, change its `open` value — nothing else.
+# Application mails go to `adminEmail` in src/content/site/site.yaml.
+
+template: true # hides this file from the web admin; delete this line in a copy you make by hand
+label: Visiting researcher # the card title
+open: true # true shows the checklist and a "Draft this email" link; false shows the closed badge only
+subject: "[ACSS] Visiting researcher — Your Name" # pre-filled subject of the application e-mail
+items: # what the applicant must include, one line each
+  - CV (PDF)
+  - A short note on your plans

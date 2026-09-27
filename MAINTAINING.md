@@ -34,7 +34,7 @@
 | PI & Staffs | `/team/professor/` | `team/pi_and_staff/` |
 | Team | `/team/` (`#current`, `#interns`, `#alumni`) | `team/current/`, `team/undergrad_interns/`, `team/alumni/` |
 | Gallery | `/gallery/` | `gallery/` |
-| Contact | `/contact/` | `contact/tracks.yaml`, `site/site.yaml` (address, maps, e-mails) |
+| Contact | `/contact/` | `contact/tracks/` (one file per application track), `site/site.yaml` (address, maps, e-mails) |
 
 Every page's headings and labels are in `pages/<page>.yaml`; the header menu in `site/navigation.yaml`.
 
@@ -156,8 +156,9 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
   > Change the lab email to ... in the site config.
 
 ### 3-12. Open or close recruiting (Contact page)
-- **Application tracks** — in the admin: Contact page, Admissions and internship tracks, switch **Open** on or off for the track and save.
-  In the file `src/content/contact/tracks.yaml` it is the same switch, `open: true` / `open: false`; `items` is the checklist applicants see and `subject` pre-fills the e-mail subject.
+- **Application tracks** — in the admin: Application tracks, open the track (Postdoctoral scholar, Ph.D., M.S., Undergraduate intern), switch **Open** on or off and save.
+  In the files it is one file per card in `src/content/contact/tracks/` (`01-postdoc.yaml`, `02-phd.yaml`, ...), shown in file-name order, with the same switch `open: true` / `open: false`; `items` is the checklist applicants see and `subject` pre-fills the e-mail subject.
+  To add a card, copy `_template.yaml` there.
 - The rest of the page's wording is in `src/content/pages/contact.yaml`. Its `collaboration` block is a finished but hidden section: set `enabled: true` to show it.
 - **Ask Claude**:
   > Close the Ph.D. track on the Contact page.

@@ -72,7 +72,7 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
 
 - `src/content/` is where the maintainer works.
   One file per item, in `publications/`, `projects/`, `gallery/`, `notices/`, `news/`, `research-areas/` (file-name order) and `team/` (subfolders `current/`, `undergrad_interns/`, `alumni/`, `pi_and_staff/`).
-  Settings live in `site/` (identity, navigation, shared labels), `taxonomy/areas.yaml` (research-area tags), `pages/` (each page's wording and display settings), `prose/` (long bilingual Markdown) and `contact/tracks.yaml` (application tracks).
+  Settings live in `site/` (identity, navigation, shared labels), `taxonomy/areas.yaml` (research-area tags), `pages/` (each page's wording and display settings), `prose/` (long bilingual Markdown) and `contact/tracks/` (one file per application track, file-name order).
 - Every item folder has a `_template.yaml` that documents each field.
   It is the source of truth for what a field means; files starting with `_` are ignored by the site.
 - `src/components/`, `src/layouts/` and `src/pages/` are the screens.

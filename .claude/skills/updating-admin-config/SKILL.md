@@ -10,7 +10,7 @@ Request, if given: $ARGUMENTS
 
 `public/admin/config.yml` is the Sveltia CMS configuration; it restates the item collections of `src/content.config.ts` field by field.
 The rule in `.claude/rules/content.md` applies: a field change lands in the schema, the folder's `_template.yaml`, the skill for that collection, `MAINTAINING.md` section 3 and this file in the same commit.
-Covered collections: publications, projects, research_areas, members, interns, alumni, pi, visiting, staff, notices, news, gallery, and the file collection contact (src/content/contact/tracks.yaml).
+Covered collections: publications, projects, research_areas, members, interns, alumni, pi, visiting, staff, notices, news, gallery, tracks.
 Pages, site settings, taxonomy and prose are not in the admin.
 
 ## Zod to widget

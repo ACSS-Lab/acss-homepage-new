@@ -271,19 +271,14 @@ const researchAreas = defineCollection({
 // ----------------------------------------------------------------------------
 // tracks — application tracks on the Contact page; flip `open` to start/stop recruiting
 // ----------------------------------------------------------------------------
+// One file per card under src/content/contact/tracks/, shown in file-name order (01-postdoc, 02-phd, ...).
 const tracks = defineCollection({
-  loader: singleton('contact', 'tracks'),
+  loader: folder('contact/tracks'),
   schema: z.object({
-    tracks: z
-      .array(
-        z.object({
-          label: z.string(),
-          open: z.boolean(),
-          subject: z.string(), // pre-filled e-mail subject
-          items: z.array(z.string()).min(1), // what the applicant must include
-        }),
-      )
-      .min(1),
+    label: z.string(),
+    open: z.boolean(), // true: checklist and e-mail link; false: the closed badge only
+    subject: z.string(), // pre-filled e-mail subject
+    items: z.array(z.string()).min(1), // what the applicant must include
   }),
 });
 

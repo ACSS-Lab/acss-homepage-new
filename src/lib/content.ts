@@ -13,7 +13,7 @@ function fail(file: string, message: string): never {
 }
 
 /** Settings-file collections hold a single entry whose id equals the collection name. */
-async function loadSingleton<C extends 'site' | 'navigation' | 'ui' | 'areas' | 'tracks'>(
+async function loadSingleton<C extends 'site' | 'navigation' | 'ui' | 'areas'>(
   collection: C,
   file: string,
 ): Promise<CollectionEntry<C>['data']> {
@@ -37,7 +37,8 @@ export const getNavigation = async () =>
 export const getUi = () => loadSingleton('ui', 'src/content/site/ui.yaml');
 
 /** Application tracks for the Contact page, in display order. */
-export const getTracks = async () => (await loadSingleton('tracks', 'src/content/contact/tracks.yaml')).tracks;
+export const getTracks = async () =>
+  (await getCollection('tracks')).sort((a, b) => a.id.localeCompare(b.id)).map(({ id, data }) => ({ ...data, id }));
 
 // ----------------------------------------------------------------------------
 // pages — per-page wording
