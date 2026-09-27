@@ -30,7 +30,8 @@ links:
   - { type: code, url: "https://example.com/", label: GitHub }
 
 # Optional. Until `image` is set, the row shows a striped placeholder.
+# `image` is a .png/.jpg figure or a short silent .mp4 loop (see MAINTAINING.md 3-1).
 figure:
   ratio: 4/3 # shape of the figure, width/height
-  # image: /images/publications/tro26.png   # put the file at public/images/publications/
+  # image: /images/publications/tro26.png   # put the file at src/assets/images/publications/tro26.png
   # alt: One sentence describing what the figure shows   (required once `image` is set)

@@ -58,7 +58,7 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - Files: `src/content/publications/` — one file per paper. **Copy `_template.yaml`** and name it with a short id (`tro26.yaml`). The id is the paper's permanent link (`#pub-tro26`) and how projects and research areas refer to it, so don't rename it later.
 - Required: title, authors (a list, in published order; mark equal first authors with `*` and the corresponding author with `†`), venue, type (`journal`/`conference`/`preprint`/`patent`), year, month, areas (area codes from 3-9), summary.
 - Optional: `venueShort`, `selected: true` (features it in the Selected publications carousel), `links` (project / venue / paper / slides / video / code — only the ones you list are shown), `figure` (image, alt text, width/height ratio).
-- Figure: put the image at `public/images/publications/<id>.png`, then set `figure.image` and `figure.alt`. Until then the row shows a placeholder.
+- Figure: put the image at `src/assets/images/publications/<id>.png` (or a short silent `<id>.mp4` loop), then set `figure.image: /images/publications/<id>.png` and `figure.alt`. Until then the row shows a placeholder.
 - Order is automatic: newest first, by year then month.
 - **Ask Claude**:
   > Add this BibTeX (or DOI) as a Publications entry. Leave Selected off.
@@ -73,7 +73,7 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
   - `pi_and_staff/` — `pi`, `visiting`, `staff`
 - Required for a member: name, role (`postdoc`/`phd`/`ms`), joined (`2026-03`), topics (area codes from 3-9; `[]` if none yet).
 - Optional for everyone: Korean name, email, photo, links (homepage / LinkedIn / Google Scholar). **A link or email that is left out is simply not shown.**
-- Photo: put a 3:4 image at `public/images/team/<file name>.jpg`, then add `photo: /images/team/<file name>.jpg`. Until then the card shows a placeholder.
+- Photo: put a 3:4 image at `src/assets/images/team/<file name>.jpg`, then add `photo: /images/team/<file name>.jpg`. Until then the card shows a placeholder.
 - **Graduation**: move their file from `current/` to `alumni/`, change `group: member` to `group: alumni`, replace `role` with `degree` (`PhD`/`MS`), add `graduated` (`2026-02`), and `now` (current affiliation) once known. The file name (and so the photo path) stays the same.
 - Order is automatic (members by role then join date; interns and alumni newest first). To pin someone, add `order: 1`.
 - **Ask Claude**:
@@ -88,7 +88,7 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 ### 3-4. Post to the gallery (Gallery)
 - Files: `src/content/gallery/` — one file per post. **Copy `_template.yaml`** and name it with a short id (`welcome-2026.yaml`).
 - Required: title, date (`2026-03-06`), tags (lowercase words joined with hyphens, e.g. `new-member`; the tag filter on the page is built from whatever tags the posts use).
-- Photos: put them in `public/images/gallery/<id>/` and list them under `photos` in viewing order. The first one is the cover unless `cover` is set. Until the files are uploaded, set `placeholderCount` to the number of photos instead.
+- Photos: put them in `src/assets/images/gallery/<id>/` (`01.jpg`, `02.jpg`, ...) and list them under `photos` as `/images/gallery/<id>/01.jpg` in viewing order. The first one is the cover unless `cover` is set. Until the files are uploaded, set `placeholderCount` to the number of photos instead.
 - Order is automatic: newest date first.
 - **Ask Claude**:
   > Add the 2026 New Year party photos to Gallery as event. Date 2026-01-02.
@@ -103,7 +103,7 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - Files: `src/content/projects/` — one file per project. **Copy `_template.yaml`** and name it with a short id (`uam-safety.yaml`).
 - Required: title, status (`ongoing`/`done`), agency, start and end (`2026-03`; the planned end for an ongoing project), role, overview.
 - `papers` lists publication ids (file names from 3-1); their title, venue and year are pulled in automatically and link to the paper. `[]` if none yet. A wrong id stops the build.
-- Cover image (16:9): put it at `public/images/projects/<id>.jpg` and add `cover: /images/projects/<id>.jpg`.
+- Cover (16:9): put it at `src/assets/images/projects/<id>.jpg` (or a short silent `<id>.mp4` loop) and add `cover: /images/projects/<id>.jpg`.
 - Order is automatic: newest start date first. When a project ends, change `status` to `done`.
 - **Ask Claude**:
   > Add a project "..." funded by ..., 2026.03 to 2029.02, ongoing.
@@ -137,7 +137,7 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - Files: `src/content/research-areas/` — one file per area, shown in **file-name order** (keep the number prefix: `01-...`, `02-...`). Copy `_template.yaml` to add one. The page lays the cards out three to a row.
 - Each area has a title and a list of sub-topics (`subs`): title, `problem` and `goal` (each with `en:` and `ko:`), `applications` (a list), and `papers`.
 - `papers` lists publication ids (file names from 3-1). Title, authors and venue are pulled from the publication automatically; `[]` hides the "Related Papers" row. A wrong id stops the build.
-- Card image: put it at `public/images/research/<file name>.jpg` and add `image: /images/research/<file name>.jpg`.
+- Card image: put it at `src/assets/images/research/<file name>.jpg` and add `image: /images/research/<file name>.jpg`.
 
 > After saving, the live site **updates in a few minutes**. If you don't see it, hard-refresh (clear cache).
 
@@ -166,7 +166,7 @@ nvm use && npm run dev
 `main` is what visitors see.
 Never edit or commit on `main` directly.
 
-**Content updates** (files under `src/content/` and `public/images/`): work on `dev`, check that the site builds, then merge `dev` into `main`.
+**Content updates** (files under `src/content/` and `src/assets/images/`): work on `dev`, check that the site builds, then merge `dev` into `main`.
 No pull request is needed.
 
 ```bash

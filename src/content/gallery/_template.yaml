@@ -1,6 +1,6 @@
 # TEMPLATE — copy this file to add a gallery post. Files starting with "_" are ignored by the site.
 # Name the copy with a short id in lowercase-with-hyphens, e.g. welcome-2026.yaml.
-# Photos go to public/images/gallery/<id>/ and are listed below in viewing order.
+# Photos go to src/assets/images/gallery/<id>/ (01.jpg, 02.jpg, ...) and are listed below in viewing order.
 
 title: 2026 New Member Welcome
 date: 2026-03-06 # year-month-day; posts are shown newest first

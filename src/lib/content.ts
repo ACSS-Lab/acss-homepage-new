@@ -1,22 +1,15 @@
 // Content access layer. Pages and components read data through these getters
 // only — never through `getCollection`/`getEntry` directly — so cross-file rules
-// the schema can't express (unique codes, references that must exist) are
-// checked in one place and fail the build with a readable message.
+// the schema can't express (unique codes, references that must exist, media
+// files that must be on disk) are checked in one place and fail the build with
+// a readable message.
 
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
 import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
+import { resolveMedia } from './media';
 
 /** Stop the build with a message a content editor can act on. */
 function fail(file: string, message: string): never {
   throw new Error(`[content] ${file}: ${message}`);
-}
-
-/** Image paths in content point into public/; a typo would otherwise ship as a broken image. */
-function assertImageExists(file: string, path: string | undefined): void {
-  if (path && !existsSync(join(process.cwd(), 'public', path))) {
-    fail(file, `image "${path}" was not found. Put the file at public${path} or remove the field.`);
-  }
 }
 
 /** Settings-file collections hold a single entry whose id equals the collection name. */
@@ -57,6 +50,9 @@ export async function getPage<P extends PageData['page']>(page: P): Promise<Extr
   const entry = await getEntry('pages', page);
   if (!entry) fail(file, 'file is missing or empty.');
   if (entry.data.page !== page) fail(file, `"page: ${entry.data.page}" must match the file name ("page: ${page}").`);
+  if (entry.data.page === 'vision') {
+    for (const section of entry.data.sections) resolveMedia(file, section.figure.image);
+  }
   return entry.data as Extract<PageData, { page: P }>;
 }
 
@@ -184,7 +180,7 @@ export async function getTeam(): Promise<Team> {
     if (folder !== expected) {
       fail(file, `a file with "group: ${person.group}" belongs in src/content/team/${expected}/. Move it there.`);
     }
-    assertImageExists(file, person.photo);
+    resolveMedia(file, person.photo);
     if (person.group === 'member') {
       for (const code of person.topics) {
         if (!areas.has(code)) fail(file, `topic "${code}" is not an area code in ${AREAS_FILE}.`);
@@ -224,7 +220,7 @@ export async function getPublications(): Promise<Publication[]> {
 
   for (const publication of publications) {
     const file = `src/content/publications/${publication.id}.yaml`;
-    assertImageExists(file, publication.figure.image);
+    resolveMedia(file, publication.figure.image);
     for (const code of publication.areas) {
       if (!areas.has(code)) fail(file, `area "${code}" is not an area code in ${AREAS_FILE}.`);
     }
@@ -248,7 +244,7 @@ export async function getResearchAreas(): Promise<ResearchArea[]> {
 
   return entries.map(({ id, data }) => {
     const file = `src/content/research-areas/${id}.yaml`;
-    assertImageExists(file, data.image);
+    resolveMedia(file, data.image);
     const subs = data.subs.map((sub) => ({
       ...sub,
       papers: sub.papers.map(
@@ -274,7 +270,7 @@ export async function getProjects(): Promise<Project[]> {
   return entries
     .map((project) => {
       const file = `src/content/projects/${project.id}.yaml`;
-      assertImageExists(file, project.cover);
+      resolveMedia(file, project.cover);
       const papers = project.papers.map(
         (paperId) => publications.get(paperId) ?? fail(file, `paper "${paperId}" has no file in src/content/publications/.`),
       );
@@ -304,8 +300,8 @@ export async function getGallery(): Promise<GalleryPost[]> {
   return entries
     .map((post) => {
       const file = `src/content/gallery/${post.id}.yaml`;
-      post.photos.forEach((photo) => assertImageExists(file, photo));
-      assertImageExists(file, post.cover);
+      post.photos.forEach((photo) => resolveMedia(file, photo));
+      resolveMedia(file, post.cover);
       const photos: GalleryPhoto[] =
         post.photos.length > 0
           ? post.photos.map((src, i) => ({ src, n: i + 1 }))

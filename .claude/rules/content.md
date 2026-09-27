@@ -17,7 +17,7 @@ paths:
   The build stops otherwise.
 - Area codes (`areas`, `topics`) must exist in `src/content/taxonomy/areas.yaml`.
   Publication ids referenced from `projects/`, `research-areas/` and `news/` must exist.
-  Image paths must point at files under `public/`.
+  Media paths are written `/images/<folder>/<file>` and must point at files under `src/assets/images/`; `src/lib/media.ts` maps one to the other.
   These checks live in `src/lib/content.ts`; add new cross-file checks there, failing with a message that names the file.
 - Bilingual fields are `en:` / `ko:` pairs.
   Long prose lives in `src/content/prose/<page>/<section>/en.md` and `ko.md`; both are required.

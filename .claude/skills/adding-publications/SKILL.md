@@ -30,7 +30,8 @@ Field meanings are in `src/content/publications/_template.yaml`; this skill cove
    - `links`: only the ones the user gave.
      DOI goes under `venue`, PDF under `paper`, GitHub under `code`.
 3. Figure: the row shows a placeholder until `figure.image` is set.
-   When the user provides an image, put it at `public/images/publications/<id>.png`, then set `image`, a one-sentence `alt` and the `ratio`.
+   When the user provides an image, put it at `src/assets/images/publications/<id>.png`, then set `image: /images/publications/<id>.png`, a one-sentence `alt` and the `ratio`.
+   A short silent `.mp4` loop is allowed in place of the image; never a `.gif`.
 4. If the paper should appear on the home page, add a news item with `kind: paper` and `publication: <id>` (see the posting-updates skill).
 5. Run `nvm use && npm run build`.
    It fails naming the file if a code or reference is wrong.

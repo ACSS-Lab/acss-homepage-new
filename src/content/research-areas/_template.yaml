@@ -1,7 +1,7 @@
 # TEMPLATE — copy this file to add a research area. Files starting with "_" are ignored by the site.
 #
 # Areas are shown in file-name order, so keep the number prefix: 04-my-area.yaml.
-# The file name (without .yaml) is also the image name: public/images/research/04-my-area.jpg.
+# The file name (without .yaml) is also the image name: src/assets/images/research/04-my-area.jpg.
 # Note: the page lays the area cards out three to a row.
 
 title: Title of the Research Area

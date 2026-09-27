@@ -27,7 +27,7 @@ Field meanings are in `src/content/team/_template.yaml`.
    Leave out `email`, `photo` and `links` that were not given; a missing one is simply not shown.
 3. Korean name goes in `nameKo`.
 4. `topics` for a member: codes from `src/content/taxonomy/areas.yaml` only.
-5. Photo: a 3:4 image at `public/images/team/<id>.jpg`, then `photo: /images/team/<id>.jpg`.
+5. Photo: a 3:4 image at `src/assets/images/team/<id>.jpg` (lowercase name), then `photo: /images/team/<id>.jpg`.
    Do not set `photo` before the file exists; the build checks it.
 
 ## Graduate a member

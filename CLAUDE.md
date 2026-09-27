@@ -40,7 +40,7 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
   A new or changed field means updating the schema, the folder's `_template.yaml`, the matching skill and `MAINTAINING.md` in the same commit.
   Never loosen the schema to make a build pass.
 - Never commit on `main`; it is the deployed site.
-  Content-only changes (`src/content/`, `public/images/`) are committed on `dev` and merged into `main` after a passing build, without a pull request.
+  Content-only changes (`src/content/`, `src/assets/images/`) are committed on `dev` and merged into `main` after a passing build, without a pull request.
   Code and design changes are made on a branch off `dev` and reach `dev` through a pull request; `dev` is merged into `main` afterwards.
   Check the current branch before the first commit of a task, and switch or say so if it is the wrong one.
 - No secrets in files or in chat.
@@ -72,7 +72,7 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
   It is the source of truth for what a field means; files starting with `_` are ignored by the site.
 - `src/components/`, `src/layouts/` and `src/pages/` are the screens.
   `src/scripts/` holds small vanilla-TypeScript behaviours, `src/lib/icons.ts` is the only file that imports lucide, `src/styles/tokens.css` holds the design tokens, `scripts/guard.mjs` implements `npm run guard` and `scripts/check-responsive.mjs` (with `scripts/browser.mjs`, a dependency-free headless Chrome driver) implements `npm run responsive`.
-- `public/images/` holds photos and figures referenced from content.
+- `src/assets/images/` holds photos and figures referenced from content as `/images/<folder>/<file>`; Astro optimises them at build time.
   Until a file exists, the page shows a striped placeholder naming the expected path.
 - Planned, not set up yet: the web admin (`public/admin/`, Sveltia CMS) and automatic deployment (`.github/workflows/deploy.yml`).
 - The design drafts the pages were ported from are in git history at the tag `draft-reference`.

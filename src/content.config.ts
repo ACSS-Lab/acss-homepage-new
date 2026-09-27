@@ -9,6 +9,9 @@
 // recipes in MAINTAINING.md section 3, and — once it exists —
 // the web admin config (public/admin/config.yml).
 //
+// Media: a content file writes `/images/<folder>/<file>`; the file itself lives
+// at src/assets/images/<folder>/<file> (src/lib/media.ts checks that it exists).
+//
 // Location matters: Astro only reads this file at src/content.config.ts.
 // ============================================================================
 
@@ -37,8 +40,15 @@ const isoDate = z
   .transform((d) => (d instanceof Date ? d.toISOString().slice(0, 10) : d))
   .pipe(z.string().regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, 'Write the date as year-month-day, e.g. 2026-03-06'));
 
-/** Path of a file under public/, e.g. `/images/team/gildong-hong.jpg`. */
-const imagePath = z.string().regex(/^\/images\/.+\.(jpe?g|png|webp|avif|gif)$/i, 'Image path must look like /images/<folder>/<file>.jpg');
+/** Lowercase site path of an image, e.g. `/images/team/gildong-hong.jpg`; the file sits at src/assets/images/team/gildong-hong.jpg. */
+const imagePath = z
+  .string()
+  .regex(/^\/images\/[a-z0-9][a-z0-9/_-]*\.(jpe?g|png|webp|avif)$/, 'Image path must look like /images/<folder>/<file>.jpg (lowercase; jpg, png, webp or avif)');
+
+/** Like `imagePath`, but a short silent `.mp4` loop is allowed too. Only for the slots MAINTAINING.md lists. */
+const mediaPath = z
+  .string()
+  .regex(/^\/images\/[a-z0-9][a-z0-9/_-]*\.(jpe?g|png|webp|avif|mp4)$/, 'Media path must look like /images/<folder>/<file>.jpg (lowercase; jpg, png, webp, avif or mp4)');
 
 /** A collection backed by one settings file instead of a folder of items. */
 const singleton = (folder: string, file: string) =>
@@ -228,7 +238,7 @@ const publications = defineCollection({
     figure: z
       .object({
         ratio: z.string().regex(/^\d+\/\d+$/, 'Write the ratio as width/height, e.g. 4/3').default('4/3'),
-        image: imagePath.optional(),
+        image: mediaPath.optional(), // a figure, or a short silent .mp4 loop
         alt: z.string().optional(),
       })
       .refine((f) => !f.image || f.alt, { message: 'A figure with an `image` needs `alt` text describing it.' })
@@ -290,7 +300,7 @@ const projects = defineCollection({
       start: yearMonth,
       end: yearMonth, // planned end for an ongoing project
       role: z.string(),
-      cover: imagePath.optional(), // 16:9
+      cover: mediaPath.optional(), // 16:9; an image or a short silent .mp4 loop
       overview: z.string(),
       papers: z.array(z.string()).default([]), // publication ids
     })

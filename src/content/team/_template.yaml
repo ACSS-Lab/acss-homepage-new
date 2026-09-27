@@ -2,7 +2,7 @@
 #
 # 1. Copy it as firstname-lastname.yaml (lowercase, hyphens) into the subfolder
 #    for the person's group (see the list below). The file name is the person's
-#    id; their photo goes to public/images/team/<id>.jpg (3:4).
+#    id; their photo goes to src/assets/images/team/<id>.jpg (3:4, lowercase name).
 # 2. Set `group` and keep only the fields listed for that group. The build stops
 #    if the file sits in the wrong subfolder for its `group`.
 #
@@ -30,7 +30,7 @@ representative: false # optional; true shows the "Lab Representative" badge
 
 # --- optional for every group; a link that is left out is simply not shown ---
 email: gildong@kaist.ac.kr
-photo: /images/team/gildong-hong.jpg # leave out until the photo file exists
+photo: /images/team/gildong-hong.jpg # the file at src/assets/images/team/gildong-hong.jpg; leave out until it exists
 links:
   homepage: https://example.com/
   linkedin: https://www.linkedin.com/in/example/

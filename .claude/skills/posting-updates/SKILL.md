@@ -40,6 +40,6 @@ Reuse existing tags before inventing one:
 grep -h '^tags:' src/content/gallery/*.yaml | sort | uniq -c
 ```
 
-Photos go to `public/images/gallery/<id>/01.jpg`, `02.jpg`, ... and are listed under `photos` in viewing order; the first is the cover unless `cover` is set.
+Photos go to `src/assets/images/gallery/<id>/01.jpg`, `02.jpg`, ... and are listed under `photos` as `/images/gallery/<id>/01.jpg` in viewing order; the first is the cover unless `cover` is set.
 If the photos are not available yet, set `placeholderCount` instead of `photos` and tell the user where to put the files.
 Remove `placeholderCount` once `photos` is filled in.
