@@ -17,6 +17,7 @@ Content (publications, members, projects, gallery, notices) lives in YAML files 
 ## Documents
 
 - [MAINTAINING.md](MAINTAINING.md): the maintainer's guide.
+  Section 2-1 explains the web admin at `/admin/`, whose field definitions are [public/admin/config.yml](public/admin/config.yml).
   How the site is built, which page reads which content folder, step-by-step recipes (add a paper, add a member, post a notice, open or close recruiting), and what to do when a build fails.
 - [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) and [CONTRIBUTING.ko.md](.github/CONTRIBUTING.ko.md): how lab members request an update through a GitHub Issue.
   The templates are in [.github/ISSUE_TEMPLATE/](.github/ISSUE_TEMPLATE/).
@@ -45,6 +46,7 @@ nvm use && npm run guard    # project rules (lucide-only icons, colors only in t
 nvm use && npm run responsive  # after a build: every page at 360/768/1024/1440px must fit its viewport
 ```
 
+The web admin is `/admin/` on the preview server; the dev server reloads it on every content save, so test it after a build with `npm run preview`.
 Before opening a pull request, `nvm use && npm run build`, `nvm use && npm run check` and `nvm use && npm run guard` must pass.
 When the design or the content model changes, update `DESIGN.md`, `MAINTAINING.md` or the affected `_template.yaml` in the same change.
 

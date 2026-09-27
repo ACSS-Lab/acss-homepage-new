@@ -15,11 +15,12 @@
 - **Content** — publications, members, news — is stored as **data files** (YAML, plain text) under `src/content/`. Think: one file = one item. Page code and content are kept strictly apart: adding or changing content never requires touching code.
 - Every data file is **checked against a schema** when the site builds. A missing required field or a mistyped option stops the build with a message naming the file and field, instead of quietly breaking a page.
 - There are **two ways** to edit content:
-  1. Log into the **web admin (`/admin`)** and edit with forms — **use this for day-to-day work.**
-  2. Edit files directly — for larger changes or when working with Claude.
-- When you save, the site **updates automatically** (takes a few minutes).
-
-> **Note: the web admin (`/admin`) is planned but not set up yet.** Until it is, use way 2: edit the files under `src/content/` (on GitHub's website or on your laptop — see section 4), or ask Claude to do it. The recipes in section 3 name the form fields; the same field names are the keys in the data files.
+  1. Log into the **web admin (`/admin/`)** in Chrome or Edge and edit with forms.
+     Use it for papers, projects, research areas, team members, notices, news and gallery posts (section 2-1).
+  2. Edit the files directly (on GitHub's website, on your laptop, or by asking Claude).
+     This is the way for page wording, site settings, research-area tags, application tracks, the Vision text and graduation.
+- A save in the admin is a commit on the `dev` branch.
+  The live site changes when `dev` is merged into `main` (section 4).
 
 ### Pages and where their content lives
 
@@ -42,16 +43,36 @@ Every page's headings and labels are in `pages/<page>.yaml`; the header menu in 
 ## 2. Setup (one time)
 
 - **GitHub account** — to get edit access, ask the current admin to "add me as a collaborator."
-- Admin URL: `https://acss.kaist.ac.kr/admin`
+- Admin URL: `https://acss.kaist.ac.kr/admin/` (with the final slash), plus a personal access token (section 2-1).
 - (Only if you want to edit/preview locally) install dev tools on your laptop — see section 4. Not needed for web-only editing.
 
 > ⚠️ Never write **secrets** (passwords, tokens) into files or paste them into chat. If one is needed, Claude will guide you.
+
+### 2-1. The web admin
+
+- Open `https://acss.kaist.ac.kr/admin/` in Chrome or Edge.
+  It covers publications, projects, research areas, the team, notices, news and the gallery; everything else is edited in the files (section 3).
+- Signing in needs a GitHub **personal access token**; the PI and the lab admin each hold one.
+  Make it on GitHub: profile picture, Settings, Developer settings, Personal access tokens, Fine-grained tokens, Generate new token.
+  Resource owner `ACSS-Lab`, only the repository `acss-homepage-new`, Repository permissions: Contents set to Read and write, expiration one year at most.
+  Click **Sign in with Token** on the admin page and paste it once; the browser remembers it, so sign out on a shared computer.
+  When someone leaves, remove them as a collaborator and revoke their token.
+- Every save is a commit on `dev` with a message like `content: update publications "tro26" via the admin`.
+  To publish, merge `dev` into `main` (section 4).
+- A photo you upload is converted to WebP and shrunk to 2048 px before it is saved, so the file becomes `<id>.webp`.
+  Name it `<id>.jpg` before uploading and the id stays; you do not need to shrink it yourself.
+- Saving an entry rewrites its file in the admin's own YAML layout and drops the comments in it; that is fine.
+- To try the admin on your laptop: `nvm use && npm run build && nvm use && npm run preview`, open `http://localhost:4321/admin/` and click **Work with Local Repository**.
+  Do not use `npm run dev` for the admin; the dev server reloads the page on every save.
+- Red text on the login screen means `public/admin/config.yml` has an error; ask Claude.
 
 ---
 
 ## 3. Common task recipes
 
-Each task, until the web admin exists: open the folder named in the recipe → **copy `_template.yaml`** (it explains every field) → fill it in → save and push (section 4). With the web admin it will be: log into `/admin` → pick the collection → **New/Edit** → **Save/Publish**.
+Each task in the web admin: log into `/admin/`, pick the collection, **New** or **Edit**, **Save**.
+The same task in the files: open the folder named in the recipe, **copy `_template.yaml`** (it explains every field; delete its first `template: true` line), fill it in, save and push (section 4).
+The admin's form fields and the keys in the data files have the same names.
 If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 
 ### Before you add a photo, figure or video
@@ -66,7 +87,7 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
   On a Mac, `sips -Z 2048 photo.jpg` shrinks a copy of a big photo in place.
 - **Short videos** (a research simulation, a robot demo): a silent `.mp4` loop up to 15 MB, allowed in three places only: a publication figure, a project cover and the home hero background.
   Convert a GIF or a screen recording with `ffmpeg -i in.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -an out.mp4`, or with an online converter such as ezgif.com ("GIF to MP4").
-  A same-named `.jpg` next to the `.mp4` (its first frame is fine) is shown until the loop plays and whenever a visitor prefers reduced motion.
+  A same-named `.jpg` (or `.webp`, which is what the admin stores) next to the `.mp4` (its first frame is fine) is shown until the loop plays and whenever a visitor prefers reduced motion.
 - **Ask Claude**:
   > Here is Gildong Hong's photo (IMG_1234.JPG). Put it in as his team photo.
   > Convert this GIF to a loop and use it as the cover of the uam-safety project.
@@ -154,7 +175,7 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - Bilingual fields in YAML are written as `en:` / `ko:` pairs. In a headline, `*word*` sets the word in italics.
 - Short labels shared by many pages ("E-mail", "Homepage", screen-reader labels) are in `src/content/site/ui.yaml`.
 - **Home hero background** (`pages/home.yaml`, `hero.background`): put an image or a short silent `.mp4` loop at `src/assets/images/home/hero.jpg` or `hero.mp4` and set `background: /images/home/hero.mp4`.
-  With a loop, a same-named `hero.jpg` next to it is shown until it plays.
+  With a loop, a same-named `hero.jpg` (or `hero.webp`) next to it is shown until it plays.
   Until `background` is set, `backgroundNote` is shown instead.
 
 ### 3-11. Edit the Research Areas page
@@ -229,7 +250,8 @@ When you work with Claude, tell it which branch you are on; its own rules in `CL
 - **The build failed (a red X on GitHub)** → usually a missing required field, a mistyped option, or an id that points at a file that doesn't exist. The error names the file. Copy it to Claude:
   > Fix this build error: `paste error message`
 - **`npm run guard` failed** → a project rule was broken in code (a hand-drawn icon, a color outside `tokens.css`, ...). The message says which file and rule.
-- **Admin login fails** → confirm with the current admin that you're a GitHub collaborator.
+- **Admin login fails**: the token has expired or lacks Contents read and write on `ACSS-Lab/acss-homepage-new`; make a new one (section 2-1) and sign in again, and confirm with the current admin that you're a GitHub collaborator.
+  Red text on the login screen means `public/admin/config.yml` has an error; ask Claude.
 - **Posted something wrong** → tell Claude "revert my last change" to restore the previous state.
 
 ---

@@ -10,6 +10,7 @@ Request, if given: $ARGUMENTS
 
 Media files live in `src/assets/images/<folder>/`; content refers to them as `/images/<folder>/<file>`.
 Astro resizes every image at build time (WebP, several widths), so a file only needs to be big enough, never small.
+A photo uploaded through the web admin (`/admin/`) is converted to WebP and shrunk to 2048 px in the browser, so the steps below are for files added by hand.
 `npm run guard` enforces the file rules; `MAINTAINING.md` section 3 ("Before you add a photo, figure or video") is the maintainer's version of this page.
 
 ## Rules the build checks
@@ -47,7 +48,7 @@ Astro resizes every image at build time (WebP, several widths), so a file only n
    ffmpeg -i in.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -an out.mp4
    ```
    Without ffmpeg, point the user to a GIF-to-MP4 converter such as ezgif.com and ask for the resulting `.mp4`.
-   Optional but recommended: a same-named `.jpg` next to the `.mp4` (the first frame works) is shown until the loop plays and whenever the visitor prefers reduced motion.
+   Optional but recommended: a same-named `.jpg` or `.webp` next to the `.mp4` (the first frame works) is shown until the loop plays and whenever the visitor prefers reduced motion.
 4. Copy the file into place and set the field in the content file (publication figures also need `alt`).
 5. Run `nvm use && npm run guard` and `nvm use && npm run build`; both name the file when something is wrong.
 6. Content-only change: commit on `dev` with the content file and the media file together.

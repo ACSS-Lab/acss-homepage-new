@@ -42,7 +42,7 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
   Animated content is a short silent `.mp4` (up to 15 MB), allowed only for publication figures, project covers and the home hero background.
   `npm run guard` enforces all of this.
 - Keep the content safety net.
-  A new or changed field means updating the schema, the folder's `_template.yaml`, the matching skill and `MAINTAINING.md` in the same commit.
+  A new or changed field means updating the schema, the folder's `_template.yaml`, the matching skill, `MAINTAINING.md` and `public/admin/config.yml` in the same commit.
   Never loosen the schema to make a build pass.
 - Never commit on `main`; it is the deployed site.
   Content-only changes (`src/content/`, `src/assets/images/`) are committed on `dev` and merged into `main` after a passing build, without a pull request.
@@ -79,7 +79,8 @@ When you need the dev server yourself, start it detached with `npx astro dev --b
   `src/scripts/` holds small vanilla-TypeScript behaviours, `src/lib/icons.ts` is the only file that imports lucide, `src/styles/tokens.css` holds the design tokens, `scripts/guard.mjs` implements `npm run guard` and `scripts/check-responsive.mjs` (with `scripts/browser.mjs`, a dependency-free headless Chrome driver) implements `npm run responsive`.
 - `src/assets/images/` holds photos and figures referenced from content as `/images/<folder>/<file>`; Astro optimises them at build time.
   Until a file exists, the page shows a striped placeholder naming the expected path.
-- Planned, not set up yet: the web admin (`public/admin/`, Sveltia CMS) and automatic deployment (`.github/workflows/deploy.yml`).
+- The web admin is `src/pages/admin/index.astro` (Sveltia CMS bundled from npm) with its field definitions in `public/admin/config.yml`; test it with `astro preview`, never `astro dev`, and mirror schema changes with the skill `updating-admin-config`.
+- Planned, not set up yet: automatic deployment (`.github/workflows/deploy.yml`).
 - The design drafts the pages were ported from are in git history at the tag `draft-reference`.
 
 ## Definition of done
