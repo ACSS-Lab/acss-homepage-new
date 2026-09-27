@@ -41,7 +41,7 @@ nvm use && npm run dev      # local preview at http://localhost:4321
 nvm use && npm run build    # static build into dist/ (includes the content schema check)
 nvm use && npm run preview  # serve the build output
 nvm use && npm run check    # type check
-nvm use && npm run guard    # project rules (lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs)
+nvm use && npm run guard    # project rules (lucide-only icons, colors only in tokens.css, content via src/lib/content.ts, no CDNs, media through Figure and within the file rules)
 nvm use && npm run responsive  # after a build: every page at 360/768/1024/1440px must fit its viewport
 ```
 

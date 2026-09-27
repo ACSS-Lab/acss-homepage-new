@@ -87,7 +87,9 @@
 >
 > **Image placeholders**: until a real photo/figure exists, its slot shows the `--ph` stripes (`--ph-dark` on dark surfaces) with a short mono note describing the intended image. The slot keeps its final aspect ratio so the layout doesn't shift when the asset arrives.
 >
-> **Media**: every photo, figure and loop renders through `Figure`, which emits an image as WebP at the widths of its named preset (`MEDIA_SLOTS` in `src/lib/media.ts`) with a matching `sizes`, so each box downloads only the variant it needs. A `.mp4` (publication figures, project covers, the home hero) is a muted loop with no sound that plays while in view; under `prefers-reduced-motion` it stays on its poster (the same-named `.jpg`) and shows controls. No GIF anywhere.
+> **Media**: every photo, figure and loop renders through `Figure`, which emits an image as WebP at the widths of its named preset (`MEDIA_SLOTS` in `src/lib/media.ts`) with a matching `sizes`, so each box downloads only the variant it needs.
+> A `.mp4` (publication figures, project covers, the home hero) is a muted loop with no sound that plays while in view; under `prefers-reduced-motion` it stays on its poster (the same-named `.jpg`) and, unless it is a decorative background, shows controls.
+> No GIF anywhere.
 >
 > **Feel in practice**: most screens (publication lists, member lists) are white bg + black text + gray meta, with navy dotted in only on links, selected states, and primary buttons. The home hero and footer use `--navy-900` dark sections as "brand moments."
 

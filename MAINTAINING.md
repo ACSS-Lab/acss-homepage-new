@@ -54,11 +54,29 @@ Every page's headings and labels are in `pages/<page>.yaml`; the header menu in 
 Each task, until the web admin exists: open the folder named in the recipe → **copy `_template.yaml`** (it explains every field) → fill it in → save and push (section 4). With the web admin it will be: log into `/admin` → pick the collection → **New/Edit** → **Save/Publish**.
 If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 
+### Before you add a photo, figure or video
+- **Where**: files go in `src/assets/images/<folder>/` and are written in YAML as `/images/<folder>/<file>` (never `src/...`).
+  The build stops if the file is missing, and `npm run guard` complains about a file that no content mentions.
+- **Names**: lowercase letters, digits, `-` and `_`, with a lowercase extension.
+  `gildong-hong.jpg`, not `IMG_1234.JPG`.
+- **Formats**: `.jpg` for photos, `.png` for figures with text or lines; `.webp` and `.avif` also work.
+  **No GIF.**
+- **Size**: the site resizes every image automatically for phones and desktops, so you never need to make thumbnails.
+  Just keep the original under 3 MB and at least 1400 px on the long side (2000 px for gallery photos, 2560 px for the home background).
+  On a Mac, `sips -Z 2048 photo.jpg` shrinks a copy of a big photo in place.
+- **Short videos** (a research simulation, a robot demo): a silent `.mp4` loop up to 15 MB, allowed in three places only: a publication figure, a project cover and the home hero background.
+  Convert a GIF or a screen recording with `ffmpeg -i in.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -an out.mp4`, or with an online converter such as ezgif.com ("GIF to MP4").
+  A same-named `.jpg` next to the `.mp4` (its first frame is fine) is shown until the loop plays and whenever a visitor prefers reduced motion.
+- **Ask Claude**:
+  > Here is Gildong Hong's photo (IMG_1234.JPG). Put it in as his team photo.
+  > Convert this GIF to a loop and use it as the cover of the uam-safety project.
+
 ### 3-1. Add a publication (Publications)
 - Files: `src/content/publications/` — one file per paper. **Copy `_template.yaml`** and name it with a short id (`tro26.yaml`). The id is the paper's permanent link (`#pub-tro26`) and how projects and research areas refer to it, so don't rename it later.
 - Required: title, authors (a list, in published order; mark equal first authors with `*` and the corresponding author with `†`), venue, type (`journal`/`conference`/`preprint`/`patent`), year, month, areas (area codes from 3-9), summary.
 - Optional: `venueShort`, `selected: true` (features it in the Selected publications carousel), `links` (project / venue / paper / slides / video / code — only the ones you list are shown), `figure` (image, alt text, width/height ratio).
-- Figure: put the image at `src/assets/images/publications/<id>.png` (or a short silent `<id>.mp4` loop), then set `figure.image: /images/publications/<id>.png` and `figure.alt`. Until then the row shows a placeholder.
+- Figure: put the image at `src/assets/images/publications/<id>.png` (or a short silent `<id>.mp4` loop), then set `figure.image: /images/publications/<id>.png` and `figure.alt`.
+  Until then the row shows a placeholder.
 - Order is automatic: newest first, by year then month.
 - **Ask Claude**:
   > Add this BibTeX (or DOI) as a Publications entry. Leave Selected off.
@@ -73,7 +91,8 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
   - `pi_and_staff/` — `pi`, `visiting`, `staff`
 - Required for a member: name, role (`postdoc`/`phd`/`ms`), joined (`2026-03`), topics (area codes from 3-9; `[]` if none yet).
 - Optional for everyone: Korean name, email, photo, links (homepage / LinkedIn / Google Scholar). **A link or email that is left out is simply not shown.**
-- Photo: put a 3:4 image at `src/assets/images/team/<file name>.jpg`, then add `photo: /images/team/<file name>.jpg`. Until then the card shows a placeholder.
+- Photo: put a 3:4 image at `src/assets/images/team/<file name>.jpg`, then add `photo: /images/team/<file name>.jpg`.
+  Until then the card shows a placeholder.
 - **Graduation**: move their file from `current/` to `alumni/`, change `group: member` to `group: alumni`, replace `role` with `degree` (`PhD`/`MS`), add `graduated` (`2026-02`), and `now` (current affiliation) once known. The file name (and so the photo path) stays the same.
 - Order is automatic (members by role then join date; interns and alumni newest first). To pin someone, add `order: 1`.
 - **Ask Claude**:
@@ -88,7 +107,9 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 ### 3-4. Post to the gallery (Gallery)
 - Files: `src/content/gallery/` — one file per post. **Copy `_template.yaml`** and name it with a short id (`welcome-2026.yaml`).
 - Required: title, date (`2026-03-06`), tags (lowercase words joined with hyphens, e.g. `new-member`; the tag filter on the page is built from whatever tags the posts use).
-- Photos: put them in `src/assets/images/gallery/<id>/` (`01.jpg`, `02.jpg`, ...) and list them under `photos` as `/images/gallery/<id>/01.jpg` in viewing order. The first one is the cover unless `cover` is set. Until the files are uploaded, set `placeholderCount` to the number of photos instead.
+- Photos: put them in `src/assets/images/gallery/<id>/` (`01.jpg`, `02.jpg`, ...) and list them under `photos` as `/images/gallery/<id>/01.jpg` in viewing order.
+  The first one is the cover unless `cover` is set.
+  Until the files are uploaded, set `placeholderCount` to the number of photos instead.
 - Order is automatic: newest date first.
 - **Ask Claude**:
   > Add the 2026 New Year party photos to Gallery as event. Date 2026-01-02.
@@ -132,7 +153,9 @@ If you're unsure which field takes what, copy the "Ask Claude" prompt below.
 - **Long text** (the paragraphs on Our Vision) is Markdown, one file per language: `src/content/prose/<page>/<section>/en.md` and `ko.md`. Write paragraphs separated by a blank line; `**bold**` and `*italic*` work. Both languages are required — the build stops if one is missing.
 - Bilingual fields in YAML are written as `en:` / `ko:` pairs. In a headline, `*word*` sets the word in italics.
 - Short labels shared by many pages ("E-mail", "Homepage", screen-reader labels) are in `src/content/site/ui.yaml`.
-- **Home hero background** (`pages/home.yaml`, `hero.background`): put an image or a short silent `.mp4` loop at `src/assets/images/home/hero.jpg` or `hero.mp4` and set `background: /images/home/hero.mp4`. With a loop, a same-named `hero.jpg` next to it is shown until it plays. Until `background` is set, `backgroundNote` is shown instead.
+- **Home hero background** (`pages/home.yaml`, `hero.background`): put an image or a short silent `.mp4` loop at `src/assets/images/home/hero.jpg` or `hero.mp4` and set `background: /images/home/hero.mp4`.
+  With a loop, a same-named `hero.jpg` next to it is shown until it plays.
+  Until `background` is set, `backgroundNote` is shown instead.
 
 ### 3-11. Edit the Research Areas page
 - Files: `src/content/research-areas/` — one file per area, shown in **file-name order** (keep the number prefix: `01-...`, `02-...`). Copy `_template.yaml` to add one. The page lays the cards out three to a row.

@@ -87,6 +87,6 @@ There is no fixed SLA, but routine requests (paper additions, profile updates) a
 ## Notes
 
 - For paper additions, attaching a public link (arXiv, CVF, IEEE Xplore, etc.) significantly speeds up processing.
-- For member profile photos, please provide a square-cropped image if possible.
+- For member profile photos, please provide a portrait image (3:4, taller than wide) of at least 640 px width, as JPG.
 - If your request is urgent (e.g. a typo on the front page), set the priority to **High** in the General Request template and briefly explain the reason.
 - Do not open duplicate issues. If a similar request already exists, add a comment to the existing issue instead.

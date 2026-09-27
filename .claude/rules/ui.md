@@ -26,6 +26,8 @@ Run `nvm use && npm run guard` before reporting done.
   Pages never call `getCollection` or `getEntry` directly.
 - Behaviour is small vanilla TypeScript in `src/scripts/`, one file per behaviour, each documenting the `data-*` attributes it expects.
   No UI framework.
+- Never name a component prop `slot`.
+  Astro reads `slot="..."` on a component as named-slot placement, so the value never reaches the component; use another name such as `preset`.
 - Read the relevant `DESIGN.md` section before changing a component, and update `DESIGN.md` in the same commit when the design changes.
 - Check phone-width layout and accessibility before reporting done: `nvm use && npm run responsive` must pass and the `checking-responsive` skill says what to look at.
   `DESIGN.md` section 7 has the accessibility checklist.
