@@ -2,6 +2,7 @@
 # Name the copy with a short id in lowercase-with-hyphens, e.g. uam-safety.yaml.
 # The id is also the cover name: src/assets/images/projects/uam-safety.jpg (16:9), or uam-safety.mp4 for a short silent loop.
 
+template: true # hides this file from the web admin; delete this line in a copy you make by hand
 title: Title of the Project
 status: ongoing # ongoing | done
 agency: Funding agency

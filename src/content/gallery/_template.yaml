@@ -2,6 +2,7 @@
 # Name the copy with a short id in lowercase-with-hyphens, e.g. welcome-2026.yaml.
 # Photos go to src/assets/images/gallery/<id>/ (01.jpg, 02.jpg, ...) and are listed below in viewing order.
 
+template: true # hides this file from the web admin; delete this line in a copy you make by hand
 title: 2026 New Member Welcome
 date: 2026-03-06 # year-month-day; posts are shown newest first
 tags: [new-member, lab-life] # lowercase-with-hyphens; the tag filter is built from these

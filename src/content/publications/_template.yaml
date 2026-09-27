@@ -4,6 +4,7 @@
 # neurips25.yaml. The id becomes the paper's link (/research/publications/#pub-tro26)
 # and is how projects and research areas refer to it, so don't rename it later.
 
+template: true # hides this file from the web admin; delete this line in a copy you make by hand
 title: Full Title of the Paper
 authors: # in published order. Mark equal first authors with * and the corresponding author with †
   - G. Hong*

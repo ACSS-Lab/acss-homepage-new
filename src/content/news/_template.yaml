@@ -2,6 +2,7 @@
 # Name the copy with a short id, e.g. 2026-icra-best-paper.yaml.
 # The home page's Highlights list shows the newest items.
 
+template: true # hides this file from the web admin; delete this line in a copy you make by hand
 kind: award # paper | award | grant | media
 date: 2026-05-20 # year-month-day (shown as year.month)
 

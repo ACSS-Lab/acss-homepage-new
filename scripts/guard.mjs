@@ -9,6 +9,7 @@
 //   - Media renders through src/components/ui/Figure.astro only; no GIF anywhere.
 //   - Media files live in src/assets/images: lowercase names, jpg/png/webp/avif/mp4,
 //     within the size caps below, and each one referenced from content.
+//   - The `template: true` marker that hides a _template.yaml from the web admin stays there.
 
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -94,6 +95,11 @@ const rules = [
     files: /\.(astro|ts|css|mjs|ya?ml|md|json)$/,
     pattern: /\.gif\b/i,
   },
+  {
+    name: 'Template marker in a content file. Delete the "template: true" line copied from _template.yaml; the web admin would hide the entry.',
+    files: /^src\/content\/(?:[^/]+\/)*[^_/][^/]*\.ya?ml$/,
+    pattern: /^template:\s*true\b/,
+  },
 ];
 
 function* walk(dir) {
@@ -140,7 +146,7 @@ if (existsSync(join(root, 'public/images'))) {
   }
 }
 
-// Every media file must be referenced from content (a same-named .jpg next to a referenced .mp4 is its poster).
+// Every media file must be referenced from content (a same-named .jpg or .webp next to a referenced .mp4 is its poster).
 // An unreferenced file would still ship in dist/ as is, since Astro only cleans up originals it transformed.
 const contentText = [...walk(join(root, 'src/content'))]
   .filter((path) => CONTENT.test(path))
@@ -150,7 +156,7 @@ const referenced = (name) => contentText.includes(`/images/${name}`);
 for (const path of mediaFiles) {
   const name = relative(join(root, MEDIA_DIR), path);
   if (!MEDIA_NAME.test(name)) continue;
-  const poster = name.endsWith('.jpg') && referenced(name.replace(/\.jpg$/, '.mp4'));
+  const poster = /\.(jpg|webp)$/.test(name) && referenced(name.replace(/\.(jpg|webp)$/, '.mp4'));
   if (!referenced(name) && !poster) {
     violations.push({ rule: 'Media file not referenced by any content file. Remove it or point a field at /images/... (it would ship unused).', where: relative(root, path), line: '' });
   }

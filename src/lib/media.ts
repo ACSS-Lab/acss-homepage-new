@@ -20,7 +20,7 @@ const videos = import.meta.glob<string>('/src/assets/images/**/*.mp4', { eager: 
 
 export type Media =
   | { kind: 'image'; image: ImageMetadata }
-  /** A silent loop; `poster` is the same-named .jpg next to the .mp4 when there is one. */
+  /** A silent loop; `poster` is the same-named .jpg (or .webp, as the web admin stores photos) next to the .mp4. */
   | { kind: 'video'; src: string; poster?: ImageMetadata };
 
 /** Where the file for a content path must sit, e.g. `src/assets/images/team/gildong-hong.jpg`. */
@@ -33,7 +33,8 @@ export function findMedia(path: string): Media | undefined {
   if (path.endsWith('.mp4')) {
     const src = videos[key(path)];
     if (src === undefined) return undefined;
-    return { kind: 'video', src, poster: images[key(path.replace(/\.mp4$/, '.jpg'))]?.default };
+    const poster = images[key(path.replace(/\.mp4$/, '.jpg'))] ?? images[key(path.replace(/\.mp4$/, '.webp'))];
+    return { kind: 'video', src, poster: poster?.default };
   }
   const image = images[key(path)]?.default;
   return image && { kind: 'image', image };

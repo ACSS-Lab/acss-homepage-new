@@ -6,8 +6,8 @@
 // instead of silently breaking a page.
 //
 // Keep in sync: this schema, the templates, the skills in .claude/skills/, the
-// recipes in MAINTAINING.md section 3, and — once it exists —
-// the web admin config (public/admin/config.yml).
+// recipes in MAINTAINING.md section 3, and the web admin config
+// (public/admin/config.yml; skill updating-admin-config).
 //
 // Media: a content file writes `/images/<folder>/<file>`; the file itself lives
 // at src/assets/images/<folder>/<file> (src/lib/media.ts checks that it exists).
@@ -194,7 +194,7 @@ const team = defineCollection({
       group: z.literal('member'),
       role: z.enum(['postdoc', 'phd', 'ms']),
       joined: yearMonth,
-      topics: z.array(z.string()), // area codes from taxonomy/areas.yaml
+      topics: z.array(z.string()).default([]), // area codes from taxonomy/areas.yaml; [] if none yet
       representative: z.boolean().default(false),
     }),
     person.extend({
