@@ -16,12 +16,12 @@ items:
         href: /about/research-areas/
 
   - label: Research
-    href: /research/projects/
+    href: /research/publications/
     children:
-      - label: Projects
-        href: /research/projects/
       - label: Publications
         href: /research/publications/
+      - label: Projects
+        href: /research/projects/
 
   - label: Team
     href: /team/professor/

@@ -28,8 +28,8 @@
 | Home | `/` | `notices/`, `news/`, newest `gallery/` posts; wording in `pages/home.yaml` |
 | Our Vision | `/about/vision/` | `pages/vision.yaml` + long text in `prose/vision/` |
 | Research Areas | `/about/research-areas/` | `research-areas/` (papers linked from `publications/`) |
-| Projects | `/research/projects/` | `projects/` (papers linked from `publications/`) |
 | Publications | `/research/publications/` | `publications/`, tags from `taxonomy/areas.yaml` |
+| Projects | `/research/projects/` | `projects/` (papers linked from `publications/`) |
 | PI & Staffs | `/team/professor/` | `team/pi_and_staff/` |
 | Team | `/team/` (`#current`, `#interns`, `#alumni`) | `team/current/`, `team/undergrad_interns/`, `team/alumni/` |
 | Gallery | `/gallery/` | `gallery/` |
